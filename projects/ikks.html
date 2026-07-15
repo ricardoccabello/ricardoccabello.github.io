@@ -25,6 +25,12 @@
     .project-text h2{font-family:"Cormorant Garamond",serif;font-size:clamp(38px,5vw,72px);font-weight:300;line-height:1;letter-spacing:-.04em;margin:0}
     .project-text p{max-width:850px;color:var(--muted);font-size:18px}
     @media(max-width:800px){.project-text{grid-template-columns:1fr}}
+    @media(max-width:640px){
+      .project-hero p{font-size:17px}
+      .photo-grid,.photo-grid.two-col{grid-template-columns:1fr}
+      .photo-grid img{aspect-ratio:auto;object-fit:contain;background:#000;max-height:80vh}
+      .photo-grid.plans img{background:#fff}
+    }
   </style>
 </head>
 <body class="theme-dark" data-page="project">

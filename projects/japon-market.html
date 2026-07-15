@@ -27,10 +27,17 @@
     .location-intro p{color:var(--muted);font-size:17px;margin:0}
     .location-section{padding-top:64px}
     .location-section:first-of-type{padding-top:0}
-    .location-nav{display:flex;flex-wrap:wrap;gap:10px 22px;margin:0 0 6px}
-    .location-nav a{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid transparent;padding-bottom:2px}
+    .location-nav{width:min(100%,var(--max));margin:0 auto;padding:36px var(--pad);display:flex;flex-wrap:wrap;gap:10px 26px;border-bottom:1px solid var(--line)}
+    .location-nav a{white-space:nowrap;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid transparent;padding-bottom:2px}
     .location-nav a:hover{color:var(--fg);border-color:currentColor}
     @media(max-width:800px){.project-text{grid-template-columns:1fr}.photo-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:640px){
+      .project-hero p{font-size:17px}
+      .photo-grid,.photo-grid.two-col{grid-template-columns:1fr}
+      .photo-grid img{aspect-ratio:auto;object-fit:contain;background:#000;max-height:80vh}
+      .location-nav{gap:8px 18px;padding:28px var(--pad)}
+      .location-nav a{white-space:normal}
+    }
   </style>
 </head>
 <body class="theme-dark" data-page="project">
@@ -57,7 +64,7 @@
       <div><h2 data-i18n="challengeTitle">The challenge</h2><p data-i18n="challenge">The brand was opening in new cities every few months, each time inside a different building with its own shape, light and foot traffic. Every store had to feel unmistakably like Japon Market while responding to a site nobody had chosen with the brand in mind.</p></div>
     </section>
 
-    <nav class="location-nav section-shell" aria-label="Store locations">
+    <nav class="location-nav" aria-label="Store locations">
       <a href="#aviles">Avilés</a><a href="#madrid-mostoles">Móstoles</a><a href="#lugo">Lugo</a><a href="#las-palmas">Las Palmas</a><a href="#tenerife">Tenerife</a><a href="#leon">León</a>
     </nav>
 

@@ -31,6 +31,13 @@
     .location-section{padding-top:64px}
     .location-section:first-of-type{padding-top:0}
     @media(max-width:800px){.project-text{grid-template-columns:1fr}}
+    @media(max-width:640px){
+      .project-hero p{font-size:17px}
+      .photo-grid,.photo-grid.two-col{grid-template-columns:1fr}
+      .photo-grid img{aspect-ratio:auto;object-fit:contain;background:#000;max-height:80vh}
+      .photo-grid.plans img{background:#fff}
+      .location-intro{margin-bottom:20px}
+    }
   </style>
 </head>
 <body class="theme-dark" data-page="project">
