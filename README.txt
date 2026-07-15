@@ -63,3 +63,74 @@ More breathing room has been added between strong elements.
 UPLOAD TO GITHUB
 
 Replace index.html and css/main.css.
+
+
+VERSION 4 PROJECT MAP
+
+Added an interactive dark map showing selected project locations:
+Lisbon
+Vila Nova de Gaia
+Vigo
+Pozuelo
+San Sebastián de los Reyes
+Marbella
+
+The map uses dark tiles and custom Roman numeral markers.
+Clicking a location in the index moves the map to the project city.
+
+UPLOAD TO GITHUB
+
+Replace:
+index.html
+css/main.css
+js/app.js
+
+The map loads Leaflet and its map tiles online.
+
+
+VERSION 5 BUILT WORK ATLAS
+
+The previous project map has been replaced with a complete career atlas.
+
+Stages:
+Foundations, Venezuela, 2015 to 2017
+Residential design, Asturias and Galicia, 2018 to 2020
+Retail identity, Japon Market 24h, 2020 to 2024
+Retail production, Ecoalf and fashion retail, 2025 to 2026
+
+Features:
+Stage filters
+All provided project locations
+Interactive project drawer
+Photo placeholders ready for future images
+Career statistics
+Companies appear as context, but the narrative remains centred on Ricardo's role
+
+UPLOAD TO GITHUB
+
+Replace:
+index.html
+css/main.css
+js/app.js
+
+
+VERSION 6 BILINGUAL
+
+Added a complete English and Spanish language selector.
+
+Translated:
+Homepage
+Navigation
+Selected work
+Built Work Atlas interface
+Career narrative
+Journal index
+Project pages
+Journal articles
+Map project drawer content
+
+The selected language is remembered in the browser.
+
+UPLOAD TO GITHUB
+
+Replace the complete package because project and journal pages were also updated.

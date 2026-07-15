@@ -15,18 +15,22 @@
     .article p:first-of-type{font-family:"Cormorant Garamond",serif;font-size:34px;line-height:1.18;color:var(--ink)}
   </style>
 </head>
-<body class="theme-dark">
+<body class="theme-dark" data-page="journal">
   <div class="page-loader"><span class="roman">III</span></div>
   <header class="site-header">
     <a class="wordmark project-link" href="../index.html">Ricardo Cabello</a>
-    <nav><a class="project-link" href="../index.html#journal">Back to journal</a></nav>
+    <nav>
+      <a class="project-link" href="../index.html#journal" data-i18n="backJournal">Back to journal</a>
+      <div class="language-switcher"><button class="language-button active" data-language="en">EN</button><span>/</span><button class="language-button" data-language="es">ES</button></div>
+    </nav>
   </header>
   <article class="article">
     <span class="roman">III</span>
-    <span class="eyebrow">Installation</span>
-    <h1>What I learned from overnight retail installations</h1>
-    <p>An overnight installation makes every unclear decision visible.</p><p>The team has limited time, the department store still has rules to follow and the space must be ready before opening. Missing dimensions, undefined finishes or unclear responsibilities become immediate problems.</p><p>The best preparation is not more paperwork. It is the right information, organised so the people on site can act without waiting for an explanation.</p>
+    <span class="eyebrow" data-i18n="articleLabel">Installation</span>
+    <h1 data-i18n="articleTitle">What I learned from overnight retail installations</h1>
+    <p data-i18n="p1">An overnight installation makes every unclear decision visible.</p><p data-i18n="p2">The team has limited time, the department store still has rules to follow and the space must be ready before opening. Missing dimensions, undefined finishes or unclear responsibilities become immediate problems.</p><p data-i18n="p3">The best preparation is not more paperwork. It is the right information, organised so the people on site can act without waiting for an explanation.</p>
   </article>
+  <script>window.pageTranslations={"en": {"backJournal": "Back to journal"}, "es": {"backJournal": "Volver al cuaderno", "articleLabel": "Montaje", "articleTitle": "Lo que aprendí coordinando montajes nocturnos", "p1": "Un montaje nocturno hace visible cada decisión poco clara.", "p2": "El equipo dispone de un tiempo limitado, el centro comercial mantiene sus normas y el espacio debe estar preparado antes de la apertura. Las cotas ausentes, los acabados indefinidos o las responsabilidades poco claras se convierten en problemas inmediatos.", "p3": "La mejor preparación no consiste en producir más documentación. Consiste en ofrecer la información correcta, organizada para que el equipo pueda actuar sin esperar una explicación."}};</script>
   <script src="../js/app.js"></script>
 </body>
 </html>

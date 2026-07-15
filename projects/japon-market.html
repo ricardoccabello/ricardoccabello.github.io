@@ -19,35 +19,39 @@
     @media(max-width:800px){.project-text{grid-template-columns:1fr}}
   </style>
 </head>
-<body class="theme-dark">
+<body class="theme-dark" data-page="project">
   <div class="page-loader"><span class="roman">I</span></div>
   <header class="site-header">
     <a class="wordmark project-link" href="../index.html">Ricardo Cabello</a>
-    <nav><a class="project-link" href="../index.html#work">Back to work</a></nav>
+    <nav>
+      <a class="project-link" href="../index.html#work" data-i18n="backWork">Back to work</a>
+      <div class="language-switcher"><button class="language-button active" data-language="en">EN</button><span>/</span><button class="language-button" data-language="es">ES</button></div>
+    </nav>
   </header>
   <main>
     <section class="project-hero section-shell">
       <span class="roman">III</span>
-      <span class="eyebrow">Brand and space</span>
-      <h1>Japon Market 24h</h1>
-      <p>A multidisciplinary role connecting store design, visual identity, packaging, social media and web content.</p>
+      <span class="eyebrow" data-i18n="projectEyebrow">Brand and space</span>
+      <h1 data-i18n="projectTitle">Japon Market 24h</h1>
+      <p data-i18n="projectIntro">A multidisciplinary role connecting store design, visual identity, packaging, social media and web content.</p>
     </section>
     <section class="project-image section-shell">Replace with full screen project image</section>
     <section class="project-text section-shell">
       <span class="roman">I</span>
-      <div><h2>The challenge</h2><p>The brand was growing across several locations and needed its spaces and communication to feel connected rather than designed as separate pieces.</p></div>
+      <div><h2 data-i18n="challengeTitle">The challenge</h2><p data-i18n="challenge">The brand was growing across several locations and needed its spaces and communication to feel connected rather than designed as separate pieces.</p></div>
     </section>
     <section class="project-image section-shell">Replace with plan, detail or elevation</section>
     <section class="project-text section-shell">
       <span class="roman">II</span>
-      <div><h2>The work</h2><p>I worked on store interiors, architectural drawings, 3D visualisation, packaging, editorial materials, social media and digital communication.</p></div>
+      <div><h2 data-i18n="workTitle">The work</h2><p data-i18n="work">I worked on store interiors, architectural drawings, 3D visualisation, packaging, editorial materials, social media and digital communication.</p></div>
     </section>
     <section class="project-image section-shell">Replace with final image or installation photograph</section>
     <section class="project-text section-shell">
       <span class="roman">III</span>
-      <div><h2>What the project taught me</h2><p>A retail brand becomes more convincing when the physical space, objects and communication feel like different expressions of the same idea.</p></div>
+      <div><h2 data-i18n="lessonTitle">What the project taught me</h2><p data-i18n="lesson">A retail brand becomes more convincing when the physical space, objects and communication feel like different expressions of the same idea.</p></div>
     </section>
   </main>
+  <script>window.pageTranslations={"en": {"backWork": "Back to work"}, "es": {"backWork": "Volver al trabajo", "projectEyebrow": "Marca y espacio", "projectTitle": "Japon Market 24h", "projectIntro": "Un rol multidisciplinar que conectó diseño de tiendas, identidad visual, packaging, redes sociales y contenido web.", "challengeTitle": "El reto", "challenge": "La marca crecía en distintas ubicaciones y necesitaba que sus espacios y su comunicación se sintieran conectados, no diseñados como piezas independientes.", "workTitle": "El trabajo", "work": "Trabajé en interiores de tiendas, planos arquitectónicos, visualización 3D, packaging, materiales editoriales, redes sociales y comunicación digital.", "lessonTitle": "Lo que me enseñó el proyecto", "lesson": "Una marca retail resulta más convincente cuando el espacio físico, los objetos y la comunicación se sienten como distintas expresiones de una misma idea."}};</script>
   <script src="../js/app.js"></script>
 </body>
 </html>
