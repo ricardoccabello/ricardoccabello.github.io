@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ecoalf retail development | Ricardo Cabello</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/main.css">
+  <style>
+    .project-hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end}
+    .project-hero h1{font-family:"Cormorant Garamond",serif;font-size:clamp(58px,9vw,145px);font-weight:300;line-height:.88;letter-spacing:-.06em;margin:18px 0}
+    .project-hero p{max-width:720px;font-size:20px;color:var(--muted)}
+    .project-image{min-height:70vh;background-size:cover;background-position:center}
+    .photo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;background:transparent}
+    .photo-grid.two-col{grid-template-columns:repeat(2,1fr)}
+    .photo-grid img{width:100%;aspect-ratio:4/3;object-fit:cover;background:#111;display:block;transition:transform .5s cubic-bezier(.2,.7,.2,1);will-change:transform}
+    .photo-grid img:hover{transform:scale(1.045)}
+    .photo-grid.plans img{object-fit:contain;background:#fff}
+    .photo-grid.plans img:hover{transform:scale(1.02)}
+    .photo-grid+.photo-grid{margin-top:14px}
+    .gallery-caption{display:block;margin:0 0 18px;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+    .project-text{display:grid;grid-template-columns:.45fr 1.55fr;gap:42px}
+    .project-text h2{font-family:"Cormorant Garamond",serif;font-size:clamp(38px,5vw,72px);font-weight:300;line-height:1;letter-spacing:-.04em;margin:0}
+    .project-text p{max-width:850px;color:var(--muted);font-size:18px}
+    .location-intro{max-width:680px;margin-bottom:28px}
+    .location-intro .loc-eyebrow{display:block;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+    .location-intro h3{font-family:"Cormorant Garamond",serif;font-size:clamp(30px,4vw,44px);font-weight:300;letter-spacing:-.03em;margin:0 0 14px}
+    .location-intro p{color:var(--muted);font-size:17px;margin:0}
+    .location-section{padding-top:64px}
+    .location-section:first-of-type{padding-top:0}
+    @media(max-width:800px){.project-text{grid-template-columns:1fr}}
+  </style>
+</head>
+<body class="theme-dark" data-page="project">
+  <div class="page-loader"><span class="roman">I</span></div>
+  <div class="cursor-dot" aria-hidden="true"></div>
+  <div class="cursor-ring" aria-hidden="true"></div>
+  <header class="site-header">
+    <a class="wordmark project-link" href="../index.html">Ricardo Cabello</a>
+    <nav>
+      <a class="project-link" href="../index.html#work" data-i18n="backWork">Back to work</a>
+      <div class="language-switcher"><button class="language-button active" data-language="en">EN</button><span>/</span><button class="language-button" data-language="es">ES</button></div>
+    </nav>
+  </header>
+  <main>
+    <section class="project-hero section-shell">
+      <span class="roman">I</span>
+      <span class="eyebrow" data-i18n="projectEyebrow">Retail design and technical development</span>
+      <h1 data-i18n="projectTitle">Ecoalf retail development</h1>
+      <p data-i18n="projectIntro">Five stores across Spain and Portugal, developed for permanent corners and temporary spaces inside El Corte Inglés, each adapted to a different footprint while keeping one brand system legible.</p>
+    </section>
+    <section class="project-image protected-media section-shell" style="background-image:url('../images/ecoalf/lisboa-man/interior-render-01.jpg')"></section>
+    <section class="project-text section-shell">
+      <span class="roman">I</span>
+      <div><h2 data-i18n="challengeTitle">The challenge</h2><p data-i18n="challenge">Each location had different dimensions, circulation, existing furniture and installation conditions. The brand needed to remain recognisable without forcing the same solution onto every site, so the same fixture kit had to flex across corners, pop-ups and full stores.</p></div>
+    </section>
+
+    <section class="section-shell location-section">
+      <div class="location-intro">
+        <span class="loc-eyebrow" data-i18n="locLisboaManEyebrow">Site 01, Lisboa men's</span>
+        <h3 data-i18n="locLisboaManTitle">Amoreiras corner</h3>
+        <p data-i18n="locLisboaManText">A men's corner built into an existing floor plate, where the plan had to route around structural columns without breaking sightlines to the entrance.</p>
+      </div>
+      <span class="gallery-caption">Plans and elevations</span>
+      <div class="photo-grid plans two-col">
+        <img class="protected-media" src="../images/ecoalf/lisboa-man/floor-plan.jpg" alt="Ecoalf Lisboa men's floor plan" draggable="false">
+        <img class="protected-media" src="../images/ecoalf/lisboa-man/elevation-plan.jpg" alt="Ecoalf Lisboa men's elevation" draggable="false">
+      </div>
+      <div class="photo-grid">
+        <img class="protected-media" src="../images/ecoalf/lisboa-man/interior-render-02.jpg" alt="Ecoalf Lisboa men's store render" draggable="false">
+        <img class="protected-media" src="../images/ecoalf/lisboa-man/interior-render-03.jpg" alt="Ecoalf Lisboa men's store render" draggable="false">
+        <img class="protected-media" src="../images/ecoalf/lisboa-man/interior-render-06.jpg" alt="Ecoalf Lisboa men's store render, empty" draggable="false">
+      </div>
+    </section>
+
+    <section class="section-shell location-section">
+      <div class="location-intro">
+        <span class="loc-eyebrow" data-i18n="locLisboaWomanEyebrow">Site 02, Lisboa women's</span>
+        <h3 data-i18n="locLisboaWomanTitle">Amoreiras corner, women's</h3>
+        <p data-i18n="locLisboaWomanText">The paired women's corner, developed alongside the men's site so both read as one continuous brand moment from either direction of the aisle.</p>
+      </div>
+      <div class="photo-grid">
+        <img class="protected-media" src="../images/ecoalf/lisboa-woman/interior-render-01.jpg" alt="Ecoalf Lisboa women's store render" draggable="false">
+        <img class="protected-media" src="../images/ecoalf/lisboa-woman/interior-render-02.jpg" alt="Ecoalf Lisboa women's store render" draggable="false">
+        <img class="protected-media" src="../images/ecoalf/lisboa-woman/site-photo-01.jpg" alt="Ecoalf Lisboa women's site photo" draggable="false">
+      </div>
+    </section>
+
+    <section class="project-text section-shell">
+      <span class="roman">II</span>
+      <div><h2 data-i18n="workTitle">The work</h2><p data-i18n="workText">I prepared current location information, proposed layouts, dimensioned plans, furniture schedules, elevations and documentation for production and installation. Existing elements were reused where they still supported the new layout, which kept lead times and budgets predictable across five very different sites.</p></div>
+    </section>
+
+    <section class="section-shell location-section">
+      <div class="location-intro">
+        <span class="loc-eyebrow" data-i18n="locMarbellaEyebrow">Site 03, Marbella</span>
+        <h3 data-i18n="locMarbellaTitle">Puerto Banús corner</h3>
+        <p data-i18n="locMarbellaText">A brighter material palette for a coastal, high-footfall corner, with a longer run of hanging displays to carry more of the seasonal collection.</p>
+      </div>
+      <span class="gallery-caption">Plans and finished space</span>
+      <div class="photo-grid plans two-col">
+        <img class="protected-media" src="../images/ecoalf/marbella/floor-plan.jpg" alt="Ecoalf Marbella floor plan" draggable="false">
+        <img class="protected-media" src="../images/ecoalf/marbella/elevation-plan.jpg" alt="Ecoalf Marbella elevation" draggable="false">
+      </div>
+      <div class="photo-grid two-col">
+        <img class="protected-media" src="../images/ecoalf/marbella/interior-render-02.jpg" alt="Ecoalf Marbella store render" draggable="false">
+        <img class="protected-media" src="../images/ecoalf/marbella/interior-render-05.jpg" alt="Ecoalf Marbella store render detail" draggable="false">
+      </div>
+    </section>
+
+    <section class="project-image protected-media section-shell" style="background-image:url('../images/ecoalf/vigo-man/interior-render-04.jpg')"></section>
+
+    <section class="section-shell location-section">
+      <div class="location-intro">
+        <span class="loc-eyebrow" data-i18n="locVigoManEyebrow">Site 04, Vigo men's</span>
+        <h3 data-i18n="locVigoManTitle">Vigo corner, men's</h3>
+        <p data-i18n="locVigoManText">The largest footprint in the group, which let the system stretch to a full changing area and a dedicated accessories wall alongside the main floor.</p>
+      </div>
+      <span class="gallery-caption">Plans and detail</span>
+      <div class="photo-grid plans two-col">
+        <img class="protected-media" src="../images/ecoalf/vigo-man/floor-plan.jpg" alt="Ecoalf Vigo men's floor plan" draggable="false">
+        <img class="protected-media" src="../images/ecoalf/vigo-man/elevation-plan.jpg" alt="Ecoalf Vigo men's elevation" draggable="false">
+      </div>
+      <div class="photo-grid">
+        <img class="protected-media" src="../images/ecoalf/vigo-man/detail-render-01.jpg" alt="Ecoalf Vigo men's fixture detail" draggable="false">
+        <img class="protected-media" src="../images/ecoalf/vigo-man/detail-render-02.jpg" alt="Ecoalf Vigo men's fixture detail" draggable="false">
+        <img class="protected-media" src="../images/ecoalf/vigo-man/detail-render-03.jpg" alt="Ecoalf Vigo men's fixture detail" draggable="false">
+      </div>
+      <div class="photo-grid">
+        <img class="protected-media" src="../images/ecoalf/vigo-man/interior-render-08.jpg" alt="Ecoalf Vigo men's store render" draggable="false">
+        <img class="protected-media" src="../images/ecoalf/vigo-man/interior-render-11.jpg" alt="Ecoalf Vigo men's store render" draggable="false">
+        <img class="protected-media" src="../images/ecoalf/vigo-man/interior-render-15.jpg" alt="Ecoalf Vigo men's store render" draggable="false">
+      </div>
+    </section>
+
+    <section class="section-shell location-section">
+      <div class="location-intro">
+        <span class="loc-eyebrow" data-i18n="locVigoWomanEyebrow">Site 05, Vigo women's</span>
+        <h3 data-i18n="locVigoWomanTitle">Vigo corner, women's plan studies</h3>
+        <p data-i18n="locVigoWomanText">Five layout studies were tested against the same footprint; three are shown here before the final plan was signed off for production.</p>
+      </div>
+      <div class="photo-grid plans">
+        <img class="protected-media" src="../images/ecoalf/vigo-woman/floor-plan-01.jpg" alt="Ecoalf Vigo women's plan study 1" draggable="false">
+        <img class="protected-media" src="../images/ecoalf/vigo-woman/floor-plan-03.jpg" alt="Ecoalf Vigo women's plan study 3" draggable="false">
+        <img class="protected-media" src="../images/ecoalf/vigo-woman/floor-plan-05.jpg" alt="Ecoalf Vigo women's plan study 5" draggable="false">
+      </div>
+    </section>
+
+    <section class="project-text section-shell">
+      <span class="roman">III</span>
+      <div><h2 data-i18n="lessonTitle">What the project taught me</h2><p data-i18n="lesson">A repeatable system is useful only when it remains flexible enough to respond to the real conditions of each space. Five sites, one kit of parts, five different plans; the constant was the discipline of the documentation, not the shape of any single room.</p></div>
+    </section>
+  </main>
+  <script>window.pageTranslations={"en": {"backWork": "Back to work"}, "es": {"backWork": "Volver al trabajo", "projectEyebrow": "Diseño retail y desarrollo técnico", "projectTitle": "Desarrollo retail para Ecoalf", "projectIntro": "Cinco tiendas en España y Portugal, desarrolladas para corners permanentes y espacios temporales dentro de El Corte Inglés, cada una adaptada a una superficie distinta manteniendo un mismo sistema de marca legible.", "challengeTitle": "El reto", "challenge": "Cada ubicación tenía dimensiones, circulaciones, mobiliario existente y condiciones de montaje diferentes. La marca debía seguir siendo reconocible sin imponer la misma solución en todos los espacios, por lo que el mismo kit de mobiliario tenía que adaptarse a corners, pop-ups y tiendas completas.", "locLisboaManEyebrow": "Emplazamiento 01, Lisboa hombre", "locLisboaManTitle": "Corner de Amoreiras", "locLisboaManText": "Un corner de hombre integrado en una planta existente, donde el diseño tenía que rodear columnas estructurales sin romper la visual hacia la entrada.", "locLisboaWomanEyebrow": "Emplazamiento 02, Lisboa mujer", "locLisboaWomanTitle": "Corner de Amoreiras, mujer", "locLisboaWomanText": "El corner de mujer complementario, desarrollado junto al de hombre para que ambos se leyeran como un mismo momento de marca desde cualquier dirección del pasillo.", "workTitle": "El trabajo", "workText": "Preparé información del estado actual, distribuciones propuestas, plantas acotadas, inventarios de mobiliario, alzados y documentación para producción y montaje. Se reutilizaron elementos existentes cuando seguían apoyando la nueva distribución, lo que mantuvo previsibles los plazos y presupuestos en cinco emplazamientos muy distintos.", "locMarbellaEyebrow": "Emplazamiento 03, Marbella", "locMarbellaTitle": "Corner de Puerto Banús", "locMarbellaText": "Una paleta de materiales más luminosa para un corner costero de alto tránsito, con un recorrido más largo de expositores colgantes para mostrar más colección de temporada.", "locVigoManEyebrow": "Emplazamiento 04, Vigo hombre", "locVigoManTitle": "Corner de Vigo, hombre", "locVigoManText": "La superficie más grande del conjunto, que permitió ampliar el sistema con una zona de probadores completa y un muro de complementos junto a la sala principal.", "locVigoWomanEyebrow": "Emplazamiento 05, Vigo mujer", "locVigoWomanTitle": "Corner de Vigo, mujer, estudios de planta", "locVigoWomanText": "Se probaron cinco estudios de distribución sobre la misma superficie; aquí se muestran tres antes de aprobar la planta definitiva para producción.", "lessonTitle": "Lo que me enseñó el proyecto", "lesson": "Un sistema repetible solo es útil cuando mantiene la flexibilidad necesaria para responder a las condiciones reales de cada espacio. Cinco emplazamientos, un mismo kit de piezas, cinco plantas distintas: lo constante fue la disciplina de la documentación, no la forma de ninguna sala en concreto."}};</script>
+  <script src="../js/app.js"></script>
+</body>
+</html>
