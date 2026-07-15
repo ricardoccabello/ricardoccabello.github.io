@@ -12,8 +12,15 @@
   <link rel="stylesheet" href="css/main.css">
 </head>
 <body class="theme-dark">
+  <div class="ambient-background" aria-hidden="true">
+    <div class="ambient-gradient ambient-gradient-a"></div>
+    <div class="ambient-gradient ambient-gradient-b"></div>
+    <div class="ambient-gradient ambient-gradient-c"></div>
+    <div class="ambient-vignette"></div>
+    <div class="ambient-grain"></div>
+  </div>
   <div class="page-loader" aria-hidden="true">
-    <span class="roman">I</span>
+    <span class="roman roman-reveal">I</span>
   </div>
 
   <div class="cursor-dot" aria-hidden="true"></div>
@@ -33,6 +40,32 @@
       <line x1="80" y1="455" x2="720" y2="455"/>
       <line x1="710" y1="250" x2="710" y2="920"/>
       <path d="M40 1160 A260 260 0 0 1 300 900"/>
+
+      <!-- Extended drawing fragments -->
+      <line class="drawing-faint" x1="40" y1="82" x2="580" y2="622"/>
+      <line class="drawing-faint" x1="530" y1="-40" x2="980" y2="410"/>
+      <line class="drawing-guide" x1="1160" y1="40" x2="1160" y2="1180"/>
+      <line class="drawing-guide" x1="1220" y1="40" x2="1220" y2="1180"/>
+      <line class="drawing-faint" x1="980" y1="920" x2="1600" y2="920"/>
+      <line class="drawing-faint" x1="980" y1="960" x2="1600" y2="960"/>
+      <path class="drawing-faint" d="M240 240 A180 180 0 0 1 420 420"/>
+      <path class="drawing-guide" d="M190 210 A230 230 0 0 1 470 490"/>
+      <circle class="drawing-faint" cx="330" cy="330" r="120"/>
+      <circle class="drawing-mark" cx="330" cy="330" r="8"/>
+      <line class="drawing-mark" x1="312" y1="330" x2="348" y2="330"/>
+      <line class="drawing-mark" x1="330" y1="312" x2="330" y2="348"/>
+      <path class="drawing-faint" d="M900 150 L980 150 L980 230"/>
+      <path class="drawing-faint" d="M900 210 L1040 210"/>
+      <line class="drawing-faint" x1="760" y1="520" x2="1180" y2="120"/>
+      <line class="drawing-faint" x1="760" y1="560" x2="1220" y2="100"/>
+      <path class="drawing-guide" d="M1260 840 A340 340 0 0 0 1590 510"/>
+      <path class="drawing-faint" d="M-60 720 L180 720 L180 1080"/>
+      <path class="drawing-faint" d="M1460 980 L1320 980 L1320 1200"/>
+      <line class="drawing-guide" x1="80" y1="1080" x2="720" y2="1080"/>
+      <line class="drawing-guide" x1="80" y1="1115" x2="720" y2="1115"/>
+      <path class="drawing-faint" d="M560 720 L650 630 L740 720 L650 810 Z"/>
+      <path class="drawing-mark" d="M620 144 L620 176 M604 160 L636 160"/>
+      <path class="drawing-mark" d="M1230 584 L1290 584 M1260 554 L1260 614"/>
     </svg>
   </div>
 
@@ -48,9 +81,9 @@
   </header>
 
   <main id="top">
-    <section class="hero section-shell" data-bg="hero">
+    <section class="hero editorial-hero section-shell" data-bg="hero">
       <div class="hero-copy">
-        <span class="eyebrow">Retail design, furniture and technical development</span>
+        <span class="eyebrow">Retail design  Furniture  Technical development</span>
         <h1>I design what happens between the first idea and the finished space.</h1>
       </div>
       <div class="hero-side">
@@ -59,156 +92,85 @@
       </div>
     </section>
 
-    <section class="statement section-shell" data-bg="statement">
-      <span class="roman">I</span>
-      <blockquote>I am interested in the part of design that begins after the first image. The drawings, decisions and conversations that make the project possible.</blockquote>
+    <section class="editorial-note section-shell reveal" data-bg="statement">
+      <div class="note-index">
+        <span class="roman roman-reveal">I</span>
+        <span class="eyebrow">Position</span>
+      </div>
+      <p>A drawing becomes useful when the client, workshop and installer can all read it without guessing what happens next.</p>
     </section>
 
-    <section id="work" class="section-shell" data-bg="work">
-      <div class="section-title">
-        <span class="roman">II</span>
-        <div>
-          <span class="eyebrow">Selected work</span>
-          <h2>Projects grouped by the problems they solve</h2>
-        </div>
+    <section id="work" class="section-shell editorial-work" data-bg="work">
+      <div class="section-title editorial-title">
+        <span class="roman roman-reveal">II</span>
+        <div><span class="eyebrow">Selected work</span><h2>Projects grouped by the problems they solve</h2></div>
       </div>
 
-      <article class="featured-project reveal" data-bg="ecoalf">
-        <a class="full-image project-link" href="projects/ecoalf.html" style="--image:url('../images/ecoalf-cover.jpg')">
-          <div class="image-placeholder">Ecoalf project image</div>
-        </a>
-        <div class="project-copy">
-          <span class="roman">I</span>
-          <span class="eyebrow">Making retail projects buildable</span>
-          <h3>Ecoalf retail development across Spain and Portugal</h3>
-          <p>I developed technical projects for permanent corners and temporary spaces in Vigo, Pozuelo, Marbella, Gaia and Lisbon. The work included surveys, layouts, furniture schedules, elevations, detailed dimensions and documentation for production and installation.</p>
-          <a class="text-link project-link" href="projects/ecoalf.html">Open case study</a>
+      <article class="editorial-project reveal" data-bg="ecoalf">
+        <a class="project-image project-link" href="projects/ecoalf.html" style="--image:url('../images/ecoalf-cover.jpg')"><div class="image-placeholder">Ecoalf project image</div></a>
+        <div class="project-caption">
+          <div><span class="roman roman-reveal">I</span><span class="eyebrow">Making retail projects buildable</span></div>
+          <div><h3>Ecoalf retail development across Spain and Portugal</h3><p>Technical projects for permanent corners and temporary spaces in Vigo, Pozuelo, Marbella, Gaia and Lisbon.</p><a class="text-link project-link" href="projects/ecoalf.html">Open case study</a></div>
         </div>
       </article>
 
-      <article class="featured-project reverse reveal" data-bg="ikks">
-        <a class="full-image project-link" href="projects/ikks.html" style="--image:url('../images/ikks-cover.jpg')">
-          <div class="image-placeholder">IKKS project image</div>
-        </a>
-        <div class="project-copy">
-          <span class="roman">II</span>
-          <span class="eyebrow">Organising a temporary retail environment</span>
-          <h3>IKKS pop up in San Sebastián de los Reyes</h3>
-          <p>A temporary store still needs permanent clarity. I prepared the location plan, refurbished layout, dimensioned plan and elevations for the sales area, fitting rooms, storage and point of sale.</p>
-          <a class="text-link project-link" href="projects/ikks.html">Open case study</a>
+      <aside class="editorial-observation reveal">
+        <span class="roman roman-reveal">III</span>
+        <div><span class="eyebrow">Observation 03</span><p>Reusing furniture is not a compromise when the new layout gives each piece a clearer purpose.</p></div>
+      </aside>
+
+      <article class="editorial-project alternate reveal" data-bg="ikks">
+        <a class="project-image project-link" href="projects/ikks.html" style="--image:url('../images/ikks-cover.jpg')"><div class="image-placeholder">IKKS project image</div></a>
+        <div class="project-caption">
+          <div><span class="roman roman-reveal">II</span><span class="eyebrow">Organising a temporary retail environment</span></div>
+          <div><h3>IKKS pop up in San Sebastián de los Reyes</h3><p>A temporary store still needs permanent clarity. Plans, dimensions and elevations remove doubt before installation begins.</p><a class="text-link project-link" href="projects/ikks.html">Open case study</a></div>
         </div>
       </article>
 
-      <article class="featured-project reveal" data-bg="brand">
-        <a class="full-image project-link" href="projects/japon-market.html" style="--image:url('../images/japon-cover.jpg')">
-          <div class="image-placeholder">Japon Market project image</div>
-        </a>
-        <div class="project-copy">
-          <span class="roman">III</span>
-          <span class="eyebrow">Building a visual system across formats</span>
-          <h3>Japon Market 24h</h3>
-          <p>I worked across store design, architectural drawings, 3D visualisation, packaging, editorial design, social media and web content. It taught me to understand the physical space and visual identity as one connected experience.</p>
-          <a class="text-link project-link" href="projects/japon-market.html">Open case study</a>
+      <section class="editorial-statement reveal">
+        <span class="roman roman-reveal">IV</span>
+        <h2>Design, technical development and production should feel like one continuous conversation.</h2>
+      </section>
+
+      <article class="editorial-project reveal" data-bg="brand">
+        <a class="project-image project-link" href="projects/japon-market.html" style="--image:url('../images/japon-cover.jpg')"><div class="image-placeholder">Japon Market project image</div></a>
+        <div class="project-caption">
+          <div><span class="roman roman-reveal">III</span><span class="eyebrow">Building a visual system across formats</span></div>
+          <div><h3>Japon Market 24h</h3><p>Store design, architectural drawings, visualisation, packaging, editorial work, social media and web content developed as one connected experience.</p><a class="text-link project-link" href="projects/japon-market.html">Open case study</a></div>
         </div>
       </article>
     </section>
 
-    <section id="story" class="story section-shell" data-bg="story">
-      <div class="section-title">
-        <span class="roman">III</span>
-        <div>
-          <span class="eyebrow">How I ended up here</span>
-          <h2>A professional story, not a timeline</h2>
-        </div>
+    <section id="story" class="story section-shell editorial-story" data-bg="story">
+      <div class="section-title editorial-title">
+        <span class="roman roman-reveal">V</span>
+        <div><span class="eyebrow">How I ended up here</span><h2>A professional story, not a timeline</h2></div>
       </div>
-
-      <div class="story-intro reveal">
-        <p>I did not plan a career that moved between architecture, graphics, retail, production and furniture. It happened because each stage made me curious about the next one.</p>
-      </div>
-
-      <div class="story-grid">
-        <article class="story-card reveal">
-          <span class="roman">I</span>
-          <h3>Architecture taught me to think through drawings.</h3>
-          <p>I began in Venezuela, working with plans, models and visual presentations. It gave me the technical foundation that still supports the way I work.</p>
-        </article>
-        <article class="story-card reveal">
-          <span class="roman">II</span>
-          <h3>Moving to Spain changed the scale of the questions.</h3>
-          <p>Starting again made me adaptable. I moved between interior design, graphic work and communication, learning how space and identity influence each other.</p>
-        </article>
-        <article class="story-card reveal">
-          <span class="roman">III</span>
-          <h3>Retail made every decision immediate.</h3>
-          <p>Circulation, stock, visibility, furniture, brand language and installation all have to work at the same time. A good idea is not enough if the space cannot open on schedule.</p>
-        </article>
-        <article class="story-card reveal">
-          <span class="roman">IV</span>
-          <h3>The workshop changed the way I design.</h3>
-          <p>Working close to production made me think earlier about materials, thicknesses, transport, assembly and the people responsible for building the project.</p>
-        </article>
-        <article class="story-card reveal">
-          <span class="roman">V</span>
-          <h3>Furniture became a way to test ideas at full scale.</h3>
-          <p>It lets me explore proportion, identity and construction in a direct way. It is where my technical and visual interests meet most clearly.</p>
-        </article>
-        <article class="story-card reveal">
-          <span class="roman">VI</span>
-          <h3>I am ready for a more international chapter.</h3>
-          <p>I am drawn to Germany and the Netherlands because of the way design, industry, craft and experimentation are connected.</p>
-        </article>
+      <div class="story-lead reveal"><p>I did not plan a career that moved between architecture, graphics, retail, production and furniture. It happened because each stage made me curious about the next one.</p></div>
+      <div class="story-sequence">
+        <article class="story-line reveal"><span class="roman roman-reveal">I</span><h3>Architecture taught me to think through drawings.</h3><p>I began in Venezuela, working with plans, models and visual presentations. It gave me the technical foundation that still supports the way I work.</p></article>
+        <article class="story-line reveal"><span class="roman roman-reveal">II</span><h3>Moving to Spain made me more adaptable.</h3><p>I moved between interior design, graphic work and communication, learning how space and identity influence each other.</p></article>
+        <article class="story-line reveal"><span class="roman roman-reveal">III</span><h3>Retail made every decision immediate.</h3><p>Circulation, stock, visibility, furniture, brand language and installation all have to work at the same time.</p></article>
+        <article class="story-line reveal"><span class="roman roman-reveal">IV</span><h3>The workshop changed the way I design.</h3><p>Working close to production made me think earlier about materials, thicknesses, transport, assembly and the people responsible for building the project.</p></article>
+        <article class="story-line reveal"><span class="roman roman-reveal">V</span><h3>I am ready for a more international chapter.</h3><p>I am drawn to Germany and the Netherlands because of the way design, industry, craft and experimentation are connected.</p></article>
       </div>
     </section>
 
-    <section id="journal" class="journal section-shell" data-bg="journal">
-      <div class="section-title">
-        <span class="roman">IV</span>
-        <div>
-          <span class="eyebrow">Journal</span>
-          <h2>Notes from the work</h2>
-        </div>
-      </div>
-
-      <div class="journal-intro reveal">
-        <p>This is not a blog. It is a place to write down the practical things that rarely appear in a finished portfolio.</p>
-      </div>
-
+    <section id="journal" class="journal section-shell editorial-journal" data-bg="journal">
+      <div class="section-title editorial-title"><span class="roman roman-reveal">VI</span><div><span class="eyebrow">Journal</span><h2>Notes from the work</h2></div></div>
+      <div class="journal-intro reveal"><p>This is not a blog. It is a place to record the practical things that rarely appear in a finished portfolio.</p></div>
       <div class="journal-list">
-        <a class="journal-row reveal project-link" href="journal/retail-survey.html">
-          <span class="roman">I</span>
-          <span class="eyebrow">Survey</span>
-          <h3>How I document a retail survey</h3>
-          <span>Read note</span>
-        </a>
-        <a class="journal-row reveal project-link" href="journal/reuse.html">
-          <span class="roman">II</span>
-          <span class="eyebrow">Reuse</span>
-          <h3>Why existing furniture can improve a project</h3>
-          <span>Read note</span>
-        </a>
-        <a class="journal-row reveal project-link" href="journal/night-installation.html">
-          <span class="roman">III</span>
-          <span class="eyebrow">Installation</span>
-          <h3>What I learned from overnight retail installations</h3>
-          <span>Read note</span>
-        </a>
-        <a class="journal-row reveal project-link" href="journal/production-checks.html">
-          <span class="roman">IV</span>
-          <span class="eyebrow">Production</span>
-          <h3>Five things I check before sending a project to production</h3>
-          <span>Read note</span>
-        </a>
+        <a class="journal-row reveal project-link" href="journal/retail-survey.html"><span class="roman roman-reveal">I</span><span class="eyebrow">Survey</span><h3>How I document a retail survey</h3><span>Read note</span></a>
+        <a class="journal-row reveal project-link" href="journal/reuse.html"><span class="roman roman-reveal">II</span><span class="eyebrow">Reuse</span><h3>Why existing furniture can improve a project</h3><span>Read note</span></a>
+        <a class="journal-row reveal project-link" href="journal/night-installation.html"><span class="roman roman-reveal">III</span><span class="eyebrow">Installation</span><h3>What I learned from overnight retail installations</h3><span>Read note</span></a>
+        <a class="journal-row reveal project-link" href="journal/production-checks.html"><span class="roman roman-reveal">IV</span><span class="eyebrow">Production</span><h3>Five things I check before sending a project to production</h3><span>Read note</span></a>
       </div>
     </section>
 
-    <section id="contact" class="contact section-shell" data-bg="contact">
-      <span class="roman">V</span>
+    <section id="contact" class="contact section-shell editorial-contact" data-bg="contact">
+      <span class="roman roman-reveal">VII</span>
       <h2>I am open to good work, thoughtful teams and projects that deserve careful attention.</h2>
-      <div class="contact-links">
-        <a href="mailto:ricardoccabello@gmail.com">ricardoccabello@gmail.com</a>
-        <a href="https://www.linkedin.com/in/ricardoccabello/" target="_blank" rel="noopener">LinkedIn</a>
-        <a href="https://www.behance.net/gallery/209629281/Diseno-arquitectonico-de-interiores" target="_blank" rel="noopener">Behance</a>
-      </div>
+      <div class="contact-links"><a href="mailto:ricardoccabello@gmail.com">ricardoccabello@gmail.com</a><a href="https://www.linkedin.com/in/ricardoccabello/" target="_blank" rel="noopener">LinkedIn</a><a href="https://www.behance.net/gallery/209629281/Diseno-arquitectonico-de-interiores" target="_blank" rel="noopener">Behance</a></div>
     </section>
   </main>
 
