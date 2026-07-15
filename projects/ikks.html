@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IKKS pop up | Ricardo Cabello</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/main.css">
+  <style>
+    .project-hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end}
+    .project-hero h1{font-family:"Cormorant Garamond",serif;font-size:clamp(58px,9vw,145px);font-weight:300;line-height:.88;letter-spacing:-.06em;margin:18px 0}
+    .project-hero p{max-width:720px;font-size:20px;color:var(--muted)}
+    .project-image{min-height:80vh;background:linear-gradient(135deg,#1b1b1b,#0b0b0b 65%,#202020);display:grid;place-items:center;color:var(--muted);font-size:10px;letter-spacing:.15em;text-transform:uppercase}
+    .project-text{display:grid;grid-template-columns:.45fr 1.55fr;gap:42px}
+    .project-text h2{font-family:"Cormorant Garamond",serif;font-size:clamp(38px,5vw,72px);font-weight:300;line-height:1;letter-spacing:-.04em;margin:0}
+    .project-text p{max-width:850px;color:var(--muted);font-size:18px}
+    @media(max-width:800px){.project-text{grid-template-columns:1fr}}
+  </style>
+</head>
+<body class="theme-dark" data-page="project">
+  <div class="page-loader"><span class="roman">I</span></div>
+  <header class="site-header">
+    <a class="wordmark project-link" href="../index.html">Ricardo Cabello</a>
+    <nav>
+      <a class="project-link" href="../index.html#work" data-i18n="backWork">Back to work</a>
+      <div class="language-switcher"><button class="language-button active" data-language="en">EN</button><span>/</span><button class="language-button" data-language="es">ES</button></div>
+    </nav>
+  </header>
+  <main>
+    <section class="project-hero section-shell">
+      <span class="roman">II</span>
+      <span class="eyebrow" data-i18n="projectEyebrow">Temporary retail environment</span>
+      <h1 data-i18n="projectTitle">IKKS pop up</h1>
+      <p data-i18n="projectIntro">A complete technical project for a temporary fashion space in San Sebastián de los Reyes.</p>
+    </section>
+    <section class="project-image section-shell">Replace with full screen project image</section>
+    <section class="project-text section-shell">
+      <span class="roman">I</span>
+      <div><h2 data-i18n="challengeTitle">The challenge</h2><p data-i18n="challenge">The project needed to organise sales, fitting rooms, storage and point of sale in a space that had to be installed efficiently and operate clearly from opening day.</p></div>
+    </section>
+    <section class="project-image section-shell">Replace with plan, detail or elevation</section>
+    <section class="project-text section-shell">
+      <span class="roman">II</span>
+      <div><h2 data-i18n="workTitle">The work</h2><p data-i18n="work">I prepared the location plan, refurbished layout, dimensioned drawings and elevations explaining the height and position of the main elements.</p></div>
+    </section>
+    <section class="project-image section-shell">Replace with final image or installation photograph</section>
+    <section class="project-text section-shell">
+      <span class="roman">III</span>
+      <div><h2 data-i18n="lessonTitle">What the project taught me</h2><p data-i18n="lesson">Temporary projects still need permanent clarity. The drawings must remove uncertainty because the installation window is usually very short.</p></div>
+    </section>
+  </main>
+  <script>window.pageTranslations={"en": {"backWork": "Back to work"}, "es": {"backWork": "Volver al trabajo", "projectEyebrow": "Entorno retail temporal", "projectTitle": "Pop up de IKKS", "projectIntro": "Proyecto técnico completo para un espacio de moda temporal en San Sebastián de los Reyes.", "challengeTitle": "El reto", "challenge": "El proyecto debía organizar zona de venta, probadores, almacén y TPV en un espacio que necesitaba montarse con eficiencia y funcionar con claridad desde el primer día.", "workTitle": "El trabajo", "work": "Preparé el plano de ubicación, la planta reformada, los planos acotados y los alzados que explicaban la altura y posición de los principales elementos.", "lessonTitle": "Lo que me enseñó el proyecto", "lesson": "Los proyectos temporales también necesitan una claridad permanente. Los planos deben eliminar incertidumbre porque el tiempo de montaje suele ser muy corto."}};</script>
+  <script src="../js/app.js"></script>
+</body>
+</html>
