@@ -791,7 +791,7 @@ body.theme-light .ambient-grain{
 .image-lightbox-close:hover{background:rgba(255,255,255,.14)}
 .theme-light .drawer-image{background:#e4e4e4;color:rgba(23,23,23,.4)}
 .drawer-note{color:var(--muted);font-size:11px;margin-top:14px}
-.project-index{margin-top:80px}
+.project-index{margin-top:32px;margin-bottom:64px}
 .project-index-head,
 .project-row{
   display:grid;
