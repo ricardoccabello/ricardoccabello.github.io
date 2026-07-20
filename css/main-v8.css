@@ -232,6 +232,7 @@ button{font:inherit}
   font-weight:300;
   letter-spacing:-.03em
 }
+.journal-thumb{width:52px;height:52px;flex-shrink:0;border-radius:2px;background-size:cover;background-position:center;background-repeat:no-repeat;display:block}
 .journal-row>span:last-child{
   font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)
 }
@@ -470,7 +471,6 @@ body.theme-light .ambient-grain{
   .journal-thumb{width:44px;height:44px;border-radius:2px}
   .mobile-photo{display:block;width:100%;height:auto}
 }
-
 
 /* Project map */
 .project-map-section{
@@ -906,10 +906,11 @@ body.theme-light .ambient-grain{
   .project-index-head{display:none}
   .project-row{
     grid-template-columns:1fr auto;
-    gap:10px;
+    gap:6px 16px;
   }
   .project-row span:nth-child(2){grid-column:1/-1}
   .project-row span:nth-child(3){display:none}
+  .project-row strong,.project-row span:first-child{padding-right:14px}
   .project-row span:nth-child(4){text-align:right}
   .project-group header{grid-template-columns:45px 1fr}
   .project-group header small{display:none}
@@ -985,4 +986,4 @@ button{appearance:none;-webkit-appearance:none;border-radius:0}
 .project-index,.project-groups{display:block!important}
 .project-group:not(.open){display:none!important}
 .project-group.open{display:block!important;grid-column:1/-1!important}
-@media(max-width:760px){.offline-atlas{min-height:640px}.atlas-inset-map{width:34%;left:10px;top:10px}.atlas-marker{width:30px;height:30px;font-size:12px}.project-row{display:grid!important;grid-template-columns:1fr auto!important}.atlas-zoom-controls{right:8px;top:8px;gap:8px}.atlas-zoom-btn{width:44px;height:44px;font-size:18px}.atlas-zoom-reset{font-size:15px}}
+@media(max-width:760px){.offline-atlas{min-height:640px}.atlas-inset-map{width:34%;left:10px;top:10px}.atlas-marker{width:30px;height:30px;font-size:12px}.project-row{display:grid!important;grid-template-columns:1fr auto!important;gap:6px 16px!important;row-gap:6px!important}.project-row span:first-child{padding-right:12px}ate-columns:1fr auto!important}.atlas-zoom-controls{right:8px;top:8px;gap:8px}.atlas-zoom-btn{width:44px;height:44px;font-size:18px}.atlas-zoom-reset{font-size:15px}}
