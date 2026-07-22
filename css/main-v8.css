@@ -1727,3 +1727,123 @@ section[id]{scroll-margin-top:92px}
   .project-open-hint::after,
   .external-link::after { width: .72em; height: .72em; margin-left: .35em; }
 }
+
+/* v13 — layout bug fixes from live mobile/desktop QA */
+/* Project names are typographic links, not icon buttons. */
+.project-title-link::after{content:none!important;display:none!important}
+.project-title-link{
+  display:inline!important;
+  letter-spacing:-.025em!important;
+  word-spacing:.08em!important;
+  line-height:1.04!important;
+  overflow-wrap:normal!important;
+  word-break:normal!important;
+  hyphens:none!important;
+}
+.project-caption h3{
+  line-height:1.04!important;
+  letter-spacing:-.025em!important;
+}
+
+/* Keep metric values and labels in separate, dependable rows. */
+.career-snapshot div{
+  display:grid!important;
+  grid-template-rows:auto 1fr;
+  align-content:start;
+  gap:14px!important;
+  min-width:0;
+}
+.career-snapshot strong{
+  display:block;
+  line-height:1!important;
+  margin:0!important;
+  padding:0!important;
+}
+.career-snapshot span{
+  display:block;
+  margin:0!important;
+  padding:0!important;
+  line-height:1.5!important;
+}
+
+/* Image strips should read as photographs, never black letterboxed panels. */
+.project-photo-strip{
+  align-items:stretch!important;
+}
+.project-photo-strip a,
+.featured-maison .project-photo-strip a{
+  display:block!important;
+  min-height:0!important;
+  aspect-ratio:4/3!important;
+  background:transparent!important;
+  background-image:none!important;
+}
+.project-photo-strip img,
+.project-photo-strip .project-media-photo,
+.featured-maison .project-photo-strip .project-media-photo{
+  position:absolute!important;
+  inset:0!important;
+  width:100%!important;
+  height:100%!important;
+  max-height:none!important;
+  object-fit:cover!important;
+  object-position:center!important;
+  background:transparent!important;
+}
+.project-image,
+.featured-maison .project-image{
+  background:transparent!important;
+}
+.project-image .project-media-photo{
+  object-fit:cover!important;
+  background:transparent!important;
+}
+
+@media(max-width:760px){
+  .project-caption h3{
+    font-size:clamp(1.9rem,8.4vw,2.7rem)!important;
+    line-height:1.06!important;
+    letter-spacing:-.022em!important;
+  }
+  .project-title-link{
+    display:inline!important;
+    line-height:inherit!important;
+    overflow-wrap:break-word!important;
+  }
+  .career-snapshot{
+    grid-template-columns:1fr 1fr!important;
+    gap:30px 18px!important;
+  }
+  .career-snapshot div{gap:10px!important}
+  .career-snapshot strong{
+    font-size:clamp(3rem,15vw,4.5rem)!important;
+    line-height:.95!important;
+  }
+  .career-snapshot span{
+    max-width:18ch!important;
+    font-size:.66rem!important;
+    line-height:1.5!important;
+  }
+  .project-photo-strip,
+  .featured-maison .project-photo-strip{
+    grid-template-columns:1fr!important;
+    gap:12px!important;
+  }
+  .project-photo-strip a,
+  .featured-maison .project-photo-strip a{
+    aspect-ratio:4/3!important;
+  }
+  .project-photo-strip img,
+  .project-photo-strip .project-media-photo,
+  .featured-maison .project-photo-strip .project-media-photo{
+    position:absolute!important;
+    width:100%!important;
+    height:100%!important;
+    object-fit:cover!important;
+  }
+}
+@media(max-width:430px){
+  .career-snapshot{grid-template-columns:1fr 1fr!important}
+  .career-snapshot strong{font-size:clamp(2.8rem,17vw,4rem)!important}
+  .career-snapshot span{font-size:.62rem!important;letter-spacing:.1em!important}
+}
