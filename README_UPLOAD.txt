@@ -1,14 +1,13 @@
-RICARDO CABELLO — PORTFOLIO 2026 · ATLAS DEEP POLISH
+RICARDO CABELLO — PORTFOLIO READY FOR GITHUB PAGES
 
-Upload the CONTENTS of this folder directly to the root of your GitHub Pages repository.
-index.html must remain in the repository root.
+1. Upload every file and folder in this ZIP to the root of the GitHub repository.
+2. Keep index.html at repository root.
+3. Keep the existing folder structure exactly as supplied.
+4. The package contains fewer than 100 files, so GitHub can accept it in one browser upload.
+5. After deployment, hard-refresh the browser once to clear any older cached CSS or JavaScript.
 
-This edition includes:
-- independently reviewed English and Spanish copy;
-- recruiter-focused professional positioning;
-- a regional project atlas with city-level grouping and no artificial nationwide pin;
-- adaptive clustering, search, career-stage filters and fit-to-results;
-- expandable full-view atlas on desktop and mobile;
-- keyboard, pointer, touch and reduced-motion support;
-- responsive navigation, project drawers, bilingual metadata and static no-JavaScript fallback copy;
-- structural, browser and asset-integrity QA.
+Included in this revision:
+- Maison Caligari featured case study and five optimised renders.
+- Reliable homepage cover images using actual img elements instead of CSS backgrounds alone.
+- Clear click indicators and clickable project names.
+- Browser back/forward cache fix for the page transition overlay.
