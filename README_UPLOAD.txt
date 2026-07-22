@@ -1,13 +1,10 @@
-RICARDO CABELLO — PORTFOLIO / DIRECTOR FINAL
+ACTUALIZACIÓN EDITORIAL — SOLO ARCHIVOS MODIFICADOS
 
-Upload every file and folder in this package directly to the root of the GitHub Pages repository.
-Keep index.html at the root.
+Sube el contenido de esta carpeta a la raíz del repositorio y permite que GitHub sustituya los archivos con la misma ruta.
+No borres las carpetas existentes.
 
-Included launch assets:
-- favicon.svg
-- images/ricardo-cabello-og.jpg
-- robots.txt
-- sitemap.xml
-- canonical, Open Graph and social-sharing metadata
-
-After uploading, wait for GitHub Pages to deploy and perform a hard refresh.
+Archivos modificados:
+- index.html
+- css/main-v8.css
+- js/app-v8.js
+- projects/ecoalf.html

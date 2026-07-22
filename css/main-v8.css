@@ -1858,3 +1858,74 @@ section[id]{scroll-margin-top:92px}
   .expanded-location{padding-top:52px}
   .before-after-grid{grid-template-columns:1fr}
 }
+
+
+/* 2026-07 editorial refinement: stronger project hierarchy, spacious Maison gallery, built work first */
+.editorial-project .project-caption h3 {
+  font-size: clamp(2rem, 3.6vw, 4.25rem);
+  line-height: .94;
+  letter-spacing: -0.035em;
+  max-width: 18ch;
+}
+.editorial-project .project-title-link {
+  letter-spacing: inherit;
+  word-spacing: .08em;
+}
+.featured-maison .project-caption h3 {
+  font-size: clamp(2.35rem, 4.4vw, 5.25rem);
+}
+.featured-maison .project-photo-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1rem, 2vw, 2rem);
+  background: transparent;
+  overflow: visible;
+}
+.featured-maison .project-photo-strip > a {
+  min-height: 0;
+  aspect-ratio: 4 / 5;
+  background: transparent !important;
+  overflow: hidden;
+}
+.featured-maison .project-photo-strip img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.location-section.built-first {
+  border-top-color: rgba(255,255,255,.28);
+}
+.location-gallery,
+.project-gallery,
+.before-after-grid {
+  background: transparent !important;
+}
+.location-gallery > *,
+.project-gallery > *,
+.before-after-grid > * {
+  background: transparent !important;
+}
+.location-gallery img,
+.project-gallery img,
+.before-after-grid img {
+  display:block;
+  width:100%;
+  height:auto;
+  background:transparent;
+}
+@media (max-width: 760px) {
+  .editorial-project .project-caption h3,
+  .featured-maison .project-caption h3 {
+    font-size: clamp(2rem, 10.5vw, 3.5rem);
+    line-height: .98;
+    max-width: 100%;
+  }
+  .featured-maison .project-photo-strip {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .featured-maison .project-photo-strip > a {
+    aspect-ratio: 4 / 5;
+  }
+}
