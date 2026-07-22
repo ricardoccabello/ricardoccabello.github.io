@@ -1434,3 +1434,235 @@ body.bg-maison .ambient-gradient-c{opacity:.68;transform:translate3d(-.6%,.7%,0)
   .atlas-map{min-height:390px!important}
   .project-open-hint{font-size:.58rem}
 }
+
+
+/* 2026 final editorial polish — mobile-first finishing */
+/* Stronger rules and clearer hierarchy across both themes */
+:root{--line:rgba(240,236,227,.24)}
+body.theme-light{--line:rgba(23,23,23,.34)}
+.section-shell,.editorial-project,.story-line,.journal-row,.contact-links a,.project-row,.drawer-location-row,.drawer-list-row{border-color:var(--line)!important}
+
+/* Notebook: typography is the content; decorative thumbnails removed */
+.journal-row{grid-template-columns:44px 112px minmax(0,1fr) auto!important;column-gap:clamp(18px,3vw,48px)!important}
+.journal-row .journal-thumb{display:none!important}
+.journal-row h3{max-width:30ch}
+
+/* Maison Caligari preview: preserve each render's actual composition */
+.featured-maison .project-photo-strip{
+  grid-template-columns:minmax(0,.82fr) minmax(0,.82fr) minmax(0,1.06fr);
+  gap:10px;
+  align-items:stretch;
+}
+.featured-maison .project-photo-strip a{
+  aspect-ratio:auto!important;
+  min-height:clamp(300px,33vw,520px);
+  background:#111;
+}
+.featured-maison .project-photo-strip .project-media-photo{
+  object-fit:contain!important;
+  object-position:center!important;
+  background:#111;
+}
+
+@media (max-width:760px){
+  :root{--line:rgba(240,236,227,.31)}
+  body.theme-light{--line:rgba(23,23,23,.39)}
+
+  /* More deliberate section rhythm and visible separators */
+  .section-shell{padding-top:72px!important;padding-bottom:72px!important}
+  .editorial-project{padding-bottom:64px!important;border-bottom:1px solid var(--line);margin-bottom:64px!important}
+  .editorial-project:last-of-type{border-bottom:0}
+  .editorial-observation,.editorial-statement{border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+
+  /* Project covers: avoid arbitrary square crops */
+  .project-image,.featured-maison .project-image{
+    aspect-ratio:4/3!important;
+    background:#111!important;
+  }
+  .project-image .project-media-photo{
+    object-fit:contain!important;
+    object-position:center!important;
+    background:#111;
+  }
+  .project-open-hint{background:rgba(8,8,8,.92);border-color:rgba(255,255,255,.72)}
+
+  /* Maison previews become three full, uncropped editorial plates */
+  .featured-maison .project-photo-strip{
+    grid-template-columns:1fr!important;
+    gap:14px!important;
+  }
+  .featured-maison .project-photo-strip a{
+    min-height:0!important;
+    aspect-ratio:auto!important;
+  }
+  .featured-maison .project-photo-strip .project-media-photo{
+    position:static!important;
+    width:100%!important;
+    height:auto!important;
+    max-height:none!important;
+    object-fit:contain!important;
+  }
+
+  /* Notebook becomes a clean editorial index */
+  .journal-grid{border-top:1px solid var(--line)}
+  .journal-row{
+    grid-template-columns:32px minmax(0,1fr)!important;
+    grid-template-areas:"number label" "number title" "number action";
+    gap:5px 14px!important;
+    padding:26px 0!important;
+    border-bottom:1px solid var(--line)!important;
+  }
+  .journal-row>.roman{grid-area:number;align-self:start;margin-top:2px}
+  .journal-row>.eyebrow{grid-area:label;display:block!important}
+  .journal-row>h3{grid-area:title;margin:.2rem 0 .35rem!important;max-width:none!important}
+  .journal-row>span:last-child{grid-area:action;display:block!important;font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.16em}
+
+  /* Atlas: one clear sequence instead of scattered micro-information */
+  .built-work-intro{grid-template-columns:1fr!important;gap:12px!important}
+  .built-work-intro .intro-aphorism{display:none!important}
+  .career-stages{grid-template-columns:1fr 1fr!important;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .stage-button{border-bottom:1px solid var(--line)!important;border-right:1px solid var(--line)!important;padding:14px 12px!important}
+  .stage-button:nth-child(even){border-right:0!important}
+  .stage-button .roman,.stage-button small{display:none!important}
+  .stage-button strong{font-size:.73rem!important;line-height:1.25;text-align:left}
+  .atlas-toolbar{margin-top:22px!important;padding-top:0!important}
+  .atlas-toolbar-meta{grid-template-columns:1fr!important;gap:10px!important}
+  .atlas-toolbar-actions{display:grid!important;grid-template-columns:1fr 1fr!important;gap:8px!important}
+  .atlas-fit,.atlas-reset{width:100%;min-height:42px}
+  .atlas-active-summary{display:none!important}
+  .atlas-region-tabs{display:grid!important;grid-template-columns:repeat(3,1fr)!important;border:1px solid var(--line)}
+  .atlas-region-tab{display:flex!important;justify-content:center;min-height:48px!important;padding:10px 6px!important;border:0!important;border-right:1px solid var(--line)!important;text-align:center}
+  .atlas-region-tab:last-child{border-right:0!important}
+  .atlas-region-tab .roman,.atlas-region-tab small{display:none!important}
+  .atlas-region-tab>span:not(.roman){font-size:.65rem;line-height:1.2}
+  .atlas-map{min-height:360px!important;aspect-ratio:1/1!important}
+  .atlas-map-hint,.atlas-legend{display:none!important}
+  .map-frame{gap:0!important}
+  .project-drawer{margin-top:12px;border-top:1px solid var(--line)!important}
+  .drawer-index-intro{margin-bottom:18px!important}
+  .drawer-index-list{border-top:1px solid var(--line)}
+  .atlas-expand-toggle{right:10px!important;bottom:10px!important}
+
+  /* Expanded map is map-first, then a readable details sheet */
+  .built-work-layout.atlas-expanded{grid-template-rows:minmax(0,48dvh) minmax(0,52dvh)!important}
+  .built-work-layout.atlas-expanded .project-drawer{margin-top:0!important;border-top:1px solid var(--line)!important}
+}
+
+@media (max-width:420px){
+  .career-stages{grid-template-columns:1fr!important}
+  .stage-button{border-right:0!important}
+  .atlas-region-tab>span:not(.roman){font-size:.58rem}
+  .atlas-map{min-height:330px!important}
+}
+
+/* 2026 launch pass — unified editorial system */
+/* Remove the irregular architectural drawing overlay: it read as broken dividers on small screens. */
+.construction-lines{display:none!important}
+
+/* Featured project signal */
+.featured-badge{display:inline-flex;width:max-content;margin:0 0 1rem;padding:.45rem .65rem;border:1px solid var(--line);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+
+/* Working with me: one consistent editorial list, without partial boxes or vertical strokes. */
+.practice-grid{display:block!important;margin-top:clamp(3rem,7vw,6rem)!important;border:0!important;border-top:1px solid var(--line)!important}
+.practice-grid article{min-height:0!important;display:grid!important;grid-template-columns:72px minmax(220px,.7fr) minmax(0,1fr);gap:clamp(18px,3vw,52px);align-items:start;padding:30px 0!important;border:0!important;border-bottom:1px solid var(--line)!important}
+.practice-grid h3{margin:0!important;font-size:clamp(2rem,3.2vw,3.8rem)!important;line-height:1!important}
+.practice-grid p{margin:.35rem 0 0!important;max-width:52ch!important}
+.practice-index{padding-top:.25rem}
+.practice-tools{border-top:0!important;border-bottom:1px solid var(--line)!important}
+
+/* Recruiter-facing snapshot */
+.career-snapshot{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(18px,3vw,44px);padding:34px 0;margin-top:34px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.career-snapshot div{display:flex;flex-direction:column;gap:8px}
+.career-snapshot strong{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(2.8rem,5vw,5.2rem);font-weight:300;line-height:.8;letter-spacing:-.04em}
+.career-snapshot span{max-width:22ch;color:var(--muted);font-size:.72rem;line-height:1.45;text-transform:uppercase;letter-spacing:.12em}
+
+/* Atlas controls: clean rows instead of boxed fragments. */
+.atlas-stage-select-wrap{display:none}
+.career-stages{border:0!important;gap:14px!important}
+.stage-button{border:0!important;border-top:1px solid var(--line)!important;border-bottom:1px solid var(--line)!important}
+.stage-button.active{box-shadow:inset 0 -2px 0 var(--wine)}
+.atlas-region-tabs{border:0!important;gap:20px!important}
+.atlas-region-tab{border:0!important;border-bottom:1px solid var(--line)!important;padding-left:0!important;padding-right:0!important}
+.atlas-region-tab::after{bottom:-1px!important}
+
+/* Career evolution: a deliberate sequence, not another card grid. */
+.evolution-timeline{border-top:1px solid var(--line)}
+.evolution-step{display:grid;grid-template-columns:90px 34px minmax(0,1fr);gap:clamp(12px,2vw,34px);align-items:start;padding:32px 0;border-bottom:1px solid var(--line)}
+.evolution-year{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);padding-top:.4rem}
+.evolution-arrow{font-family:"Cormorant Garamond",Georgia,serif;font-size:1.5rem;line-height:1;color:var(--wine)}
+.evolution-step h3{margin:0 0 .65rem;font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(2rem,3.6vw,4.4rem);font-weight:300;line-height:.98;letter-spacing:-.035em}
+.evolution-step p{margin:0;max-width:70ch;color:var(--muted);line-height:1.65}
+
+/* Opportunity statement */
+.opportunity-cities{margin:clamp(2.5rem,6vw,5rem) 0 0;font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(1.8rem,4vw,4.6rem);font-weight:300;line-height:1.05;letter-spacing:-.03em}
+.contact-signoff{margin:1rem 0 0;color:var(--muted);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase}
+
+/* Case studies at a glance */
+.case-summary{padding-top:64px!important;padding-bottom:64px!important;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.case-summary>.eyebrow{display:block;margin-bottom:28px}
+.case-summary dl{margin:0}
+.case-summary dl>div{display:grid;grid-template-columns:minmax(130px,.38fr) minmax(0,1.62fr);gap:clamp(24px,4vw,70px);padding:18px 0;border-top:1px solid var(--line)}
+.case-summary dl>div:last-child{border-bottom:1px solid var(--line)}
+.case-summary dt{font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.case-summary dd{margin:0;max-width:78ch;line-height:1.62}
+.case-navigation{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,5vw,80px);padding-top:70px!important;padding-bottom:70px!important;border-top:1px solid var(--line)}
+.case-nav-link{display:flex;flex-direction:column;gap:10px;padding:18px 0;border-bottom:1px solid var(--line)}
+.case-nav-link span{font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.case-nav-link strong{font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(2rem,3.8vw,4.2rem);font-weight:300;line-height:1}
+.case-nav-next{text-align:right;align-items:flex-end}
+
+@media(max-width:760px){
+  /* One line language throughout mobile: no partial squares or vertical dividers. */
+  .practice-grid article{grid-template-columns:38px minmax(0,1fr)!important;gap:10px 14px!important;padding:24px 0!important}
+  .practice-grid article h3{grid-column:2}
+  .practice-grid article p{grid-column:2;margin-top:0!important}
+  .career-snapshot{grid-template-columns:1fr 1fr;gap:26px 18px;padding:28px 0}
+  .career-snapshot span{font-size:.62rem}
+
+  /* Replace five atlas cards with one native mobile control. */
+  .atlas-stage-select-wrap{display:grid;gap:8px;margin:0 0 20px}
+  .atlas-stage-select-wrap>span{font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .atlas-stage-select-wrap select{display:block;width:100%;min-height:48px;padding:0 42px 0 14px;border:1px solid var(--line);border-radius:0;background:var(--bg);color:var(--ink);font:inherit;font-size:.88rem}
+  .career-stages{display:none!important}
+  .atlas-region-tabs{display:flex!important;gap:16px!important;border:0!important;overflow-x:auto;scrollbar-width:none}
+  .atlas-region-tabs::-webkit-scrollbar{display:none}
+  .atlas-region-tab{flex:1 0 auto;min-height:44px!important;padding:10px 0!important;border:0!important;border-bottom:1px solid var(--line)!important}
+  .atlas-region-tab>span:not(.roman){font-size:.62rem!important}
+  .built-work-intro{display:none!important}
+  .atlas-toolbar{margin-top:8px!important}
+  .atlas-map{min-height:320px!important;aspect-ratio:1/1!important}
+
+  .evolution-step{grid-template-columns:62px 22px minmax(0,1fr);gap:10px;padding:26px 0}
+  .evolution-step h3{font-size:clamp(1.9rem,8vw,2.8rem)}
+  .evolution-step p{font-size:.96rem}
+
+  .case-summary{padding-top:48px!important;padding-bottom:48px!important}
+  .case-summary dl>div{grid-template-columns:1fr;gap:7px;padding:17px 0}
+  .case-navigation{grid-template-columns:1fr;padding-top:48px!important;padding-bottom:48px!important}
+  .case-nav-next{text-align:left;align-items:flex-start}
+
+  .opportunity-cities{font-size:clamp(1.8rem,8vw,3rem)}
+}
+
+@media(max-width:420px){
+  .career-snapshot{grid-template-columns:1fr}
+  .evolution-step{grid-template-columns:52px 18px minmax(0,1fr)}
+}
+
+/* Mobile atlas directory disclosure */
+.drawer-mobile-toggle{display:none}
+@media(max-width:760px){
+  .atlas-fit{display:none!important}
+  .drawer-mobile-toggle{display:flex;width:100%;align-items:center;justify-content:space-between;gap:18px;margin:4px 0 0;padding:16px 0;border:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:transparent;color:var(--ink);font:inherit;text-align:left;cursor:pointer}
+  .drawer-mobile-toggle span{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase}
+  .drawer-mobile-toggle strong{font-family:"Cormorant Garamond",Georgia,serif;font-size:1.7rem;font-weight:300}
+  .project-drawer:not(.mobile-directory-open) .drawer-index-hint,
+  .project-drawer:not(.mobile-directory-open) .drawer-index-group,
+  .project-drawer:not(.mobile-directory-open) .drawer-directory-summary{display:none!important}
+  .project-drawer.mobile-directory-open .drawer-mobile-toggle{margin-bottom:16px}
+  .project-drawer:not(.mobile-directory-open){min-height:0!important;height:auto!important;padding-bottom:20px!important}
+}
+
+/* Keep anchored sections clear of the fixed navigation. */
+section[id]{scroll-margin-top:92px}
+@media(max-width:760px){section[id]{scroll-margin-top:76px}}
