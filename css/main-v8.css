@@ -1929,3 +1929,27 @@ section[id]{scroll-margin-top:92px}
     aspect-ratio: 4 / 5;
   }
 }
+
+
+/* v15 — project image reliability audit */
+.project-image.section-shell{
+  min-height:0!important;
+  aspect-ratio:16/9;
+  background:transparent!important;
+}
+.project-image.section-shell .project-media-photo{
+  position:absolute!important;
+  inset:0!important;
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
+  object-fit:cover!important;
+  object-position:center!important;
+  background:transparent!important;
+}
+.project-image.section-shell:has(.project-media-photo[style*="display: none"]){
+  display:none!important;
+}
+@media(max-width:760px){
+  .project-image.section-shell{aspect-ratio:4/3!important}
+}
