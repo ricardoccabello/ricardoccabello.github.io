@@ -1666,3 +1666,34 @@ body.theme-light{--line:rgba(23,23,23,.34)}
 /* Keep anchored sections clear of the fixed navigation. */
 section[id]{scroll-margin-top:92px}
 @media(max-width:760px){section[id]{scroll-margin-top:76px}}
+
+/* v12 — creative director launch polish */
+:root{--line-strong:rgba(240,236,227,.22)}
+.theme-light{--line-strong:rgba(20,20,20,.20)}
+.editorial-project,.editorial-note,.editorial-observation,.practice-grid,.story-timeline,.journal-list,.contact-panel{border-color:var(--line-strong)!important}
+.project-photo-strip img{object-fit:contain!important;background:#0d0d0d}
+.theme-light .project-photo-strip img{background:#f2f0eb}
+.atlas-search-wrap input::placeholder{color:rgba(240,236,227,.58);opacity:1}
+.theme-light .atlas-search-wrap input::placeholder{color:rgba(20,20,20,.55)}
+.atlas-main-map img,.atlas-inset-map>img{filter:contrast(1.13) brightness(.96)!important}
+.atlas-active-summary,.atlas-map-hint,.atlas-directory-summary{color:rgba(240,236,227,.68)!important}
+.theme-light .atlas-active-summary,.theme-light .atlas-map-hint,.theme-light .atlas-directory-summary{color:rgba(20,20,20,.65)!important}
+@media(max-width:640px){
+ body[data-page="project"] .site-header{height:auto;min-height:68px;padding-top:10px;padding-bottom:10px;align-items:flex-start}
+ body[data-page="project"] .site-header>nav{display:grid;grid-template-columns:1fr auto auto;gap:8px 12px;align-items:center;max-width:66vw}
+ body[data-page="project"] .site-header>nav>a{grid-column:1/-1;font-size:10px;letter-spacing:.12em;padding-bottom:5px;border-bottom:1px solid var(--line-strong)}
+ body[data-page="project"] .site-header .language-switcher{margin:0!important}
+ body[data-page="project"] .site-header .theme-toggle{position:static!important;width:38px;height:38px}
+ body[data-page="project"] .wordmark{max-width:30vw;line-height:1.05}
+ .project-photo-strip{grid-template-columns:1fr!important;gap:10px!important}
+ .project-photo-strip a{min-height:0!important}
+ .project-photo-strip img{width:100%;height:auto!important;aspect-ratio:auto!important;max-height:72vh}
+ .atlas-toolbar{padding:1rem 0!important;margin-top:1.5rem!important}
+ .atlas-active-summary{font-size:.72rem;line-height:1.55}
+ .atlas-region-tabs{margin-top:1rem}
+ .atlas-region-tab{min-height:54px;padding:10px 9px;gap:7px}
+ .atlas-region-tab .roman{font-size:.9rem}
+ .offline-atlas{grid-template-rows:minmax(390px,1fr) 130px!important;min-height:520px!important}
+ .atlas-main-map{min-height:390px!important}
+ .atlas-inset-map{height:130px!important}
+}
