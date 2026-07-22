@@ -11,7 +11,7 @@
 <link href="../css/main.css" rel="stylesheet"/>
 <style>
     .project-hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end}
-    .project-hero h1{font-family:"Cormorant Garamond",serif;font-size:clamp(58px,9vw,145px);font-weight:300;line-height:.88;letter-spacing:-.06em;margin:18px 0}
+    .project-hero h1{font-family:"Cormorant Garamond",serif;font-size:clamp(48px,6.4vw,92px);font-weight:300;line-height:.88;letter-spacing:-.06em;margin:18px 0}
     .project-hero p{max-width:720px;font-size:20px;color:var(--muted)}
     .project-image{min-height:70vh;background-size:cover;background-position:center}
     .photo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;background:transparent}
@@ -23,7 +23,7 @@
     .photo-grid+.photo-grid{margin-top:14px}
     .gallery-caption{display:block;margin:0 0 18px;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
     .project-text{display:grid;grid-template-columns:.45fr 1.55fr;gap:42px}
-    .project-text h2{font-family:"Cormorant Garamond",serif;font-size:clamp(38px,5vw,72px);font-weight:300;line-height:1;letter-spacing:-.04em;margin:0}
+    .project-text h2{font-family:"Cormorant Garamond",serif;font-size:clamp(34px,4.2vw,62px);font-weight:300;line-height:1;letter-spacing:-.04em;margin:0}
     .project-text p{max-width:850px;color:var(--muted);font-size:18px}
     @media(max-width:800px){.project-text{grid-template-columns:1fr}}
     @media(max-width:640px){
@@ -34,7 +34,7 @@
       .photo-grid.plans img{background:#fff}
     }
   </style>
-<meta content="Technical development and project preparation for a temporary IKKS retail space in San Sebastián de los Reyes." name="description"/></head>
+<meta content="Technical development and project preparation for an IKKS pop-up in San Sebastián de los Reyes." name="description"/><meta content="dark light" name="color-scheme"/><noscript><style>.page-loader{display:none!important}</style></noscript></head>
 <body class="theme-dark" data-page="project">
 <div class="page-loader"><span class="roman">I</span></div>
 <div aria-hidden="true" class="cursor-dot"></div>
@@ -44,7 +44,7 @@
 <nav>
 <a class="project-link" data-i18n="backWork" href="../index.html#work">Back to work</a>
 <div class="language-switcher"><button class="language-button active" data-language="en">EN</button><span>/</span><button class="language-button" data-language="es">ES</button></div>
-</nav>
+<button aria-label="Switch colour mode" class="theme-toggle" data-i18n-aria="themeToggle" type="button">◐</button></nav>
 </header>
 <main>
 <section class="project-hero section-shell">
@@ -59,31 +59,31 @@
 <div><h2 data-i18n="challengeTitle">The challenge</h2><p data-i18n="challenge">Sales, fitting rooms, storage and point of sale had to fit into a temporary footprint and work clearly from opening day. With little time available on site, the project information needed to resolve dimensions and relationships before installation began.</p></div>
 </section>
 <section class="section-shell">
-<span class="gallery-caption">Plans and elevations</span>
+<span class="gallery-caption" data-i18n="captionPlansElevations">Plans and elevations</span>
 <div class="photo-grid plans two-col">
-<img alt="IKKS floor plan" class="protected-media" draggable="false" src="../images/ikks/floor-plan.jpg"/>
-<img alt="IKKS elevation" class="protected-media" draggable="false" src="../images/ikks/elevation-plan.jpg"/>
+<img alt="IKKS floor plan" class="protected-media" decoding="async" draggable="false" loading="lazy" src="../images/ikks/floor-plan.jpg"/>
+<img alt="IKKS elevation" class="protected-media" decoding="async" draggable="false" loading="lazy" src="../images/ikks/elevation-plan.jpg"/>
 </div>
 </section>
 <section class="section-shell">
-<span class="gallery-caption" data-i18n="materialCaption">Materials and fixture detail</span>
+<span class="gallery-caption" data-i18n="captionFinished">The finished space in use</span>
 <div class="photo-grid">
-<img alt="IKKS fixture detail" class="protected-media" draggable="false" src="../images/ikks/detailed-render-05.jpg"/>
-<img alt="IKKS fixture detail" class="protected-media" draggable="false" src="../images/ikks/detailed-render-06.jpg"/>
-<img alt="IKKS fixture detail" class="protected-media" draggable="false" src="../images/ikks/detailed-render-07.jpg"/>
+<img alt="IKKS fixture detail" class="protected-media" decoding="async" draggable="false" loading="lazy" src="../images/ikks/detailed-render-05.jpg"/>
+<img alt="IKKS fixture detail" class="protected-media" decoding="async" draggable="false" loading="lazy" src="../images/ikks/detailed-render-06.jpg"/>
+<img alt="IKKS fixture detail" class="protected-media" decoding="async" draggable="false" loading="lazy" src="../images/ikks/detailed-render-07.jpg"/>
 </div>
 </section>
 <section class="project-text section-shell">
 <span class="roman">II</span>
-<div><h2 data-i18n="workTitle">My contribution</h2><p data-i18n="workText">I prepared the location plan, proposed layout, dimensioned drawings and elevations for the main elements, including the till counter and fitting-room partitions. My role was to leave a complete and legible technical package ready for the person responsible for coordinating the installation.</p></div>
+<div><h2 data-i18n="workTitle">My contribution</h2><p data-i18n="workText">I prepared the location plan, proposed layout, dimensioned drawings and elevations for the main elements, including the checkout counter and fitting-room partitions. My responsibility was to leave a complete, legible technical package ready for production and handover to the installation lead.</p></div>
 </section>
 <section class="project-image protected-media section-shell" style="background-image:url('../images/ikks/detailed-render-02.jpg')"></section>
 <section class="section-shell">
 <span class="gallery-caption" data-i18n="studyCaption">Early massing studies</span>
 <div class="photo-grid">
-<img alt="IKKS schematic study" class="protected-media" draggable="false" src="../images/ikks/schematic-render-01.jpg"/>
-<img alt="IKKS schematic study" class="protected-media" draggable="false" src="../images/ikks/schematic-render-02.jpg"/>
-<img alt="IKKS schematic study" class="protected-media" draggable="false" src="../images/ikks/schematic-render-03.jpg"/>
+<img alt="IKKS schematic study" class="protected-media" decoding="async" draggable="false" loading="lazy" src="../images/ikks/schematic-render-01.jpg"/>
+<img alt="IKKS schematic study" class="protected-media" decoding="async" draggable="false" loading="lazy" src="../images/ikks/schematic-render-02.jpg"/>
+<img alt="IKKS schematic study" class="protected-media" decoding="async" draggable="false" loading="lazy" src="../images/ikks/schematic-render-03.jpg"/>
 </div>
 </section>
 <section class="project-text section-shell">
@@ -93,13 +93,13 @@
 <section class="section-shell">
 <span class="gallery-caption">The finished space, in use</span>
 <div class="photo-grid">
-<img alt="IKKS store render with customers" class="protected-media" draggable="false" src="../images/ikks/detailed-render-08.jpg"/>
-<img alt="IKKS store render with customers" class="protected-media" draggable="false" src="../images/ikks/detailed-render-09.jpg"/>
-<img alt="IKKS store render, empty" class="protected-media" draggable="false" src="../images/ikks/schematic-render-04.jpg"/>
+<img alt="IKKS store render with customers" class="protected-media" decoding="async" draggable="false" loading="lazy" src="../images/ikks/detailed-render-08.jpg"/>
+<img alt="IKKS store render with customers" class="protected-media" decoding="async" draggable="false" loading="lazy" src="../images/ikks/detailed-render-09.jpg"/>
+<img alt="IKKS store render, empty" class="protected-media" decoding="async" draggable="false" loading="lazy" src="../images/ikks/schematic-render-04.jpg"/>
 </div>
 </section>
 </main>
-<script>window.pageTranslations={"en":{"backWork":"Back to work","projectEyebrow":"Temporary retail environment","projectTitle":"IKKS pop-up","projectIntro":"Technical development for a temporary fashion space in San Sebastián de los Reyes, prepared for a short installation window inside an operating shopping centre.","challengeTitle":"The challenge","challenge":"Sales, fitting rooms, storage and point of sale had to fit into a temporary footprint and work clearly from opening day. With little time available on site, the project information needed to resolve dimensions and relationships before installation began.","materialCaption":"Materials and fixture detail","workTitle":"My contribution","workText":"I prepared the location plan, proposed layout, dimensioned drawings and elevations for the main elements, including the till counter and fitting-room partitions. My role was to leave a complete and legible technical package ready for the person responsible for coordinating the installation.","studyCaption":"Early massing studies","lessonTitle":"What stayed with me","lesson":"Temporary spaces do not need less precision. They need information that is faster to read, because there is very little time to clarify a missing dimension once the installation has started."},"es":{"backWork":"Volver a proyectos","projectEyebrow":"Espacio retail temporal","projectTitle":"Pop-up de IKKS","projectIntro":"Desarrollo técnico para un espacio de moda temporal en San Sebastián de los Reyes, preparado para un montaje breve dentro de un centro comercial en funcionamiento.","challengeTitle":"El reto","challenge":"Zona de venta, probadores, almacén y caja debían encajar en una superficie temporal y funcionar con claridad desde el primer día. Como el tiempo disponible en obra era limitado, la documentación tenía que resolver cotas y relaciones antes de que comenzara el montaje.","materialCaption":"Materiales y detalle de mobiliario","workTitle":"Mi aportación","workText":"Preparé el plano de ubicación, la distribución propuesta, los planos acotados y los alzados de los elementos principales, incluidos el mostrador de caja y las divisiones de los probadores. Mi responsabilidad era dejar un paquete técnico completo y fácil de interpretar para la persona encargada de coordinar el montaje.","studyCaption":"Primeros estudios volumétricos","lessonTitle":"Lo que me llevé del proyecto","lesson":"Un espacio temporal no necesita menos precisión. Necesita información más rápida de leer, porque cuando empieza el montaje queda muy poco margen para aclarar una cota ausente."}};</script>
+<script>window.pageTranslations={"en":{"backWork":"Back to work","projectEyebrow":"Temporary retail environment","projectTitle":"IKKS pop-up","projectIntro":"Technical development for a temporary fashion space in San Sebastián de los Reyes, prepared for a short installation window inside an operating shopping centre.","challengeTitle":"The challenge","challenge":"Sales, fitting rooms, storage and point of sale had to fit into a temporary footprint and work clearly from opening day. With little time available on site, the project information needed to resolve dimensions and relationships before installation began.","materialCaption":"Materials and fixture detail","workTitle":"My contribution","workText":"I prepared the location plan, proposed layout, dimensioned drawings and elevations for the main elements, including the checkout counter and fitting-room partitions. My responsibility was to leave a complete, legible technical package ready for production and handover to the installation lead.","studyCaption":"Early massing studies","lessonTitle":"What stayed with me","lesson":"Temporary spaces do not need less precision. They need information that is faster to read, because there is very little time to clarify a missing dimension once the installation has started.","pageTitle":"IKKS pop-up | Ricardo Cabello","pageDescription":"Technical development and project preparation for an IKKS pop-up in San Sebastián de los Reyes.","captionPlansElevations":"Plans and elevations","captionFinished":"The finished space in use"},"es":{"backWork":"Volver a proyectos","projectEyebrow":"Espacio retail temporal","projectTitle":"Pop-up de IKKS","projectIntro":"Desarrollo técnico para un espacio de moda temporal en San Sebastián de los Reyes, preparado para una ventana de montaje breve dentro de un centro comercial en funcionamiento.","challengeTitle":"El reto","challenge":"Zona de venta, probadores, almacén y caja debían encajar en una superficie temporal y funcionar con claridad desde el primer día. Como el tiempo disponible para el montaje era limitado, la documentación tenía que resolver cotas y relaciones antes de que comenzaran los trabajos en el espacio.","materialCaption":"Materiales y detalle de mobiliario","workTitle":"Mi aportación","workText":"Preparé el plano de ubicación, la distribución propuesta, los planos acotados y los alzados de los elementos principales, incluidos el mostrador de caja y las divisiones de los probadores. Mi responsabilidad era dejar un paquete técnico completo, legible y preparado para producción y entrega al responsable de montaje.","studyCaption":"Primeros estudios volumétricos","lessonTitle":"Lo que me llevé del proyecto","lesson":"Un espacio temporal no necesita menos precisión. Necesita información más rápida de leer, porque cuando empieza el montaje queda muy poco margen para aclarar una cota ausente.","pageTitle":"Pop-up de IKKS | Ricardo Cabello","pageDescription":"Desarrollo técnico y preparación de proyecto para un pop-up de IKKS en San Sebastián de los Reyes.","captionPlansElevations":"Plantas y alzados","captionFinished":"El espacio terminado y en uso"}};</script>
 <script src="../js/app.js"></script>
 </body>
 </html>

@@ -1,451 +1,495 @@
-const body = document.body;
-const loader = document.querySelector('.page-loader');
-const themeToggle = document.querySelector('.theme-toggle');
-const savedTheme = localStorage.getItem('ricardo-theme');
+const body=document.body;
+const loader=document.querySelector('.page-loader');
+const themeToggle=document.querySelector('.theme-toggle');
+const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const safeStorage={get(key){try{return localStorage.getItem(key)}catch{return null}},set(key,value){try{localStorage.setItem(key,value)}catch{}}};
+if(safeStorage.get('ricardo-theme')==='light')body.classList.add('theme-light');
+window.addEventListener('load',()=>setTimeout(()=>loader?.classList.add('hidden'),reducedMotion?0:220));
+themeToggle?.addEventListener('click',()=>{body.classList.toggle('theme-light');safeStorage.set('ricardo-theme',body.classList.contains('theme-light')?'light':'dark')});
 
-if (savedTheme === 'light') {
-  body.classList.add('theme-light');
-}
+const menuToggle=document.querySelector('.menu-toggle');
+const primaryNav=document.getElementById('primary-navigation');
+function setMenu(open){body.classList.toggle('nav-open',open);menuToggle?.setAttribute('aria-expanded',String(open));if(menuToggle)menuToggle.setAttribute('aria-label',translations[currentLanguage]?.[open?'closeMenu':'openMenu']||'Menu')}
+menuToggle?.addEventListener('click',()=>setMenu(!body.classList.contains('nav-open')));
+primaryNav?.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>setMenu(false)));
+window.addEventListener('resize',()=>{if(innerWidth>760)setMenu(false)});
 
-window.addEventListener('load', () => {
-  setTimeout(() => loader.classList.add('hidden'), 250);
-});
+const dot=document.querySelector('.cursor-dot'),ring=document.querySelector('.cursor-ring');let mx=-100,my=-100,rx=-100,ry=-100;
+if(dot&&ring&&!reducedMotion&&!matchMedia('(pointer:coarse)').matches){addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.transform=`translate(${mx}px,${my}px) translate(-50%,-50%)`});(function loop(){rx+=(mx-rx)*.16;ry+=(my-ry)*.16;ring.style.transform=`translate(${rx}px,${ry}px) translate(-50%,-50%)`;requestAnimationFrame(loop)})()}
+document.querySelectorAll('a,button,.featured-project').forEach(el=>{el.addEventListener('mouseenter',()=>body.classList.add('cursor-active'));el.addEventListener('mouseleave',()=>body.classList.remove('cursor-active'))});
 
-themeToggle?.addEventListener('click', () => {
-  body.classList.toggle('theme-light');
-  localStorage.setItem('ricardo-theme', body.classList.contains('theme-light') ? 'light' : 'dark');
-});
+const reveals=document.querySelectorAll('.reveal');
+if('IntersectionObserver' in window&&!reducedMotion){const observer=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}}),{threshold:.1});reveals.forEach(e=>observer.observe(e))}else reveals.forEach(e=>e.classList.add('visible'));
+const romans=document.querySelectorAll('.roman-reveal');
+if('IntersectionObserver' in window&&!reducedMotion){const observer=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('roman-visible');observer.unobserve(e.target)}}),{threshold:.2});romans.forEach(e=>observer.observe(e))}else romans.forEach(e=>e.classList.add('roman-visible'));
 
-const dot = document.querySelector('.cursor-dot');
-const ring = document.querySelector('.cursor-ring');
-let mx = -100, my = -100, rx = -100, ry = -100;
+const themed=document.querySelectorAll('[data-bg]'),themeClasses=['bg-ecoalf','bg-ikks','bg-story','bg-journal'];let activeBackground='';
+if('IntersectionObserver' in window){const observer=new IntersectionObserver(entries=>{const visible=entries.filter(e=>e.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0];if(!visible)return;const bg=visible.target.dataset.bg||'';if(bg===activeBackground)return;activeBackground=bg;themeClasses.forEach(c=>body.classList.remove(c));if(['ecoalf','ikks','story','journal'].includes(bg))body.classList.add(`bg-${bg}`)},{rootMargin:'-35% 0px -50% 0px',threshold:[0,.15,.35,.6]});themed.forEach(e=>observer.observe(e))}
 
-window.addEventListener('mousemove', e => {
-  mx = e.clientX;
-  my = e.clientY;
-  dot.style.transform = `translate(${mx}px,${my}px) translate(-50%,-50%)`;
-});
+document.querySelectorAll('a[href^="#"]').forEach(link=>link.addEventListener('click',e=>{const sel=link.getAttribute('href');if(sel==='#')return;const target=document.querySelector(sel);if(!target)return;e.preventDefault();target.scrollIntoView({behavior:reducedMotion?'auto':'smooth',block:'start'})}));
+document.querySelectorAll('.project-link').forEach(link=>link.addEventListener('click',e=>{if(e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||link.target==='_blank')return;e.preventDefault();loader?.classList.remove('hidden');if(loader)loader.style.transform='translateY(0)';setTimeout(()=>location.href=link.href,reducedMotion?0:420)}));
+const year=document.getElementById('year');if(year)year.textContent=new Date().getFullYear();
 
-function cursorLoop(){
-  rx += (mx-rx)*.16;
-  ry += (my-ry)*.16;
-  ring.style.transform = `translate(${rx}px,${ry}px) translate(-50%,-50%)`;
-  requestAnimationFrame(cursorLoop);
-}
-cursorLoop();
+document.addEventListener('contextmenu',e=>{if(e.target.closest('.project-image,.full-image,.drawer-image,.protected-media'))e.preventDefault()});document.addEventListener('dragstart',e=>{if(e.target.closest('.project-image,.full-image,.drawer-image,.protected-media'))e.preventDefault()});
+const lightbox=document.createElement('div');lightbox.className='image-lightbox';lightbox.setAttribute('role','dialog');lightbox.setAttribute('aria-modal','true');lightbox.innerHTML='<button class="image-lightbox-close" type="button" aria-label="Close">×</button><img class="protected-media" draggable="false" alt="">';document.body.append(lightbox);const lightboxImg=lightbox.querySelector('img');
+function openLightbox(src,alt=''){lightboxImg.src=src;lightboxImg.alt=alt;lightbox.classList.add('active');lightbox.querySelector('button').focus()}function closeLightbox(){lightbox.classList.remove('active');lightboxImg.removeAttribute('src')}
+document.addEventListener('click',e=>{const thumb=e.target.closest('.drawer-image[data-lightbox-src]');if(thumb){openLightbox(thumb.dataset.lightboxSrc,thumb.querySelector('img')?.alt||'');return}if(e.target===lightbox||e.target.closest('.image-lightbox-close'))closeLightbox()});
 
-document.querySelectorAll('a,button,.featured-project').forEach(el => {
-  el.addEventListener('mouseenter', () => body.classList.add('cursor-active'));
-  el.addEventListener('mouseleave', () => body.classList.remove('cursor-active'));
-});
+const lineLayer=document.querySelector('.construction-lines'),vignette=document.querySelector('.ambient-vignette');function setAmbientMotion(x,y){const px=Math.max(-1,Math.min(1,x)),py=Math.max(-1,Math.min(1,y));lineLayer?.style.setProperty('--line-x',`${px*3}px`);lineLayer?.style.setProperty('--line-y',`${py*3}px`);if(vignette)vignette.style.transform=`translate3d(${px*.8}px,${py*.8}px,0) scale(1.004)`}
+addEventListener('pointermove',e=>{if(matchMedia('(pointer:coarse)').matches||reducedMotion)return;setAmbientMotion((e.clientX/innerWidth-.5)*2,(e.clientY/innerHeight-.5)*2)},{passive:true});
 
-const reveals = document.querySelectorAll('.reveal');
-const revealObserver = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if(entry.isIntersecting){
-      entry.target.classList.add('visible');
-      revealObserver.unobserve(entry.target);
-    }
-  });
-},{threshold:.12});
-reveals.forEach(el => revealObserver.observe(el));
+const baseTranslations={"en":{"navWork":"Work","navPractice":"Expertise","navMap":"Atlas","navStory":"Story","navJournal":"Notebook","navContact":"Contact","themeToggle":"Switch colour mode","openMenu":"Open navigation menu","closeMenu":"Close navigation menu","heroEyebrow":"Retail and spatial design · technical development · production preparation","heroTitle":"I turn design concepts into clear, production-ready projects.","heroBody":"I am an architecture graduate trained in Venezuela and based in Spain. I work across retail and spatial design, technical development and production preparation—developing layouts and drawings, tracking procurement, and checking that materials and project information are ready for fabrication and handover to the person responsible for installation.","heroLink":"View selected work","positionLabel":"How I work","positionText":"A drawing is useful when the client, workshop and project lead can read the same decision without having to fill in the gaps.","selectedWorkLabel":"Selected work","selectedWorkTitle":"Three ways I connect design, documentation and production","ecoalfQuestion":"How can one retail system adapt to very different spaces?","ecoalfLabel":"Technical development for retail","ecoalfTitle":"Ecoalf across Spain and Portugal","ecoalfBody":"Layouts, plans, elevations, furniture schedules and production-ready information for permanent corners and temporary spaces inside El Corte Inglés.","openCase":"View case study","observationLabel":"Working note","observationText":"Reusing furniture works when the new layout gives every existing piece a clear reason to remain.","ikksQuestion":"What does a temporary store need before work begins on site?","ikksLabel":"Preparing a temporary retail environment","ikksTitle":"IKKS pop-up in San Sebastián de los Reyes","ikksBody":"A clear technical package for a short installation window: dimensions, elevations, fitting rooms, storage and point of sale resolved before work began on site.","continuousConversation":"The finished space is visible. The preparation behind it usually is not.","japonQuestion":"How can one brand stay recognisable across different spaces and formats?","japonLabel":"Connecting brand, space and communication","japonTitle":"Japon Market 24h","japonBody":"Interior layouts, technical drawings, 3D visualisation, packaging, editorial pieces, social media and web content developed as parts of the same visual system.","practiceLabel":"Expertise","practiceTitle":"Spatial thinking translated into usable project information","practiceDesignTitle":"Design","practiceDesignBody":"Retail environments, spatial planning, furniture concepts and brand-led interiors.","practiceTechnicalTitle":"Technical development","practiceTechnicalBody":"Site surveys, plans, elevations, details, schedules and coherent project documentation.","practiceProductionTitle":"Production preparation","practiceProductionBody":"Procurement follow-up, material-availability checks and coherent information prepared for fabrication and handover to the person responsible for installation.","practiceVisualTitle":"Visual communication","practiceVisualBody":"3D visualisation, graphic systems, presentations, branding and digital communication.","practiceToolsLabel":"Selected tools","atlasSearchLabel":"Search projects","atlasSearchPlaceholder":"City, brand or project type","clearSearch":"Clear search","atlasResultLabel":"entries visible","atlasNoResults":"No entries match the current search and career-stage filter.","atlasFiltersLabel":"Filter the project atlas by career stage","builtWorkLabel":"Project atlas","builtWorkTitle":"A career mapped through places, roles and project types","builtWorkIntro":"This atlas connects the places where I have worked with the kind of contribution I made—from architectural drafting and interiors to retail identity and technical development.","atlasAphorism":"Clear information saves time long before a project reaches the workshop.","stageAll":"All work","stageFoundations":"Foundations","stageResidential":"Interiors & residential design","stageIdentity":"Retail identity","stageProduction":"Technical retail development","mapCountries":"Venezuela, Spain and Portugal","mapCaption":"Selected work developed across three countries","regionIberia":"Spain & Portugal","regionVenezuela":"Venezuela","mapIndexLabel":"Project directory","mapIndexHint":"The directory follows the active map region. Projects in the same city are grouped into one location, while Spain-wide work remains listed without an artificial pin.","close":"Close","closeProject":"Close project information","drawerViewProject":"View full project","selectProject":"Choose a project location","selectProjectText":"Select a point on the map or a place in the directory to see the work connected to it.","sharedLocationTitle":"Projects at this location","sharedLocationText":"More than one project is connected to this place. Choose the one you want to inspect.","period":"Period","type":"Type","role":"Role","projectImage":"Project image","drawingDetail":"Drawing or detail","imagesLater":"Images can be added here as the portfolio develops.","location":"Location","work":"Work","stage":"Stage","zoomIn":"Zoom in","zoomOut":"Zoom out","resetZoom":"Reset map view","clusterProjects":"projects","storyLabel":"My path","storyTitle":"One discipline kept leading to another","storyIntro":"My career did not follow a straight line. Architecture led me to interiors, interiors to visual identity, and retail to a closer relationship with procurement, materials and production. That combination is now the strongest part of my profile.","storyAphorism":"The best project information answers questions before they become problems.","story1Title":"Architecture taught me to think through drawings.","story1Body":"I started in Venezuela with plans, 3D models and architectural visualisation. That training gave me the spatial and technical foundation I still rely on today.","story2Title":"Moving to Spain broadened both my design and organisational skills.","story2Body":"From 2017 to 2022 I moved between interior design, graphic work and administrative support, learning how visual decisions and well-organised documentation support the same project.","story3Title":"Retail made every decision immediate.","story3Body":"At Japon Market 24h, circulation, product, visibility, furniture and brand language all competed for the same limited space. The role connected interiors with packaging, communication and digital content.","story4Title":"Working closer to production changed my priorities.","story4Body":"Since 2025, I have worked closer to the production side of projects, considering dimensions, materials, procurement, transport constraints and assembly logic from an early stage. My responsibility is to prepare a complete, coherent package for the people responsible for fabrication and installation.","story5Title":"I am looking for the next step in an international team.","story5Body":"Germany and the Netherlands interest me because design, industry and craft often sit close together. I am looking for a role where spatial thinking and technical development are valued equally.","journalLabel":"Notebook","journalTitle":"Notes from project preparation","journalIntro":"Short observations about surveys, reuse, procurement, drawings and production—the practical decisions behind a finished space.","journalSurveyLabel":"Survey","journalSurveyTitle":"What a useful retail survey needs to communicate","journalReuseLabel":"Reuse","journalReuseTitle":"When existing furniture deserves a second layout","journalInstallationLabel":"Preparation","journalInstallationTitle":"Preparing a project for an overnight retail installation","journalProductionLabel":"Production","journalProductionTitle":"Five checks before a project goes to production","readNote":"Read note","contactTitle":"Looking for an international team where spatial design and technical development are valued equally.","locationFooter":"Gijón, Spain","behanceInteriors":"Behance — Interiors","behanceSocial":"Behance — Visual communication","maisonCaligariLink":"Maison Caligari — Independent project","residentialTitle":"Asturias and Galicia","productionTitle":"Fashion retail and technical development","period20152017":"2015 to 2017","period20172021":"2017 to 2021","period20222024":"2022 to 2024","period2025Present":"2025 to present","stat1":"project entries in the atlas","stat2":"automated-store applications","stat3":"countries connected by the work","pageTitle":"Ricardo Cabello | Retail & Spatial Designer · Technical Development","pageDescription":"Portfolio of Ricardo Cabello, an architecture graduate trained in Venezuela and working in retail and spatial design, technical development, procurement follow-up and production preparation.","skipContent":"Skip to content","ariaEcoalf":"Open the Ecoalf case study","ariaIkks":"Open the IKKS case study","ariaJapon":"Open the Japon Market 24h case study","careerStagesLabel":"Filter the atlas by career stage","stageAllPeriod":"2015 to present","atlasReset":"Reset filters","atlasActiveAll":"All career stages are visible.","atlasSearchFor":"Search","atlasFilteredBy":"Filtered by","regionTabsLabel":"Choose the map region","regionPeninsula":"Iberian Peninsula","regionCanary":"Canary Islands","regionNationwide":"Nationwide work","mapAltPeninsula":"Detailed map of mainland Spain and Portugal","mapAltCanary":"Detailed map of the Canary Islands","mapAltVenezuela":"Detailed map of Venezuela","atlasMapHint":"Zoom with the controls, double-click, or Ctrl/⌘ + scroll. Drag when zoomed; location names appear as the map gets closer.","atlasKeyboardHint":"Map focused. Use plus and minus to zoom, arrow keys to move, and zero to reset.","atlasZoomLevel":"Zoom","atlasMapNoLocations":"No mapped locations are visible in this region with the current filters.","atlasNationwideOnly":"This result represents work across Spain rather than one artificial map point. Open it from the project directory.","atlasSwitchRegion":"Open region","atlasProjectsInArea":"Projects in this area","atlasLocations":"locations","atlasLocation":"location","atlasProjects":"projects","atlasProject":"project","atlasBackIndex":"Back to project directory","atlasDirectoryCount":"project entries across","atlasDirectoryLocations":"mapped locations","atlasEntryVisible":"entry visible","atlasEntriesVisible":"entries visible","fitResults":"Fit visible locations","fitResultsShort":"Fit","atlasPlace":"location","atlasPlaces":"locations","atlasRegionCount":"mapped locations","atlasLegendLocation":"One location","atlasLegendShared":"Several projects in one location","atlasLegendCluster":"Nearby locations grouped at this zoom","atlasFitStatus":"Map fitted to the visible locations.","atlasClusterStatus":"Map zoomed to separate nearby locations.","atlasRegionStatus":"Map region changed to","atlasDirectoryNationwide":"plus one nationwide network","atlasAreaText":"Several nearby locations are still grouped at this zoom. Choose the project you want to inspect.","atlasProjectEntry":"project entry","atlasProjectEntries":"project entries","atlasMappedLocation":"mapped location","atlasMappedLocations":"mapped locations","atlasToolbarLabel":"Search the atlas and control the current view","atlasNationwideNetwork":"one nationwide network","expandAtlas":"Expand project atlas","collapseAtlas":"Close expanded atlas","atlasExpandedStatus":"The project atlas is expanded. Press Escape or the close control to return to the page.","atlasCollapsedStatus":"The project atlas has returned to the page."},"es":{"navWork":"Proyectos","navPractice":"Perfil","navMap":"Atlas","navStory":"Trayectoria","navJournal":"Cuaderno","navContact":"Contacto","themeToggle":"Cambiar el modo de color","openMenu":"Abrir menú de navegación","closeMenu":"Cerrar menú de navegación","heroEyebrow":"Diseño retail y espacial · desarrollo técnico · preparación para producción","heroTitle":"Convierto conceptos de diseño en proyectos claros y preparados para producción.","heroBody":"Me gradué en Arquitectura en Venezuela y vivo en España. Trabajo entre el diseño retail y espacial, el desarrollo técnico y la preparación para producción: desarrollo distribuciones y planos, hago seguimiento de compras y compruebo que los materiales y la información estén listos para fabricación y entrega al responsable de montaje.","heroLink":"Ver proyectos seleccionados","positionLabel":"Mi forma de trabajar","positionText":"Un plano es útil cuando el cliente, el taller y la persona responsable del proyecto pueden leer la misma decisión sin tener que completar los vacíos.","selectedWorkLabel":"Proyectos seleccionados","selectedWorkTitle":"Tres formas de conectar diseño, documentación y producción","ecoalfQuestion":"¿Cómo puede adaptarse un mismo sistema retail a espacios muy distintos?","ecoalfLabel":"Desarrollo técnico para retail","ecoalfTitle":"Ecoalf en España y Portugal","ecoalfBody":"Distribuciones, plantas, alzados, inventarios de mobiliario e información preparada para producción en corners permanentes y espacios temporales de El Corte Inglés.","openCase":"Ver proyecto","observationLabel":"Nota de trabajo","observationText":"Reutilizar mobiliario funciona cuando la nueva distribución da a cada pieza una razón clara para permanecer.","ikksQuestion":"¿Qué necesita una tienda temporal antes de empezar los trabajos en el espacio?","ikksLabel":"Preparación de un espacio retail temporal","ikksTitle":"Pop-up de IKKS en San Sebastián de los Reyes","ikksBody":"Un paquete técnico claro para una ventana de montaje breve: cotas, alzados, probadores, almacén y zona de caja resueltos antes de comenzar los trabajos en el espacio.","continuousConversation":"El espacio terminado se ve. Todo el trabajo previo, casi nunca.","japonQuestion":"¿Cómo se mantiene reconocible una marca en espacios y formatos diferentes?","japonLabel":"Conectar marca, espacio y comunicación","japonTitle":"Japon Market 24h","japonBody":"Distribuciones interiores, planos técnicos, visualización 3D, packaging, piezas editoriales, redes sociales y contenido web desarrollados dentro de un mismo sistema visual.","practiceLabel":"Perfil","practiceTitle":"Pensamiento espacial convertido en información útil para el proyecto","practiceDesignTitle":"Diseño","practiceDesignBody":"Espacios retail, distribución, conceptos de mobiliario e interiores guiados por la identidad de marca.","practiceTechnicalTitle":"Desarrollo técnico","practiceTechnicalBody":"Levantamientos, plantas, alzados, detalles, listados y documentación de proyecto coherente.","practiceProductionTitle":"Preparación para producción","practiceProductionBody":"Seguimiento de compras, comprobación de disponibilidad de materiales e información coherente preparada para fabricación y entrega al responsable de montaje.","practiceVisualTitle":"Comunicación visual","practiceVisualBody":"Visualización 3D, sistemas gráficos, presentaciones, branding y comunicación digital.","practiceToolsLabel":"Herramientas seleccionadas","atlasSearchLabel":"Buscar proyectos","atlasSearchPlaceholder":"Ciudad, marca o tipo de proyecto","clearSearch":"Borrar búsqueda","atlasResultLabel":"entradas visibles","atlasNoResults":"Ninguna entrada coincide con la búsqueda y la etapa profesional seleccionadas.","atlasFiltersLabel":"Filtrar el atlas de proyectos por etapa profesional","builtWorkLabel":"Atlas de proyectos","builtWorkTitle":"Una trayectoria cartografiada por lugares, funciones y tipos de proyecto","builtWorkIntro":"Este atlas relaciona los lugares donde he trabajado con el tipo de aportación realizada: desde delineación arquitectónica e interiorismo hasta identidad retail y desarrollo técnico.","atlasAphorism":"La información clara ahorra tiempo mucho antes de que el proyecto llegue al taller.","stageAll":"Todo","stageFoundations":"Inicios","stageResidential":"Interiorismo y diseño residencial","stageIdentity":"Identidad retail","stageProduction":"Desarrollo técnico retail","mapCountries":"Venezuela, España y Portugal","mapCaption":"Selección de trabajos desarrollados en tres países","regionIberia":"España y Portugal","regionVenezuela":"Venezuela","mapIndexLabel":"Directorio de proyectos","mapIndexHint":"El directorio sigue la región activa del mapa. Los proyectos de una misma ciudad se agrupan en una sola ubicación, mientras que el trabajo de alcance nacional aparece sin inventar un punto geográfico.","close":"Cerrar","closeProject":"Cerrar información del proyecto","drawerViewProject":"Ver proyecto completo","selectProject":"Elige una ubicación","selectProjectText":"Selecciona un punto del mapa o un lugar del directorio para ver el trabajo relacionado.","sharedLocationTitle":"Proyectos en esta ubicación","sharedLocationText":"Hay más de un proyecto relacionado con este lugar. Elige cuál quieres consultar.","period":"Periodo","type":"Tipo","role":"Rol","projectImage":"Imagen del proyecto","drawingDetail":"Plano o detalle","imagesLater":"Aquí se podrán añadir imágenes a medida que avance el portfolio.","location":"Ubicación","work":"Trabajo","stage":"Etapa","zoomIn":"Acercar mapa","zoomOut":"Alejar mapa","resetZoom":"Restablecer vista del mapa","clusterProjects":"proyectos","storyLabel":"Trayectoria","storyTitle":"Una disciplina me fue llevando a la siguiente","storyIntro":"Mi trayectoria no ha seguido una línea recta. La arquitectura me llevó al interiorismo, el interiorismo a la identidad visual y el retail a trabajar más cerca de las compras, los materiales y la producción. Esa combinación es hoy la parte más sólida de mi perfil.","storyAphorism":"La mejor información de proyecto responde preguntas antes de que se conviertan en problemas.","story1Title":"La arquitectura me enseñó a pensar a través del dibujo.","story1Body":"Empecé en Venezuela trabajando con planos, modelos 3D y visualización arquitectónica. Esa formación me dio la base espacial y técnica que sigue presente en todo lo que hago.","story2Title":"Vivir y trabajar en España amplió mis capacidades de diseño y organización.","story2Body":"Entre 2017 y 2022 pasé por el interiorismo, el diseño gráfico y el apoyo administrativo, y aprendí que las decisiones visuales y una documentación bien organizada sostienen el mismo proyecto.","story3Title":"El retail hizo que cada decisión fuera inmediata.","story3Body":"En Japon Market 24h, circulación, producto, visibilidad, mobiliario e identidad competían dentro de un espacio limitado. El puesto conectó el interiorismo con el packaging, la comunicación y el contenido digital.","story4Title":"Trabajar más cerca de producción cambió mis prioridades.","story4Body":"Desde 2025 trabajo más cerca de la fase de producción, teniendo en cuenta desde el inicio las dimensiones, los materiales, las compras, las limitaciones de transporte y la lógica de ensamblaje. Mi responsabilidad es preparar un paquete completo y coherente para las personas responsables de fabricación y montaje.","story5Title":"Busco el siguiente paso dentro de un equipo internacional.","story5Body":"Me atraen Alemania y Países Bajos porque diseño, industria y oficio suelen trabajar muy cerca. Busco un puesto donde se valore por igual el pensamiento espacial y el desarrollo técnico.","journalLabel":"Cuaderno","journalTitle":"Notas sobre cómo preparo un proyecto","journalIntro":"Notas breves sobre levantamientos, reutilización, compras, planos y producción: las decisiones prácticas que hay detrás de un espacio terminado.","journalSurveyLabel":"Levantamiento","journalSurveyTitle":"Qué debe comunicar un buen levantamiento retail","journalReuseLabel":"Reutilización","journalReuseTitle":"Cuándo merece la pena replantear el mobiliario existente","journalInstallationLabel":"Preparación","journalInstallationTitle":"Cómo preparar un proyecto para un montaje retail nocturno","journalProductionLabel":"Producción","journalProductionTitle":"Cinco revisiones antes de enviar un proyecto a producción","readNote":"Leer nota","contactTitle":"Busco un equipo internacional donde el diseño espacial y el desarrollo técnico se valoren por igual.","locationFooter":"Gijón, España","behanceInteriors":"Behance — Interiores","behanceSocial":"Behance — Comunicación visual","maisonCaligariLink":"Maison Caligari — Proyecto independiente","residentialTitle":"Asturias y Galicia","productionTitle":"Retail de moda y desarrollo técnico","period20152017":"2015 a 2017","period20172021":"2017 a 2021","period20222024":"2022 a 2024","period2025Present":"2025 a actualidad","stat1":"proyectos incluidos en el atlas","stat2":"aplicaciones para tiendas automáticas","stat3":"países conectados por el trabajo","pageTitle":"Ricardo Cabello | Diseñador retail y espacial · Desarrollo técnico","pageDescription":"Portfolio de Ricardo Cabello, graduado en Arquitectura en Venezuela y especializado en diseño retail y espacial, desarrollo técnico, seguimiento de compras y preparación para producción.","skipContent":"Saltar al contenido","ariaEcoalf":"Abrir el proyecto de Ecoalf","ariaIkks":"Abrir el proyecto de IKKS","ariaJapon":"Abrir el proyecto de Japon Market 24h","careerStagesLabel":"Filtrar el atlas por etapa profesional","stageAllPeriod":"2015 a actualidad","atlasReset":"Restablecer filtros","atlasActiveAll":"Todas las etapas profesionales están visibles.","atlasSearchFor":"Búsqueda","atlasFilteredBy":"Filtrado por","regionTabsLabel":"Elegir la región del mapa","regionPeninsula":"Península ibérica","regionCanary":"Islas Canarias","regionNationwide":"Trabajo de alcance nacional","mapAltPeninsula":"Mapa detallado de la España peninsular y Portugal","mapAltCanary":"Mapa detallado de las Islas Canarias","mapAltVenezuela":"Mapa detallado de Venezuela","atlasMapHint":"Acerca el mapa con los controles, doble clic o Ctrl/⌘ + rueda. Arrastra cuando esté ampliado; los nombres aparecen al acercarte.","atlasKeyboardHint":"Mapa enfocado. Usa más y menos para ampliar, las flechas para desplazarte y cero para restablecer.","atlasZoomLevel":"Zoom","atlasMapNoLocations":"No hay ubicaciones visibles en esta región con los filtros actuales.","atlasNationwideOnly":"Este resultado representa trabajo desarrollado en distintos puntos de España, no una ubicación concreta. Puedes abrirlo desde el directorio de proyectos.","atlasSwitchRegion":"Abrir región","atlasProjectsInArea":"Proyectos en esta zona","atlasLocations":"ubicaciones","atlasLocation":"ubicación","atlasProjects":"proyectos","atlasProject":"proyecto","atlasBackIndex":"Volver al directorio de proyectos","atlasDirectoryCount":"proyectos distribuidos en","atlasDirectoryLocations":"ubicaciones cartografiadas","atlasEntryVisible":"entrada visible","atlasEntriesVisible":"entradas visibles","fitResults":"Encajar ubicaciones visibles","fitResultsShort":"Encajar","atlasPlace":"ubicación","atlasPlaces":"ubicaciones","atlasRegionCount":"ubicaciones en el mapa","atlasLegendLocation":"Una ubicación","atlasLegendShared":"Varios proyectos en una ubicación","atlasLegendCluster":"Ubicaciones cercanas agrupadas con este zoom","atlasFitStatus":"El mapa se ha ajustado a las ubicaciones visibles.","atlasClusterStatus":"El mapa se ha acercado para separar ubicaciones próximas.","atlasRegionStatus":"La región del mapa ha cambiado a","atlasDirectoryNationwide":"más una red de alcance nacional","atlasAreaText":"Varias ubicaciones cercanas siguen agrupadas con este nivel de zoom. Elige el proyecto que quieres consultar.","atlasProjectEntry":"proyecto","atlasProjectEntries":"proyectos","atlasMappedLocation":"ubicación cartografiada","atlasMappedLocations":"ubicaciones cartografiadas","atlasToolbarLabel":"Buscar en el atlas y controlar la vista actual","atlasNationwideNetwork":"una red de alcance nacional","expandAtlas":"Ampliar atlas de proyectos","collapseAtlas":"Cerrar atlas ampliado","atlasExpandedStatus":"El atlas de proyectos está ampliado. Pulsa Escape o el control de cierre para volver a la página.","atlasCollapsedStatus":"El atlas de proyectos ha vuelto a la página."}};
+const translations={en:{...baseTranslations.en,...(window.pageTranslations?.en||{})},es:{...baseTranslations.es,...(window.pageTranslations?.es||{})}};
+let currentLanguage=['en','es'].includes(safeStorage.get('ricardo-language'))?safeStorage.get('ricardo-language'):'en';
+function applyLanguage(language){currentLanguage=language;document.documentElement.lang=language;safeStorage.set('ricardo-language',language);document.querySelectorAll('[data-i18n]').forEach(el=>{const value=translations[language]?.[el.dataset.i18n];if(value!==undefined)el.textContent=value});document.querySelectorAll('[data-i18n-aria]').forEach(el=>{const value=translations[language]?.[el.dataset.i18nAria];if(value!==undefined)el.setAttribute('aria-label',value)});document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{const value=translations[language]?.[el.dataset.i18nPlaceholder];if(value!==undefined)el.setAttribute('placeholder',value)});document.querySelectorAll('.language-button').forEach(b=>{const on=b.dataset.language===language;b.classList.toggle('active',on);b.setAttribute('aria-pressed',String(on))});document.title=translations[language]?.pageTitle||document.title;const meta=document.querySelector('meta[name="description"]');if(meta&&translations[language]?.pageDescription)meta.content=translations[language].pageDescription;setMenu(false);window.refreshAtlasLanguage?.()}
+document.querySelectorAll('.language-button').forEach(b=>b.addEventListener('click',()=>applyLanguage(b.dataset.language)));
 
-const themed = document.querySelectorAll('[data-bg]');
-const themeClasses = ['bg-ecoalf','bg-ikks','bg-story','bg-journal'];
-let activeBackground = '';
-const bgObserver = new IntersectionObserver(entries => {
-  const visible = entries
-    .filter(entry => entry.isIntersecting)
-    .sort((a,b) => b.intersectionRatio - a.intersectionRatio)[0];
-
-  if(!visible) return;
-  const bg = visible.target.dataset.bg || '';
-  if(bg === activeBackground) return;
-
-  activeBackground = bg;
-  themeClasses.forEach(cls => body.classList.remove(cls));
-  if(['ecoalf','ikks','story','journal'].includes(bg)){
-    requestAnimationFrame(() => body.classList.add(`bg-${bg}`));
-  }
-},{rootMargin:'-35% 0px -50% 0px',threshold:[0,.15,.35,.6]});
-themed.forEach(el => bgObserver.observe(el));
-
-let targetY = window.scrollY;
-let currentY = window.scrollY;
-let active = false;
-
-function smoothLoop(){
-  currentY += (targetY-currentY)*.11;
-  if(Math.abs(targetY-currentY)<.4) currentY=targetY;
-  window.scrollTo(0,currentY);
-  active = Math.abs(targetY-currentY)>.4;
-  if(active) requestAnimationFrame(smoothLoop);
-}
-
-window.addEventListener('wheel', e => {
-  if(window.innerWidth<900) return;
-  e.preventDefault();
-  targetY = Math.max(0,Math.min(document.documentElement.scrollHeight-window.innerHeight,targetY+e.deltaY*.82));
-  if(!active){active=true;requestAnimationFrame(smoothLoop)}
-},{passive:false});
-
-document.querySelectorAll('a[href^="#"]').forEach(link => {
-  link.addEventListener('click', e => {
-    const target=document.querySelector(link.getAttribute('href'));
-    if(!target) return;
-    e.preventDefault();
-    targetY=target.offsetTop;
-    if(!active){active=true;requestAnimationFrame(smoothLoop)}
-  });
-});
-
-document.querySelectorAll('.project-link').forEach(link => {
-  link.addEventListener('click', e => {
-    e.preventDefault();
-    loader.classList.remove('hidden');
-    loader.style.transform='translateY(0)';
-    setTimeout(()=>window.location.href=link.href,650);
-  });
-});
-
-document.getElementById('year').textContent=new Date().getFullYear();
-
-// Basic image-protection layer: blocks right-click-save and drag-save on photography.
-// (No client-side method fully prevents screenshots/devtools — this deters casual downloads.)
-document.addEventListener('contextmenu', e => {
-  if(e.target.closest('.project-image,.full-image,.drawer-image,.protected-media')) e.preventDefault();
-});
-document.addEventListener('dragstart', e => {
-  if(e.target.closest('.project-image,.full-image,.drawer-image,.protected-media')) e.preventDefault();
-});
-
-const lightbox=document.createElement('div');
-lightbox.className='image-lightbox';
-lightbox.innerHTML='<button class="image-lightbox-close" type="button" aria-label="Close">×</button><img class="protected-media" draggable="false" alt="">';
-document.body.appendChild(lightbox);
-const lightboxImg=lightbox.querySelector('img');
-function openLightbox(src,alt){ lightboxImg.src=src; lightboxImg.alt=alt||''; lightbox.classList.add('active'); }
-function closeLightbox(){ lightbox.classList.remove('active'); }
-document.addEventListener('click', e => {
-  const thumb=e.target.closest('.drawer-image[data-lightbox-src]');
-  if(thumb){ openLightbox(thumb.dataset.lightboxSrc, thumb.querySelector('img')?.alt); return; }
-  if(e.target===lightbox||e.target.closest('.image-lightbox-close')) closeLightbox();
-});
-document.addEventListener('keydown', e => { if(e.key==='Escape') closeLightbox(); });
-
-
-// Architectural background parallax.
-// Desktop follows the pointer by only a few pixels.
-// Mobile uses device orientation when permission is already available.
-const lineLayer = document.querySelector('.construction-lines');
-const vignette = document.querySelector('.ambient-vignette');
-
-function setAmbientMotion(x, y){
-  const px = Math.max(-1,Math.min(1,x));
-  const py = Math.max(-1,Math.min(1,y));
-  lineLayer?.style.setProperty('--line-x', `${px * 3}px`);
-  lineLayer?.style.setProperty('--line-y', `${py * 3}px`);
-  if(vignette){
-    vignette.style.transform = `translate3d(${px * .8}px,${py * .8}px,0) scale(1.004)`;
-  }
-}
-
-window.addEventListener('pointermove', event => {
-  if(window.matchMedia('(pointer:coarse)').matches) return;
-  const x = (event.clientX / window.innerWidth - .5) * 2;
-  const y = (event.clientY / window.innerHeight - .5) * 2;
-  setAmbientMotion(x,y);
-},{passive:true});
-
-window.addEventListener('deviceorientation', event => {
-  if(event.gamma == null || event.beta == null) return;
-  setAmbientMotion(event.gamma / 35,(event.beta - 45) / 45);
-},{passive:true});
-
-// Roman numeral reveal, deliberately slower than the normal content animation.
-const romanObserver = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if(entry.isIntersecting){
-      entry.target.classList.add('roman-visible');
-      romanObserver.unobserve(entry.target);
-    }
-  });
-},{threshold:.3});
-document.querySelectorAll('.roman-reveal').forEach(el => romanObserver.observe(el));
-
-
-
-
-
-const baseTranslations = {"en":{"navWork":"Work","navMap":"Map","navStory":"Story","navJournal":"Notebook","navContact":"Contact","themeToggle":"Switch colour mode","heroEyebrow":"Retail and spatial design · technical development · production preparation","regionIberia":"Spain & Portugal","regionVenezuela":"Venezuela","mapIndexLabel":"Locations","mapIndexHint":"A number on a point means more than one project shares that location. Pick one below to see it on its own.","heroTitle":"I turn design ideas into clear, workable projects.","heroBody":"I am an architecture graduate from Venezuela, based in Spain and working across retail interiors, technical drawing and production preparation. I develop layouts and documentation, follow up purchasing and make sure materials and project information are ready for the people who take the work into production and installation.","heroLink":"View selected work","positionLabel":"How I work","positionText":"A drawing is doing its job when the client, workshop and installation lead can understand the same project without filling in the gaps.","selectedWorkLabel":"Selected work","selectedWorkTitle":"Three ways I connect design with delivery","ecoalfQuestion":"How can one retail system adapt to very different spaces?","ecoalfLabel":"Technical development for retail","ecoalfTitle":"Ecoalf across Spain and Portugal","ecoalfBody":"Layouts, plans, elevations, furniture schedules and production-ready information for permanent corners and temporary spaces inside El Corte Inglés.","openCase":"View case study","observationLabel":"Working note","observationText":"Reusing furniture works when the new layout gives every existing piece a reason to remain.","ikksQuestion":"What does a temporary store need before installation begins?","ikksLabel":"Preparing a temporary retail environment","ikksTitle":"IKKS pop-up in San Sebastián de los Reyes","ikksBody":"A clear technical package for a short installation window: dimensions, elevations, fitting rooms, storage and point of sale resolved before the team arrived on site.","continuousConversation":"The finished space is visible. The preparation behind it usually is not.","japonQuestion":"How can one brand stay recognisable across different spaces and formats?","japonLabel":"Connecting brand, space and communication","japonTitle":"Japon Market 24h","japonBody":"Interior design, technical drawings, 3D visualisation, packaging, editorial pieces, social media and web content developed as parts of the same visual system.","builtWorkLabel":"Project atlas","builtWorkTitle":"A career built through places and formats","builtWorkIntro":"From architectural drafting in Venezuela to residential projects, retail identity and technical development in Spain and Portugal, each stage added a new way of understanding how design becomes real.","atlasAphorism":"Clear information saves time long before anything reaches the workshop.","stageAll":"All work","stageFoundations":"Foundations","stageResidential":"Residential design","stageIdentity":"Retail identity","stageProduction":"Technical retail development","mapCountries":"Venezuela, Spain and Portugal","mapCaption":"Selected work developed across three countries","close":"Close","closeProject":"Close project information","drawerViewProject":"View full project","selectProject":"Select a project location","selectProjectText":"Choose a point on the map or an item from the index to see the work connected to that place.","period":"Period","type":"Type","role":"Role","projectImage":"Project image","drawingDetail":"Drawing or detail","imagesLater":"Images can be added here as the portfolio develops.","location":"Location","work":"Work","stage":"Stage","storyLabel":"My path","storyTitle":"One discipline kept leading to another","storyIntro":"My career did not follow a straight line. Architecture led me to interiors, interiors to visual identity, and retail to a much closer relationship with purchasing, materials and production. That mix is now the strongest part of my profile.","storyAphorism":"The best project information answers questions before they become problems.","story1Title":"Architecture taught me to think through drawings.","story1Body":"I started in Venezuela with plans, 3D models and architectural visualisation. That training gave me the spatial and technical foundation I still rely on today.","story2Title":"Moving to Spain made my work broader.","story2Body":"I worked across interiors, graphic design and communication, learning that a space and the identity around it should support the same idea.","story3Title":"Retail taught me to make decisions quickly and clearly.","story3Body":"Circulation, stock, visibility, furniture and brand language all compete for the same limited space. Good retail design has to organise them without making the result feel complicated.","story4Title":"Working close to production changed my priorities.","story4Body":"I now think earlier about dimensions, materials, purchasing, transport and assembly. My responsibility is to prepare the project and its information so the people leading production and installation can work from a complete, coherent package.","story5Title":"I am looking for the next step in an international team.","story5Body":"Germany and the Netherlands interest me because design, industry and craft often sit close together. I am looking for a role where spatial thinking and technical development are equally valued.","journalLabel":"Notebook","journalTitle":"Notes from project preparation","journalIntro":"Short observations about surveys, reuse, purchasing, drawings and production—the practical decisions that sit behind a finished space.","journalSurveyLabel":"Survey","journalSurveyTitle":"What a useful retail survey needs to communicate","journalReuseLabel":"Reuse","journalReuseTitle":"When existing furniture deserves a second layout","journalInstallationLabel":"Preparation","journalInstallationTitle":"Preparing a project for an overnight retail installation","journalProductionLabel":"Production","journalProductionTitle":"Five checks before a project goes to production","readNote":"Read note","contactTitle":"I am open to thoughtful teams, international projects and work that values both design and technical clarity.","locationFooter":"Gijón, Spain","behanceInteriors":"Behance — Interiors","behanceSocial":"Behance — Visual communication","maisonCaligariLink":"Maison Caligari — Independent project","residentialTitle":"Asturias and Galicia","productionTitle":"Ecoalf and fashion retail","period20152017":"2015 to 2017","period20182020":"2018 to 2020","period20202024":"2020 to 2024","period20252026":"2025 to 2026","stat1":"documented project locations","stat2":"automated retail identities","stat3":"countries connected by the work"},"es":{"navWork":"Proyectos","navMap":"Mapa","navStory":"Trayectoria","navJournal":"Cuaderno","navContact":"Contacto","themeToggle":"Cambiar modo de color","heroEyebrow":"Diseño retail y espacial · desarrollo técnico · preparación para producción","regionIberia":"España y Portugal","regionVenezuela":"Venezuela","mapIndexLabel":"Ubicaciones","mapIndexHint":"Un número sobre un punto indica que varios proyectos comparten esa ubicación: elige uno de la lista para verlo por separado.","heroTitle":"Convierto ideas de diseño en proyectos claros y realizables.","heroBody":"Soy graduado en Arquitectura en Venezuela y vivo en España. Trabajo entre el diseño de interiores retail, la documentación técnica y la preparación de proyectos para producción: desarrollo distribuciones y planos, hago seguimiento de compras y compruebo que los materiales y la información estén listos para quienes se encargan de fabricar y coordinar el montaje.","heroLink":"Ver proyectos seleccionados","positionLabel":"Mi forma de trabajar","positionText":"Un plano funciona cuando cliente, taller y responsable de montaje entienden el mismo proyecto sin tener que completar la información por su cuenta.","selectedWorkLabel":"Proyectos seleccionados","selectedWorkTitle":"Tres formas de conectar el diseño con su ejecución","ecoalfQuestion":"¿Cómo puede adaptarse un mismo sistema retail a espacios muy distintos?","ecoalfLabel":"Desarrollo técnico para retail","ecoalfTitle":"Ecoalf en España y Portugal","ecoalfBody":"Distribuciones, plantas, alzados, inventarios de mobiliario e información preparada para producción en corners permanentes y espacios temporales de El Corte Inglés.","openCase":"Ver proyecto","observationLabel":"Nota de trabajo","observationText":"Reutilizar mobiliario tiene sentido cuando la nueva distribución da a cada pieza una función clara.","ikksQuestion":"¿Qué necesita una tienda temporal antes de que comience el montaje?","ikksLabel":"Preparación de un espacio retail temporal","ikksTitle":"Pop-up de IKKS en San Sebastián de los Reyes","ikksBody":"Un paquete técnico claro para un montaje con tiempo limitado: cotas, alzados, probadores, almacén y zona de caja resueltos antes de la llegada del equipo.","continuousConversation":"El espacio terminado se ve. Todo el trabajo previo, casi nunca.","japonQuestion":"¿Cómo se mantiene reconocible una marca en espacios y formatos diferentes?","japonLabel":"Conectar marca, espacio y comunicación","japonTitle":"Japon Market 24h","japonBody":"Interiorismo, planos técnicos, visualización 3D, packaging, piezas editoriales, redes sociales y contenido web desarrollados dentro de un mismo sistema visual.","builtWorkLabel":"Atlas de proyectos","builtWorkTitle":"Una trayectoria construida entre lugares y formatos","builtWorkIntro":"Desde la delineación arquitectónica en Venezuela hasta el diseño residencial, la identidad retail y el desarrollo técnico en España y Portugal, cada etapa añadió una forma nueva de entender cómo un proyecto se convierte en realidad.","atlasAphorism":"La información clara ahorra tiempo mucho antes de que el proyecto llegue al taller.","stageAll":"Todo","stageFoundations":"Inicios","stageResidential":"Diseño residencial","stageIdentity":"Identidad retail","stageProduction":"Desarrollo técnico retail","mapCountries":"Venezuela, España y Portugal","mapCaption":"Selección de trabajos desarrollados en tres países","close":"Cerrar","closeProject":"Cerrar información del proyecto","selectProject":"Selecciona una ubicación","selectProjectText":"Elige un punto del mapa o un elemento del índice para ver el trabajo relacionado con ese lugar.","period":"Periodo","type":"Tipo","role":"Rol","projectImage":"Imagen del proyecto","drawingDetail":"Plano o detalle","imagesLater":"Aquí se podrán añadir imágenes a medida que avance el portfolio.","location":"Ubicación","work":"Trabajo","stage":"Etapa","storyLabel":"Trayectoria","storyTitle":"Una disciplina me fue llevando a la siguiente","storyIntro":"Mi carrera no siguió una línea recta. La arquitectura me llevó al interiorismo; el interiorismo, a la identidad visual; y el retail, a trabajar mucho más cerca de las compras, los materiales y la producción. Esa mezcla es hoy la parte más sólida de mi perfil.","storyAphorism":"La mejor información de proyecto responde preguntas antes de que se conviertan en problemas.","story1Title":"La arquitectura me enseñó a pensar a través del dibujo.","story1Body":"Empecé en Venezuela trabajando con planos, modelos 3D y visualización arquitectónica. Esa formación me dio una base espacial y técnica que sigue presente en todo lo que hago.","story2Title":"Mudarnos a España amplió mi manera de trabajar.","story2Body":"Pasé por el interiorismo, el diseño gráfico y la comunicación, y entendí que un espacio y la identidad que lo rodea deberían contar la misma historia.","story3Title":"El retail me enseñó a decidir con rapidez y precisión.","story3Body":"Circulación, producto, visibilidad, mobiliario e identidad compiten dentro de un espacio limitado. Diseñar bien consiste en ordenarlo todo sin que el resultado parezca complicado.","story4Title":"Trabajar cerca de producción cambió mis prioridades.","story4Body":"Ahora pienso antes en cotas, materiales, compras, transporte y montaje. Mi responsabilidad es dejar preparado el proyecto y toda su información para que quienes dirigen la fabricación y el montaje reciban un paquete completo y coherente.","story5Title":"Busco el siguiente paso dentro de un equipo internacional.","story5Body":"Me atraen Alemania y Países Bajos porque diseño, industria y oficio suelen trabajar muy cerca. Busco un puesto donde se valore tanto el pensamiento espacial como el desarrollo técnico.","journalLabel":"Cuaderno","journalTitle":"Notas sobre cómo preparo un proyecto","journalIntro":"Observaciones breves sobre levantamientos, reutilización, compras, planos y producción: las decisiones prácticas que hay detrás de un espacio terminado.","journalSurveyLabel":"Levantamiento","journalSurveyTitle":"Qué debe comunicar un buen levantamiento retail","journalReuseLabel":"Reutilización","journalReuseTitle":"Cuándo merece la pena dar una segunda distribución al mobiliario existente","journalInstallationLabel":"Preparación","journalInstallationTitle":"Cómo preparar un proyecto para un montaje retail nocturno","journalProductionLabel":"Producción","journalProductionTitle":"Cinco revisiones antes de enviar un proyecto a producción","readNote":"Leer nota","contactTitle":"Estoy abierto a equipos cuidadosos, proyectos internacionales y trabajos donde el diseño y la claridad técnica tengan el mismo peso.","locationFooter":"Gijón, España","behanceInteriors":"Behance — Interiores","behanceSocial":"Behance — Comunicación visual","maisonCaligariLink":"Maison Caligari — Proyecto independiente","drawerViewProject":"Ver proyecto completo","residentialTitle":"Asturias y Galicia","productionTitle":"Ecoalf y retail de moda","period20152017":"2015 a 2017","period20182020":"2018 a 2020","period20202024":"2020 a 2024","period20252026":"2025 a 2026","stat1":"ubicaciones de proyecto documentadas","stat2":"identidades para tiendas automáticas","stat3":"países conectados por el trabajo"}};
-const localizedProjectData = {"es": {"venezuela": {"title": "Venezuela", "summary": "El inicio de mi carrera, centrado en delineación arquitectónica, modelado 3D y visualización.", "period": "2015 a 2017", "type": "Delineación arquitectónica", "role": "Delineación, modelado y visualización"}, "gijon-residential": {"title": "Gijón", "summary": "Tres viviendas unifamiliares privadas desarrolladas durante mi etapa de diseño residencial.", "period": "2018 a 2020", "type": "Residencial privado", "role": "Diseño arquitectónico e interior"}, "oviedo-residential": {"title": "Oviedo", "summary": "Dos viviendas unifamiliares privadas desarrolladas para clientes en Asturias.", "period": "2018 a 2020", "type": "Residencial privado", "role": "Diseño arquitectónico e interior"}, "langreo": {"title": "Langreo", "summary": "Vivienda unifamiliar privada desarrollada durante mi etapa de diseño residencial en Asturias.", "period": "2018 a 2020", "type": "Residencial privado", "role": "Diseño arquitectónico"}, "laviana": {"title": "Pola de Laviana", "summary": "Diseño de una vivienda privada. La fase de ejecución fue gestionada por el equipo de obra.", "period": "2018 a 2020", "type": "Residencial privado", "role": "Desarrollo de diseño"}, "regueras": {"title": "Las Regueras, Tahoces", "summary": "Vivienda unifamiliar privada desarrollada en un contexto rural de Asturias.", "period": "2018 a 2020", "type": "Residencial privado", "role": "Diseño arquitectónico"}, "coruna-commercial": {"title": "A Coruña", "summary": "Proyecto de adecuación comercial desarrollado durante mi etapa en Innova y Mejora.", "period": "2018 a 2020", "type": "Adecuación comercial", "role": "Diseño interior y técnico"}, "automatic-stores": {"title": "España", "summary": "Diseño visual para más de 70 tiendas automáticas, acompañado de trabajos de branding, packaging y comunicación.", "period": "2020 a 2024", "type": "Red de retail automatizado", "role": "Branding, packaging y sistemas visuales"}, "japon-gijon": {"title": "Gijón", "summary": "Diseño de tienda e identidad visual para Japon Market 24h.", "period": "2020 a 2024", "type": "Identidad retail", "role": "Diseño interior, gráfico y de marca"}, "japon-oviedo": {"title": "Oviedo", "summary": "Diseño de tienda e identidad visual para Japon Market 24h.", "period": "2020 a 2024", "type": "Identidad retail", "role": "Diseño interior, gráfico y de marca"}, "japon-aviles": {"title": "Avilés", "summary": "Diseño de tienda e identidad visual para Japon Market 24h.", "period": "2020 a 2024", "type": "Identidad retail", "role": "Diseño interior, gráfico y de marca"}, "japon-lugo": {"title": "Lugo", "summary": "Diseño de tienda e identidad visual para Japon Market 24h.", "period": "2020 a 2024", "type": "Identidad retail", "role": "Diseño interior, gráfico y de marca"}, "japon-madrid": {"title": "Móstoles, Madrid", "summary": "Diseño de tienda e identidad visual para Japon Market 24h.", "period": "2020 a 2024", "type": "Identidad retail", "role": "Diseño interior, gráfico y de marca"}, "japon-las-palmas": {"title": "Las Palmas de Gran Canaria", "summary": "Diseño de tienda e identidad visual para Japon Market 24h.", "period": "2020 a 2024", "type": "Identidad retail", "role": "Diseño interior, gráfico y de marca"}, "japon-tenerife": {"title": "Tenerife", "summary": "Diseño de tienda e identidad visual para Japon Market 24h.", "period": "2020 a 2024", "type": "Identidad retail", "role": "Diseño interior, gráfico y de marca"}, "japon-leon": {"title": "León", "summary": "Diseño de tienda e identidad visual para Japon Market 24h.", "period": "2020 a 2024", "type": "Identidad retail", "role": "Diseño interior, gráfico y de marca"}, "ecoalf-vigo": {"title": "Vigo", "summary": "Ecoalf Man y Woman en El Corte Inglés.", "period": "2025 a 2026", "type": "Retail de moda", "role": "Diseño, desarrollo técnico, compras y preparación para montaje"}, "ecoalf-alicante": {"title": "Alicante", "summary": "Pop up de Ecoalf Woman en El Corte Inglés Alicante.", "period": "2025 a 2026", "type": "Retail de moda", "role": "Diseño, desarrollo técnico, compras y preparación para montaje"}, "ecoalf-zaragoza": {"title": "Zaragoza", "summary": "Ecoalf Man y Woman en El Corte Inglés.", "period": "2025 a 2026", "type": "Retail de moda", "role": "Diseño, desarrollo técnico, compras y preparación para montaje"}, "ecoalf-murcia": {"title": "Murcia", "summary": "Ecoalf Woman en El Corte Inglés Murcia.", "period": "2025 a 2026", "type": "Retail de moda", "role": "Diseño, desarrollo técnico, compras y preparación para montaje"}, "ecoalf-pozuelo": {"title": "Pozuelo, Madrid", "summary": "Ecoalf Man en El Corte Inglés Pozuelo.", "period": "2025 a 2026", "type": "Retail de moda", "role": "Diseño, desarrollo técnico, compras y preparación para montaje"}, "ecoalf-salamanca": {"title": "Salamanca", "summary": "Ecoalf Woman en El Corte Inglés Salamanca.", "period": "2025 a 2026", "type": "Retail de moda", "role": "Diseño, desarrollo técnico, compras y preparación para montaje"}, "ecoalf-burgos": {"title": "Burgos", "summary": "Ecoalf Man y Woman en El Corte Inglés Burgos.", "period": "2025 a 2026", "type": "Retail de moda", "role": "Diseño, desarrollo técnico, compras y preparación para montaje"}, "ecoalf-lisbon": {"title": "Lisboa", "summary": "Ecoalf Man y Woman en El Corte Inglés Lisboa.", "period": "2025 a 2026", "type": "Retail de moda", "role": "Diseño, desarrollo técnico, compras y preparación para montaje"}, "ecoalf-gaia": {"title": "Vila Nova de Gaia", "summary": "Ecoalf Man y Woman en El Corte Inglés Gaia.", "period": "2025 a 2026", "type": "Retail de moda", "role": "Diseño, desarrollo técnico, compras y preparación para montaje"}, "ecoalf-valderas": {"title": "San José de Valderas, Madrid", "summary": "Ecoalf Man en El Corte Inglés San José de Valderas.", "period": "2025 a 2026", "type": "Retail de moda", "role": "Diseño, desarrollo técnico, compras y preparación para montaje"}, "ecoalf-barcelona": {"title": "Barcelona", "summary": "Ecoalf Man en El Corte Inglés Diagonal.", "period": "2025 a 2026", "type": "Retail de moda", "role": "Diseño, desarrollo técnico, compras y preparación para montaje"}, "ecoalf-tarragona": {"title": "Tarragona", "summary": "Ecoalf Man en El Corte Inglés Tarragona.", "period": "2025 a 2026", "type": "Retail de moda", "role": "Diseño, desarrollo técnico, compras y preparación para montaje"}, "ecoalf-sanchinarro": {"title": "Sanchinarro, Madrid", "summary": "Ecoalf Man en El Corte Inglés Sanchinarro.", "period": "2025 a 2026", "type": "Retail de moda", "role": "Diseño, desarrollo técnico, compras y preparación para montaje"}, "ecoalf-marbella": {"title": "Marbella", "summary": "Ecoalf Woman en El Corte Inglés Marbella.", "period": "2025 a 2026", "type": "Retail de moda", "role": "Diseño, desarrollo técnico, compras y preparación para montaje"}}};
-
-const translations = {
-  en: {...baseTranslations.en, ...(window.pageTranslations?.en || {})},
-  es: {...baseTranslations.es, ...(window.pageTranslations?.es || {})}
-};
-
-let currentLanguage = localStorage.getItem('ricardo-language') || 'en';
-
-function applyLanguage(language){
-  currentLanguage = language;
-  document.documentElement.lang = language;
-  localStorage.setItem('ricardo-language', language);
-
-  document.querySelectorAll('[data-i18n]').forEach(element => {
-    const key = element.dataset.i18n;
-    const value = translations[language]?.[key];
-    if(value) element.textContent = value;
-  });
-
-  document.querySelectorAll('[data-i18n-aria]').forEach(element => {
-    const key = element.dataset.i18nAria;
-    const value = translations[language]?.[key];
-    if(value) element.setAttribute('aria-label', value);
-  });
-
-  document.querySelectorAll('.language-button').forEach(button => {
-    button.classList.toggle('active', button.dataset.language === language);
-  });
-
-  if(typeof refreshAtlasLanguage === 'function') refreshAtlasLanguage();
-}
-
-document.querySelectorAll('.language-button').forEach(button => {
-  button.addEventListener('click', () => applyLanguage(button.dataset.language));
-});
-
-applyLanguage(currentLanguage);
-
-
-
-// Built Work Atlas v8, fully offline and dependency-free
-const atlasElement = document.getElementById('project-map');
+const localizedProjectData={"es":{"venezuela":{"title":"Caracas, Venezuela","summary":"El inicio de mi trayectoria, centrado en delineación arquitectónica, modelado 3D y visualización para proyectos de arquitectura e interiorismo.","period":"2015 a 2017","type":"Delineación arquitectónica","role":"Delineación arquitectónica, modelado 3D y visualización"},"gijon-residential":{"title":"Gijón","summary":"Tres viviendas unifamiliares privadas desarrolladas durante mi etapa de diseño residencial.","period":"2017 a 2021","type":"Residencial privado","role":"Diseño residencial e interior"},"oviedo-residential":{"title":"Oviedo","summary":"Dos viviendas unifamiliares privadas desarrolladas para clientes en Asturias.","period":"2017 a 2021","type":"Residencial privado","role":"Diseño residencial e interior"},"langreo":{"title":"Langreo","summary":"Vivienda unifamiliar privada desarrollada durante mi etapa de diseño residencial en Asturias.","period":"2017 a 2021","type":"Residencial privado","role":"Diseño residencial y dibujo técnico"},"laviana":{"title":"Pola de Laviana","summary":"Diseño de una vivienda privada. La fase de ejecución fue gestionada por el equipo de obra.","period":"2017 a 2021","type":"Residencial privado","role":"Desarrollo de diseño"},"regueras":{"title":"Las Regueras, Tahoces","summary":"Vivienda unifamiliar privada desarrollada en un contexto rural de Asturias.","period":"2017 a 2021","type":"Residencial privado","role":"Diseño residencial y dibujo técnico"},"coruna-commercial":{"title":"A Coruña","summary":"Proyecto de adecuación comercial desarrollado durante mi etapa en Innova y Mejora.","period":"2017 a 2021","type":"Adecuación comercial","role":"Diseño interior y técnico"},"automatic-stores":{"title":"Red en toda España","summary":"Sistemas visuales, packaging y comunicación aplicados en más de 70 tiendas automáticas distribuidas por España.","period":"2022 a 2024","type":"Red de retail automatizado","role":"Branding, packaging y sistemas visuales"},"japon-gijon":{"title":"Gijón","summary":"Diseño de tienda e identidad visual para Japon Market 24h.","period":"2022 a 2024","type":"Identidad retail","role":"Diseño interior, gráfico y de marca"},"japon-oviedo":{"title":"Oviedo","summary":"Diseño de tienda e identidad visual para Japon Market 24h.","period":"2022 a 2024","type":"Identidad retail","role":"Diseño interior, gráfico y de marca"},"japon-aviles":{"title":"Avilés","summary":"Diseño de tienda e identidad visual para Japon Market 24h.","period":"2022 a 2024","type":"Identidad retail","role":"Diseño interior, gráfico y de marca"},"japon-lugo":{"title":"Lugo","summary":"Diseño de tienda e identidad visual para Japon Market 24h.","period":"2022 a 2024","type":"Identidad retail","role":"Diseño interior, gráfico y de marca"},"japon-madrid":{"title":"Móstoles, Madrid","summary":"Diseño de tienda e identidad visual para Japon Market 24h.","period":"2022 a 2024","type":"Identidad retail","role":"Diseño interior, gráfico y de marca"},"japon-las-palmas":{"title":"Las Palmas de Gran Canaria","summary":"Diseño de tienda e identidad visual para Japon Market 24h.","period":"2022 a 2024","type":"Identidad retail","role":"Diseño interior, gráfico y de marca"},"japon-tenerife":{"title":"Tenerife","summary":"Diseño de tienda e identidad visual para Japon Market 24h.","period":"2022 a 2024","type":"Identidad retail","role":"Diseño interior, gráfico y de marca"},"japon-leon":{"title":"León","summary":"Diseño de tienda e identidad visual para Japon Market 24h.","period":"2022 a 2024","type":"Identidad retail","role":"Diseño interior, gráfico y de marca"},"ecoalf-vigo":{"title":"Vigo","summary":"Ecoalf Man y Woman en El Corte Inglés.","period":"2025 a actualidad","type":"Retail de moda","role":"Desarrollo técnico, seguimiento de compras y preparación para producción"},"ecoalf-alicante":{"title":"Alicante","summary":"Pop up de Ecoalf Woman en El Corte Inglés Alicante.","period":"2025 a actualidad","type":"Retail de moda","role":"Desarrollo técnico, seguimiento de compras y preparación para producción"},"ecoalf-zaragoza":{"title":"Zaragoza","summary":"Ecoalf Man y Woman en El Corte Inglés.","period":"2025 a actualidad","type":"Retail de moda","role":"Desarrollo técnico, seguimiento de compras y preparación para producción"},"ecoalf-murcia":{"title":"Murcia","summary":"Ecoalf Woman en El Corte Inglés Murcia.","period":"2025 a actualidad","type":"Retail de moda","role":"Desarrollo técnico, seguimiento de compras y preparación para producción"},"ecoalf-pozuelo":{"title":"Pozuelo, Madrid","summary":"Ecoalf Man en El Corte Inglés Pozuelo.","period":"2025 a actualidad","type":"Retail de moda","role":"Desarrollo técnico, seguimiento de compras y preparación para producción"},"ecoalf-salamanca":{"title":"Salamanca","summary":"Ecoalf Woman en El Corte Inglés Salamanca.","period":"2025 a actualidad","type":"Retail de moda","role":"Desarrollo técnico, seguimiento de compras y preparación para producción"},"ecoalf-burgos":{"title":"Burgos","summary":"Ecoalf Man y Woman en El Corte Inglés Burgos.","period":"2025 a actualidad","type":"Retail de moda","role":"Desarrollo técnico, seguimiento de compras y preparación para producción"},"ecoalf-lisbon":{"title":"Lisboa","summary":"Ecoalf Man y Woman en El Corte Inglés Lisboa.","period":"2025 a actualidad","type":"Retail de moda","role":"Desarrollo técnico, seguimiento de compras y preparación para producción"},"ecoalf-gaia":{"title":"Vila Nova de Gaia","summary":"Ecoalf Man y Woman en El Corte Inglés Gaia.","period":"2025 a actualidad","type":"Retail de moda","role":"Desarrollo técnico, seguimiento de compras y preparación para producción"},"ecoalf-valderas":{"title":"San José de Valderas, Madrid","summary":"Ecoalf Man en El Corte Inglés San José de Valderas.","period":"2025 a actualidad","type":"Retail de moda","role":"Desarrollo técnico, seguimiento de compras y preparación para producción"},"ecoalf-barcelona":{"title":"Barcelona","summary":"Ecoalf Man en El Corte Inglés Diagonal.","period":"2025 a actualidad","type":"Retail de moda","role":"Desarrollo técnico, seguimiento de compras y preparación para producción"},"ecoalf-tarragona":{"title":"Tarragona","summary":"Ecoalf Man en El Corte Inglés Tarragona.","period":"2025 a actualidad","type":"Retail de moda","role":"Desarrollo técnico, seguimiento de compras y preparación para producción"},"ecoalf-sanchinarro":{"title":"Sanchinarro, Madrid","summary":"Ecoalf Man en El Corte Inglés Sanchinarro.","period":"2025 a actualidad","type":"Retail de moda","role":"Desarrollo técnico, seguimiento de compras y preparación para producción"},"ecoalf-marbella":{"title":"Marbella","summary":"Ecoalf Woman en El Corte Inglés Marbella.","period":"2025 a actualidad","type":"Retail de moda","role":"Desarrollo técnico, seguimiento de compras y preparación para producción"},"save-the-duck-santander":{"title":"Santander","summary":"Proyecto retail temporal de Save The Duck en El Corte Inglés Santander.","period":"2025 a actualidad","type":"Pop-up de moda","role":"Planos técnicos, seguimiento de materiales y preparación del proyecto"},"ikks-san-sebastian-reyes":{"title":"San Sebastián de los Reyes, Madrid","summary":"Pop-up de IKKS preparado para una ventana de montaje breve dentro de un centro comercial en funcionamiento.","period":"2025 a actualidad","type":"Pop-up de moda","role":"Distribución, planos acotados, alzados y documentación técnica"},"ikks-coruna":{"title":"A Coruña","summary":"Desarrollo técnico de rótulos luminosos y elementos expositivos para IKKS.","period":"2025 a actualidad","type":"Mobiliario y rotulación retail","role":"Planos técnicos y documentación para producción"},"baymo-goya":{"title":"Goya, Madrid","summary":"Desarrollo de un corner retail para Baymo en El Corte Inglés Goya.","period":"2025 a actualidad","type":"Retail de moda","role":"Desarrollo técnico y documentación de proyecto"},"baymo-sanchinarro":{"title":"Sanchinarro, Madrid","summary":"Desarrollo de un corner retail para Baymo en El Corte Inglés Sanchinarro.","period":"2025 a actualidad","type":"Retail de moda","role":"Desarrollo técnico y documentación de proyecto"},"stamuli-marbella":{"title":"Marbella","summary":"Desarrollo técnico de un corner retail de 30 m² para Stamuli.","period":"2025 a actualidad","type":"Retail de moda","role":"Información de levantamiento, planos técnicos y preparación de proyecto"},"ecoalf-coruna":{"title":"A Coruña","summary":"Desarrollo retail para Ecoalf en El Corte Inglés A Coruña.","period":"2025 a actualidad","type":"Retail de moda","role":"Desarrollo técnico, seguimiento de compras y preparación para producción"}}};
+const projectData={"venezuela":{"coords":[10.4806,-66.9036],"stage":"foundations","number":"I","title":"Caracas, Venezuela","summary":"The beginning of my career, focused on architectural drafting, 3D modelling and visualisation for architecture and interior projects.","period":"2015 to 2017","type":"Architectural drafting","role":"Architectural drafting, 3D modelling and visualisation","company":"ARBIMCON","brand":"ARBIMCON","region":"venezuela"},"gijon-residential":{"coords":[43.5322,-5.6611],"stage":"residential","number":"II","title":"Gijón","summary":"Three private single-family homes developed during my residential design stage.","period":"2017 to 2021","type":"Private residential","role":"Residential and interior design","company":"Innova y Mejora / Decisión Estratégica","brand":"Innova y Mejora / Decisión Estratégica","region":"peninsula"},"oviedo-residential":{"coords":[43.3614,-5.8494],"stage":"residential","number":"III","title":"Oviedo","summary":"Two private single-family homes developed for clients in Asturias.","period":"2017 to 2021","type":"Private residential","role":"Residential and interior design","company":"Innova y Mejora / Decisión Estratégica","brand":"Innova y Mejora / Decisión Estratégica","region":"peninsula"},"langreo":{"coords":[43.3083,-5.6944],"stage":"residential","number":"IV","title":"Langreo","summary":"A private single-family home developed as part of my residential design work in Asturias.","period":"2017 to 2021","type":"Private residential","role":"Residential design and technical drawing","company":"Innova y Mejora / Decisión Estratégica","brand":"Innova y Mejora / Decisión Estratégica","region":"peninsula"},"laviana":{"coords":[43.2456,-5.5627],"stage":"residential","number":"V","title":"Pola de Laviana","summary":"Design work for a private home. The construction phase was handled by the site team.","period":"2017 to 2021","type":"Private residential","role":"Design development","company":"Innova y Mejora / Decisión Estratégica","brand":"Innova y Mejora / Decisión Estratégica","region":"peninsula"},"regueras":{"coords":[43.4148,-5.9708],"stage":"residential","number":"VI","title":"Las Regueras, Tahoces","summary":"Private single-family home developed in a rural context in Asturias.","period":"2017 to 2021","type":"Private residential","role":"Residential design and technical drawing","company":"Innova y Mejora / Decisión Estratégica","brand":"Innova y Mejora / Decisión Estratégica","region":"peninsula"},"coruna-commercial":{"coords":[43.3623,-8.4115],"stage":"residential","number":"VII","title":"A Coruña","summary":"Commercial refurbishment project developed during my time at Innova y Mejora.","period":"2017 to 2021","type":"Commercial refurbishment","role":"Interior and technical design","company":"Innova y Mejora / Decisión Estratégica","brand":"Innova y Mejora / Decisión Estratégica","region":"peninsula"},"japon-gijon":{"coords":[43.5322,-5.6611],"stage":"identity","number":"I","title":"Gijón","summary":"Store design and visual identity for Japon Market 24h.","period":"2022 to 2024","type":"Retail identity","role":"Interior, graphic and brand design","company":"Japon Market 24h","brand":"Japon Market 24h","region":"peninsula"},"japon-oviedo":{"coords":[43.3614,-5.8494],"stage":"identity","number":"II","title":"Oviedo","summary":"Store design and visual identity for Japon Market 24h.","period":"2022 to 2024","type":"Retail identity","role":"Interior, graphic and brand design","company":"Japon Market 24h","brand":"Japon Market 24h","region":"peninsula"},"japon-aviles":{"coords":[43.556,-5.9248],"stage":"identity","number":"III","title":"Avilés","summary":"Store design and visual identity for Japon Market 24h.","period":"2022 to 2024","type":"Retail identity","role":"Interior, graphic and brand design","company":"Japon Market 24h","brand":"Japon Market 24h","region":"peninsula"},"japon-lugo":{"coords":[43.0121,-7.5559],"stage":"identity","number":"IV","title":"Lugo","summary":"Store design and visual identity for Japon Market 24h.","period":"2022 to 2024","type":"Retail identity","role":"Interior, graphic and brand design","company":"Japon Market 24h","brand":"Japon Market 24h","region":"peninsula"},"japon-madrid":{"coords":[40.3223,-3.865],"stage":"identity","number":"V","title":"Móstoles, Madrid","summary":"Store design and visual identity for Japon Market 24h.","period":"2022 to 2024","type":"Retail identity","role":"Interior, graphic and brand design","company":"Japon Market 24h","brand":"Japon Market 24h","region":"peninsula"},"japon-las-palmas":{"coords":[28.1235,-15.4363],"stage":"identity","number":"VI","title":"Las Palmas de Gran Canaria","summary":"Store design and visual identity for Japon Market 24h.","period":"2022 to 2024","type":"Retail identity","role":"Interior, graphic and brand design","company":"Japon Market 24h","brand":"Japon Market 24h","region":"canary"},"japon-tenerife":{"coords":[28.4636,-16.2518],"stage":"identity","number":"VII","title":"Tenerife","summary":"Store design and visual identity for Japon Market 24h.","period":"2022 to 2024","type":"Retail identity","role":"Interior, graphic and brand design","company":"Japon Market 24h","brand":"Japon Market 24h","region":"canary"},"japon-leon":{"coords":[42.5987,-5.5671],"stage":"identity","number":"VIII","title":"León","summary":"Store design and visual identity for Japon Market 24h.","period":"2022 to 2024","type":"Retail identity","role":"Interior, graphic and brand design","company":"Japon Market 24h","brand":"Japon Market 24h","region":"peninsula"},"automatic-stores":{"coords":[40.15,-3.7],"stage":"identity","number":"IX","title":"Spain-wide network","summary":"Visual systems, packaging and communication applied across more than 70 automated retail locations in Spain.","period":"2022 to 2024","type":"Automated retail network","role":"Branding, packaging and visual systems","map":false,"company":"Japon Market 24h","brand":"Japon Market 24h","region":"nationwide"},"ecoalf-vigo":{"coords":[42.2406,-8.7207],"stage":"production","number":"I","title":"Vigo","summary":"Ecoalf Man and Woman retail projects inside El Corte Inglés.","period":"2025 to present","type":"Fashion retail","role":"Technical development, procurement follow-up and production preparation","company":"Montajes e Instalaciones Castiello","brand":"ECOALF","region":"peninsula"},"ecoalf-alicante":{"coords":[38.3452,-0.481],"stage":"production","number":"II","title":"Alicante","summary":"Ecoalf Woman pop-up inside El Corte Inglés Alicante.","period":"2025 to present","type":"Fashion retail pop-up","role":"Technical development, procurement follow-up and production preparation","company":"Montajes e Instalaciones Castiello","brand":"ECOALF","region":"peninsula"},"ecoalf-zaragoza":{"coords":[41.6488,-0.8891],"stage":"production","number":"III","title":"Zaragoza","summary":"Ecoalf Man and Woman retail projects inside El Corte Inglés.","period":"2025 to present","type":"Fashion retail","role":"Technical development, procurement follow-up and production preparation","company":"Montajes e Instalaciones Castiello","brand":"ECOALF","region":"peninsula"},"ecoalf-murcia":{"coords":[37.9922,-1.1307],"stage":"production","number":"IV","title":"Murcia","summary":"Ecoalf Woman retail project inside El Corte Inglés Murcia.","period":"2025 to present","type":"Fashion retail","role":"Technical development, procurement follow-up and production preparation","company":"Montajes e Instalaciones Castiello","brand":"ECOALF","region":"peninsula"},"ecoalf-pozuelo":{"coords":[40.4359,-3.8134],"stage":"production","number":"V","title":"Pozuelo, Madrid","summary":"Ecoalf Man retail project inside El Corte Inglés Pozuelo.","period":"2025 to present","type":"Fashion retail","role":"Technical development, procurement follow-up and production preparation","company":"Montajes e Instalaciones Castiello","brand":"ECOALF","region":"peninsula"},"ecoalf-salamanca":{"coords":[40.9701,-5.6635],"stage":"production","number":"VI","title":"Salamanca","summary":"Ecoalf Woman retail project inside El Corte Inglés Salamanca.","period":"2025 to present","type":"Fashion retail","role":"Technical development, procurement follow-up and production preparation","company":"Montajes e Instalaciones Castiello","brand":"ECOALF","region":"peninsula"},"ecoalf-burgos":{"coords":[42.3439,-3.6969],"stage":"production","number":"VII","title":"Burgos","summary":"Ecoalf Man and Woman retail projects inside El Corte Inglés Burgos.","period":"2025 to present","type":"Fashion retail","role":"Technical development, procurement follow-up and production preparation","company":"Montajes e Instalaciones Castiello","brand":"ECOALF","region":"peninsula"},"ecoalf-lisbon":{"coords":[38.7223,-9.1393],"stage":"production","number":"VIII","title":"Lisbon","summary":"Ecoalf Man and Woman projects inside El Corte Inglés Lisbon.","period":"2025 to present","type":"Fashion retail","role":"Technical development, procurement follow-up and production preparation","company":"Montajes e Instalaciones Castiello","brand":"ECOALF","region":"peninsula"},"ecoalf-gaia":{"coords":[41.1336,-8.6174],"stage":"production","number":"IX","title":"Vila Nova de Gaia","summary":"Ecoalf Man and Woman projects inside El Corte Inglés Gaia.","period":"2025 to present","type":"Fashion retail","role":"Technical development, procurement follow-up and production preparation","company":"Montajes e Instalaciones Castiello","brand":"ECOALF","region":"peninsula"},"ecoalf-valderas":{"coords":[40.3495,-3.8312],"stage":"production","number":"X","title":"San José de Valderas, Madrid","summary":"Ecoalf Man retail project inside El Corte Inglés San José de Valderas.","period":"2025 to present","type":"Fashion retail","role":"Technical development, procurement follow-up and production preparation","company":"Montajes e Instalaciones Castiello","brand":"ECOALF","region":"peninsula"},"ecoalf-barcelona":{"coords":[41.3888,2.113],"stage":"production","number":"XI","title":"Barcelona","summary":"Ecoalf Man project inside El Corte Inglés Diagonal.","period":"2025 to present","type":"Fashion retail","role":"Technical development, procurement follow-up and production preparation","company":"Montajes e Instalaciones Castiello","brand":"ECOALF","region":"peninsula"},"ecoalf-tarragona":{"coords":[41.1189,1.2445],"stage":"production","number":"XII","title":"Tarragona","summary":"Ecoalf Man retail project inside El Corte Inglés Tarragona.","period":"2025 to present","type":"Fashion retail","role":"Technical development, procurement follow-up and production preparation","company":"Montajes e Instalaciones Castiello","brand":"ECOALF","region":"peninsula"},"ecoalf-sanchinarro":{"coords":[40.4928,-3.6558],"stage":"production","number":"XIII","title":"Sanchinarro, Madrid","summary":"Ecoalf Man retail project inside El Corte Inglés Sanchinarro.","period":"2025 to present","type":"Fashion retail","role":"Technical development, procurement follow-up and production preparation","company":"Montajes e Instalaciones Castiello","brand":"ECOALF","region":"peninsula"},"ecoalf-marbella":{"coords":[36.5101,-4.8825],"stage":"production","number":"XIV","title":"Marbella","summary":"Ecoalf Woman retail project inside El Corte Inglés Marbella.","period":"2025 to present","type":"Fashion retail","role":"Technical development, procurement follow-up and production preparation","company":"Montajes e Instalaciones Castiello","brand":"ECOALF","region":"peninsula"},"save-the-duck-santander":{"coords":[43.4623,-3.8099],"stage":"production","number":"XV","title":"Santander","summary":"Save The Duck temporary retail project inside El Corte Inglés Santander.","period":"2025 to present","type":"Fashion retail pop-up","role":"Technical drawings, material follow-up and project preparation","company":"Montajes e Instalaciones Castiello","brand":"Save The Duck","region":"peninsula"},"ikks-san-sebastian-reyes":{"coords":[40.5475,-3.6269],"stage":"production","number":"XVI","title":"San Sebastián de los Reyes, Madrid","summary":"IKKS pop-up prepared for a short installation window inside an operating shopping centre.","period":"2025 to present","type":"Fashion retail pop-up","role":"Layout, dimensioned drawings, elevations and technical documentation","company":"Montajes e Instalaciones Castiello","brand":"IKKS","region":"peninsula"},"ikks-coruna":{"coords":[43.3623,-8.4115],"stage":"production","number":"XVII","title":"A Coruña","summary":"Technical development for illuminated signage and display elements for IKKS.","period":"2025 to present","type":"Retail fixtures and signage","role":"Technical drawings and production documentation","company":"Montajes e Instalaciones Castiello","brand":"IKKS","region":"peninsula"},"baymo-goya":{"coords":[40.424,-3.676],"stage":"production","number":"XVIII","title":"Goya, Madrid","summary":"Retail corner development for Baymo inside El Corte Inglés Goya.","period":"2025 to present","type":"Fashion retail","role":"Technical development and project documentation","company":"Montajes e Instalaciones Castiello","brand":"Baymo","region":"peninsula"},"baymo-sanchinarro":{"coords":[40.4928,-3.6558],"stage":"production","number":"XIX","title":"Sanchinarro, Madrid","summary":"Retail corner development for Baymo inside El Corte Inglés Sanchinarro.","period":"2025 to present","type":"Fashion retail","role":"Technical development and project documentation","company":"Montajes e Instalaciones Castiello","brand":"Baymo","region":"peninsula"},"stamuli-marbella":{"coords":[36.5101,-4.8825],"stage":"production","number":"XX","title":"Marbella","summary":"Technical project development for a 30 m² retail corner for Stamuli.","period":"2025 to present","type":"Fashion retail","role":"Survey information, technical drawings and project preparation","company":"Montajes e Instalaciones Castiello","brand":"Stamuli","region":"peninsula"},"ecoalf-coruna":{"coords":[43.3685,-8.401],"stage":"production","number":"XXI","title":"A Coruña","summary":"Ecoalf retail development inside El Corte Inglés A Coruña.","period":"2025 to present","type":"Fashion retail","role":"Technical development, procurement follow-up and production preparation","company":"Montajes e Instalaciones Castiello","brand":"ECOALF","region":"peninsula"}};
+const atlasElement=document.getElementById('project-map');
 if(atlasElement){
-  const projectData = {"venezuela": {"coords": [10.4806, -66.9036], "stage": "foundations", "number": "I", "title": "Venezuela", "summary": "The beginning of my career, focused on architectural drafting, 3D modelling and visualisation.", "period": "2015 to 2017", "type": "Architectural drafting", "role": "Drafting, modelling and visualisation"}, "gijon-residential": {"coords": [43.5322, -5.6611], "stage": "residential", "number": "II", "title": "Gijón", "summary": "Three private single-family homes developed during my residential design stage.", "period": "2018 to 2020", "type": "Private residential", "role": "Architectural and interior design"}, "oviedo-residential": {"coords": [43.3614, -5.8494], "stage": "residential", "number": "III", "title": "Oviedo", "summary": "Two private single-family homes developed for clients in Asturias.", "period": "2018 to 2020", "type": "Private residential", "role": "Architectural and interior design"}, "langreo": {"coords": [43.3083, -5.6944], "stage": "residential", "number": "IV", "title": "Langreo", "summary": "A private single-family home developed as part of my residential design work in Asturias.", "period": "2018 to 2020", "type": "Private residential", "role": "Architectural design"}, "laviana": {"coords": [43.2456, -5.5627], "stage": "residential", "number": "V", "title": "Pola de Laviana", "summary": "Design work for a private home. The construction phase was handled by the site team.", "period": "2018 to 2020", "type": "Private residential", "role": "Design development"}, "regueras": {"coords": [43.4148, -5.9708], "stage": "residential", "number": "VI", "title": "Las Regueras, Tahoces", "summary": "Private single-family home developed in a rural context in Asturias.", "period": "2018 to 2020", "type": "Private residential", "role": "Architectural design"}, "coruna-commercial": {"coords": [43.3623, -8.4115], "stage": "residential", "number": "VII", "title": "A Coruña", "summary": "Commercial refurbishment project developed during my time at Innova y Mejora.", "period": "2018 to 2020", "type": "Commercial refurbishment", "role": "Interior and technical design"}, "japon-gijon": {"coords": [43.5322, -5.6611], "stage": "identity", "number": "I", "title": "Gijón", "summary": "Store design and visual identity for Japon Market 24h.", "period": "2020 to 2024", "type": "Retail identity", "role": "Interior, graphic and brand design"}, "japon-oviedo": {"coords": [43.3614, -5.8494], "stage": "identity", "number": "II", "title": "Oviedo", "summary": "Store design and visual identity for Japon Market 24h.", "period": "2020 to 2024", "type": "Retail identity", "role": "Interior, graphic and brand design"}, "japon-aviles": {"coords": [43.556, -5.9248], "stage": "identity", "number": "III", "title": "Avilés", "summary": "Store design and visual identity for Japon Market 24h.", "period": "2020 to 2024", "type": "Retail identity", "role": "Interior, graphic and brand design"}, "japon-lugo": {"coords": [43.0121, -7.5559], "stage": "identity", "number": "IV", "title": "Lugo", "summary": "Store design and visual identity for Japon Market 24h.", "period": "2020 to 2024", "type": "Retail identity", "role": "Interior, graphic and brand design"}, "japon-madrid": {"coords": [40.3223, -3.865], "stage": "identity", "number": "V", "title": "Móstoles, Madrid", "summary": "Store design and visual identity for Japon Market 24h.", "period": "2020 to 2024", "type": "Retail identity", "role": "Interior, graphic and brand design"}, "japon-las-palmas": {"coords": [28.1235, -15.4363], "stage": "identity", "number": "VI", "title": "Las Palmas de Gran Canaria", "summary": "Store design and visual identity for Japon Market 24h.", "period": "2020 to 2024", "type": "Retail identity", "role": "Interior, graphic and brand design"}, "japon-tenerife": {"coords": [28.4636, -16.2518], "stage": "identity", "number": "VII", "title": "Tenerife", "summary": "Store design and visual identity for Japon Market 24h.", "period": "2020 to 2024", "type": "Retail identity", "role": "Interior, graphic and brand design"}, "japon-leon": {"coords": [42.5987, -5.5671], "stage": "identity", "number": "VIII", "title": "León", "summary": "Store design and visual identity for Japon Market 24h.", "period": "2020 to 2024", "type": "Retail identity", "role": "Interior, graphic and brand design"}, "automatic-stores": {"coords": [40.15, -3.7], "stage": "identity", "number": "IX", "title": "Across Spain", "summary": "Visual design for more than 70 automated stores, supported by branding, packaging and communication work.", "period": "2020 to 2024", "type": "Automated retail network", "role": "Branding, packaging and visual systems"}, "ecoalf-vigo": {"coords": [42.2406, -8.7207], "stage": "production", "number": "I", "title": "Vigo", "summary": "Ecoalf Man and Woman retail projects inside El Corte Inglés.", "period": "2025 to 2026", "type": "Fashion retail", "role": "Technical development, purchasing follow-up and project preparation"}, "ecoalf-alicante": {"coords": [38.3452, -0.481], "stage": "production", "number": "II", "title": "Alicante", "summary": "Ecoalf Woman pop up inside El Corte Inglés Alicante.", "period": "2025 to 2026", "type": "Fashion retail pop up", "role": "Technical development and production preparation"}, "ecoalf-zaragoza": {"coords": [41.6488, -0.8891], "stage": "production", "number": "III", "title": "Zaragoza", "summary": "Ecoalf Man and Woman retail projects inside El Corte Inglés.", "period": "2025 to 2026", "type": "Fashion retail", "role": "Design, technical development and production coordination"}, "ecoalf-murcia": {"coords": [37.9922, -1.1307], "stage": "production", "number": "IV", "title": "Murcia", "summary": "Ecoalf Woman retail project inside El Corte Inglés Murcia.", "period": "2025 to 2026", "type": "Fashion retail", "role": "Technical development and production preparation"}, "ecoalf-pozuelo": {"coords": [40.4359, -3.8134], "stage": "production", "number": "V", "title": "Pozuelo, Madrid", "summary": "Ecoalf Man retail project inside El Corte Inglés Pozuelo.", "period": "2025 to 2026", "type": "Fashion retail", "role": "Layout development, purchasing follow-up and project preparation"}, "ecoalf-salamanca": {"coords": [40.9701, -5.6635], "stage": "production", "number": "VI", "title": "Salamanca", "summary": "Ecoalf Woman retail project inside El Corte Inglés Salamanca.", "period": "2025 to 2026", "type": "Fashion retail", "role": "Technical development and production preparation"}, "ecoalf-burgos": {"coords": [42.3439, -3.6969], "stage": "production", "number": "VII", "title": "Burgos", "summary": "Ecoalf Man and Woman retail projects inside El Corte Inglés Burgos.", "period": "2025 to 2026", "type": "Fashion retail", "role": "Technical development, purchasing follow-up and material readiness"}, "ecoalf-lisbon": {"coords": [38.7223, -9.1393], "stage": "production", "number": "VIII", "title": "Lisbon", "summary": "Ecoalf Man and Woman projects inside El Corte Inglés Lisbon.", "period": "2025 to 2026", "type": "Fashion retail", "role": "Design, technical development and production coordination"}, "ecoalf-gaia": {"coords": [41.1336, -8.6174], "stage": "production", "number": "IX", "title": "Vila Nova de Gaia", "summary": "Ecoalf Man and Woman projects inside El Corte Inglés Gaia.", "period": "2025 to 2026", "type": "Fashion retail", "role": "Design, technical development and production coordination"}, "ecoalf-valderas": {"coords": [40.3495, -3.8312], "stage": "production", "number": "X", "title": "San José de Valderas, Madrid", "summary": "Ecoalf Man retail project inside El Corte Inglés San José de Valderas.", "period": "2025 to 2026", "type": "Fashion retail", "role": "Technical development and installation preparation"}, "ecoalf-barcelona": {"coords": [41.3888, 2.113], "stage": "production", "number": "XI", "title": "Barcelona", "summary": "Ecoalf Man project inside El Corte Inglés Diagonal.", "period": "2025 to 2026", "type": "Fashion retail", "role": "Technical development and production preparation"}, "ecoalf-tarragona": {"coords": [41.1189, 1.2445], "stage": "production", "number": "XII", "title": "Tarragona", "summary": "Ecoalf Man retail project inside El Corte Inglés Tarragona.", "period": "2025 to 2026", "type": "Fashion retail", "role": "Technical development and production preparation"}, "ecoalf-sanchinarro": {"coords": [40.4928, -3.6558], "stage": "production", "number": "XIII", "title": "Sanchinarro, Madrid", "summary": "Ecoalf Man retail project inside El Corte Inglés Sanchinarro.", "period": "2025 to 2026", "type": "Fashion retail", "role": "Technical development and installation preparation"}, "ecoalf-marbella": {"coords": [36.5101, -4.8825], "stage": "production", "number": "XIV", "title": "Marbella", "summary": "Ecoalf Woman retail project inside El Corte Inglés Marbella.", "period": "2025 to 2026", "type": "Fashion retail", "role": "Layout development, purchasing follow-up and project preparation"}};
-  const bounds = {
-    iberia:{west:-18.5,east:4.5,south:27.0,north:44.8},
-    venezuela:{west:-73.8,east:-59.2,south:0.0,north:13.5}
+  const regions={
+    peninsula:{bounds:{west:-10.4085312225,east:4.5,south:34.6863636364,north:44.8},image:'images/map-peninsula-v9.png',labelKey:'regionPeninsula',altKey:'mapAltPeninsula'},
+    canary:{bounds:{west:-18.5,east:-11.2176781003,south:27,north:32.8659090909},image:'images/map-canary-v9.png',labelKey:'regionCanary',altKey:'mapAltCanary'},
+    venezuela:{bounds:{west:-73.8,east:-59.2,south:0,north:13.5},image:'images/map-venezuela-v8.png',labelKey:'regionVenezuela',altKey:'mapAltVenezuela'}
   };
-  const stageLabelsEn={foundations:'Foundations',residential:'Residential design',identity:'Retail identity',production:'Retail production'};
-  const stageLabelsEs={foundations:'Inicios',residential:'Diseño residencial',identity:'Identidad retail',production:'Producción retail'};
-  const markerContainers={iberia:document.getElementById('iberia-markers'),venezuela:document.getElementById('venezuela-markers')};
-  const markerGroups={};
+  const stageKeys={foundations:'stageFoundations',residential:'stageResidential',identity:'stageIdentity',production:'stageProduction'};
+  const projectImages={"ecoalf-lisbon":["images/ecoalf/lisboa-man/interior-render-01.jpg","images/ecoalf/lisboa-woman/interior-render-01.jpg","images/ecoalf/lisboa-man/interior-render-03.jpg","images/ecoalf/lisboa-woman/site-photo-01.jpg"],"ecoalf-marbella":["images/ecoalf/marbella/interior-render-02.jpg","images/ecoalf/marbella/interior-render-05.jpg"],"ecoalf-vigo":["images/ecoalf/vigo-man/interior-render-04.jpg","images/ecoalf/vigo-man/interior-render-11.jpg","images/ecoalf/vigo-woman/floor-plan-01.jpg","images/ecoalf/vigo-man/detail-render-02.jpg"],"ecoalf-coruna":["images/ecoalf/vigo-man/detail-render-01.jpg"],"ikks-san-sebastian-reyes":["images/ikks/detailed-render-01.jpg","images/ikks/detailed-render-05.jpg","images/ikks/schematic-render-01.jpg"],"ikks-coruna":["images/ikks/elevation-plan.jpg"],"japon-aviles":["images/japon-market/aviles/arch-corridor-distant-view.jpg","images/japon-market/aviles/vending-machines-entrance.jpg","images/japon-market/aviles/street-entrance-daytime.jpg"],"japon-madrid":["images/japon-market/madrid-mostoles/street-storefront-queue.jpg","images/japon-market/madrid-mostoles/ramen-counter-mural.jpg","images/japon-market/madrid-mostoles/interior-figures-shelving.jpg"],"japon-lugo":["images/japon-market/lugo/interior-neon-sign.jpg","images/japon-market/lugo/facade-japan-skyline.jpg","images/japon-market/lugo/entrance-kimono-model.jpg"],"japon-las-palmas":["images/japon-market/las-palmas/storefront-opening-balloons.jpg","images/japon-market/las-palmas/interior-mascot-mural.jpg","images/japon-market/las-palmas/branded-delivery-van.jpg"],"japon-tenerife":["images/japon-market/tenerife/grand-opening-storefront.jpg","images/japon-market/tenerife/grand-opening-storefront-02.jpg"],"japon-leon":["images/japon-market/leon/mall-walkway-signage.jpg","images/japon-market/leon/mall-lounge-mural.jpg","images/japon-market/leon/ramen-ad-portrait.jpg"]};
+  const projectLinks={"ecoalf-lisbon":"projects/ecoalf.html","ecoalf-marbella":"projects/ecoalf.html","ecoalf-vigo":"projects/ecoalf.html","ecoalf-coruna":"projects/ecoalf.html","ikks-san-sebastian-reyes":"projects/ikks.html","japon-aviles":"projects/japon-market.html#aviles","japon-madrid":"projects/japon-market.html#madrid-mostoles","japon-lugo":"projects/japon-market.html#lugo","japon-las-palmas":"projects/japon-market.html#las-palmas","japon-tenerife":"projects/japon-market.html#tenerife","japon-leon":"projects/japon-market.html#leon","japon-gijon":"projects/japon-market.html","japon-oviedo":"projects/japon-market.html","automatic-stores":"projects/japon-market.html"};
+  const normalize=value=>(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
+  const escapeHtml=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[char]));
+  const getProject=key=>{const base=projectData[key];return currentLanguage==='es'&&localizedProjectData.es[key]?{...base,...localizedProjectData.es[key]}:base};
+  const projectRegion=project=>project.region||(project.map===false?'nationwide':project.coords[1]<-25?'venezuela':project.coords[0]<33?'canary':'peninsula');
+  const projectSearchText=(key,project)=>{const item=getProject(key);return normalize([item.title,item.summary,item.type,item.role,item.period,project.company,project.brand,translations[currentLanguage]?.[stageKeys[project.stage]]].join(' '))};
+
   let activeStage='all';
+  let activeQuery='';
+  let activeRegion='peninsula';
   let activeProjectKey=null;
+  let activeLocationId=null;
+  let lastDrawerTrigger=null;
+  let renderFrame=0;
 
-  function getProject(key){
-    const base=projectData[key];
-    if(currentLanguage==='es' && localizedProjectData?.es?.[key]) return {...base,...localizedProjectData.es[key]};
-    return base;
-  }
-  function regionFor(project){ return project.coords[1] < -25 ? 'venezuela':'iberia'; }
-  function xy(project,region){
-    const b=bounds[region]; const lat=project.coords[0],lon=project.coords[1];
-    return {x:(lon-b.west)/(b.east-b.west)*100,y:(b.north-lat)/(b.north-b.south)*100};
-  }
-  function locationId(project){ return `${regionFor(project)}:${project.coords[0].toFixed(2)}:${project.coords[1].toFixed(2)}`; }
-  function buildGroups(stage='all'){
-    const groups={};
-    Object.entries(projectData).forEach(([key,base])=>{
-      if(stage!=='all'&&base.stage!==stage)return;
-      const id=locationId(base); if(!groups[id])groups[id]={region:regionFor(base),keys:[],project:base}; groups[id].keys.push(key);
-    }); return groups;
-  }
-  const drawerLists={iberia:document.getElementById('drawer-list-iberia'),venezuela:document.getElementById('drawer-list-venezuela')};
-  function renderMarkers(stage='all'){
-    Object.values(markerContainers).forEach(c=>c.innerHTML='');
-    Object.values(drawerLists).forEach(c=>c&&(c.innerHTML=''));
-    Object.keys(markerGroups).forEach(k=>delete markerGroups[k]);
-    const groups=buildGroups(stage);
-    Object.entries(groups).forEach(([id,g],idx)=>{
-      const pos=xy(g.project,g.region); const btn=document.createElement('button');
-      btn.type='button';btn.className='atlas-marker';btn.style.left=`${pos.x}%`;btn.style.top=`${pos.y}%`;
-      btn.innerHTML=`<span>${getProject(g.keys[0]).number}</span>${g.keys.length>1?`<span class="count">${g.keys.length}</span>`:''}`;
-      btn.title=g.keys.map(k=>getProject(k).title+' · '+getProject(k).type).join(' · ');
-      btn.addEventListener('click',()=>openProject(g.keys[0],true));
-      markerContainers[g.region].appendChild(btn); markerGroups[id]=btn;
-    });
-
-    // Side list: one row per individual project (so a shared pin's projects are told apart)
-    Object.entries(projectData).forEach(([key,base])=>{
-      if(stage!=='all'&&base.stage!==stage)return;
-      const p=getProject(key);
-      const listBtn=document.createElement('button');
-      listBtn.type='button';listBtn.className='drawer-list-row';listBtn.dataset.project=key;
-      listBtn.innerHTML=`<span class="drawer-list-title">${p.title}</span><span class="drawer-list-type">${p.type}</span>`;
-      listBtn.addEventListener('click',()=>openProject(key,true));
-      drawerLists[regionFor(base)]?.appendChild(listBtn);
-    });
-  }
+  const atlasLayout=atlasElement.closest('.built-work-layout');
+  const expandButton=document.getElementById('atlas-expand');
+  const mapImage=document.getElementById('atlas-map-image');
+  const markerLayer=document.getElementById('atlas-markers');
+  const regionLabel=document.getElementById('atlas-region-label');
+  const mapStatus=document.getElementById('atlas-map-status');
+  const mapEmpty=document.getElementById('atlas-map-empty');
+  const mapEmptyText=mapEmpty?.querySelector('p');
+  const zoomReadout=document.getElementById('atlas-zoom-readout');
   const drawer=document.querySelector('.project-drawer');
-  const drawerNumber=drawer?.querySelector('.drawer-number'); const drawerStage=drawer?.querySelector('.drawer-stage');
-  const drawerTitle=drawer?.querySelector('.drawer-title'); const drawerSummary=drawer?.querySelector('.drawer-summary');
-  const drawerPeriod=drawer?.querySelector('.drawer-period'); const drawerType=drawer?.querySelector('.drawer-type'); const drawerRole=drawer?.querySelector('.drawer-role');
+  const drawerTitle=drawer?.querySelector('.drawer-title');
+  const drawerNumber=drawer?.querySelector('.drawer-number');
+  const drawerStage=drawer?.querySelector('.drawer-stage');
+  const drawerSummary=drawer?.querySelector('.drawer-summary');
+  const drawerPeriod=drawer?.querySelector('.drawer-period');
+  const drawerType=drawer?.querySelector('.drawer-type');
+  const drawerRole=drawer?.querySelector('.drawer-role');
   const drawerGallery=drawer?.querySelector('.drawer-gallery');
-  const projectImages={
-    'ecoalf-lisbon':['images/ecoalf/lisboa-man/interior-render-01.jpg','images/ecoalf/lisboa-woman/interior-render-01.jpg','images/ecoalf/lisboa-man/interior-render-03.jpg','images/ecoalf/lisboa-woman/site-photo-01.jpg'],
-    'ecoalf-marbella':['images/ecoalf/marbella/interior-render-02.jpg','images/ecoalf/marbella/interior-render-05.jpg'],
-    'ecoalf-vigo':['images/ecoalf/vigo-man/interior-render-04.jpg','images/ecoalf/vigo-man/interior-render-11.jpg','images/ecoalf/vigo-woman/floor-plan-01.jpg','images/ecoalf/vigo-man/detail-render-02.jpg'],
-    'japon-aviles':['images/japon-market/aviles/arch-corridor-distant-view.jpg','images/japon-market/aviles/vending-machines-entrance.jpg','images/japon-market/aviles/street-entrance-daytime.jpg'],
-    'japon-madrid':['images/japon-market/madrid-mostoles/street-storefront-queue.jpg','images/japon-market/madrid-mostoles/ramen-counter-mural.jpg','images/japon-market/madrid-mostoles/interior-figures-shelving.jpg'],
-    'japon-lugo':['images/japon-market/lugo/interior-neon-sign.jpg','images/japon-market/lugo/facade-japan-skyline.jpg','images/japon-market/lugo/entrance-kimono-model.jpg'],
-    'japon-las-palmas':['images/japon-market/las-palmas/storefront-opening-balloons.jpg','images/japon-market/las-palmas/interior-mascot-mural.jpg','images/japon-market/las-palmas/branded-delivery-van.jpg'],
-    'japon-tenerife':['images/japon-market/tenerife/grand-opening-storefront.jpg','images/japon-market/tenerife/grand-opening-storefront-02.jpg'],
-    'japon-leon':['images/japon-market/leon/mall-walkway-signage.jpg','images/japon-market/leon/mall-lounge-mural.jpg','images/japon-market/leon/ramen-ad-portrait.jpg']
-  };
-  const projectLinks={
-    'japon-aviles':'projects/japon-market.html#aviles','japon-madrid':'projects/japon-market.html#madrid-mostoles','japon-lugo':'projects/japon-market.html#lugo',
-    'japon-las-palmas':'projects/japon-market.html#las-palmas','japon-tenerife':'projects/japon-market.html#tenerife','japon-leon':'projects/japon-market.html#leon',
-    'japon-gijon':'projects/japon-market.html','japon-oviedo':'projects/japon-market.html','automatic-stores':'projects/japon-market.html'
-  };
+  const drawerChoices=drawer?.querySelector('.drawer-project-choices');
+  const drawerMeta=drawer?.querySelector('.drawer-meta');
   const drawerLink=drawer?.querySelector('.drawer-link');
-  function openProject(key,scrollToMap=false){
-    const p=getProject(key); if(!p||!drawer)return; activeProjectKey=key;
-    drawerNumber.textContent=p.number; drawerStage.textContent=(currentLanguage==='es'?stageLabelsEs:stageLabelsEn)[p.stage];
-    drawerTitle.textContent=p.title; drawerSummary.textContent=p.summary; drawerPeriod.textContent=p.period; drawerType.textContent=p.type; drawerRole.textContent=p.role;
-    if(drawerGallery){
-      const imgs=projectImages[key]||[];
-      drawerGallery.innerHTML=imgs.map(src=>`<div class="drawer-image protected-media" data-lightbox-src="${src}"><img src="${src}" alt="${p.title}" draggable="false"></div>`).join('');
-    }
-    if(drawerLink){
-      const href=projectLinks[key];
-      if(href){ drawerLink.href=href; drawerLink.classList.add('visible'); }
-      else{ drawerLink.classList.remove('visible'); drawerLink.removeAttribute('href'); }
-    }
-    drawer.classList.add('active'); document.querySelectorAll('.project-row,.drawer-list-row').forEach(r=>r.classList.toggle('active',r.dataset.project===key));
-    document.querySelectorAll('.atlas-marker').forEach(m=>m.classList.remove('active'));
-    const id=locationId(projectData[key]); markerGroups[id]?.classList.add('active');
-    if(scrollToMap) document.querySelector('.map-frame')?.scrollIntoView({behavior:'smooth',block:'center'});
+  const drawerClose=drawer?.querySelector('.drawer-close');
+  const search=document.getElementById('atlas-search');
+  const clearSearch=document.querySelector('.atlas-search-clear');
+  const resetFilters=document.getElementById('atlas-reset');
+  const activeSummary=document.getElementById('atlas-active-summary');
+  const resultNumber=document.getElementById('atlas-result-number');
+  const emptyState=document.getElementById('atlas-empty-state');
+  const directorySummary=document.getElementById('drawer-directory-summary');
+  const indexContainers={peninsula:document.getElementById('drawer-list-peninsula'),canary:document.getElementById('drawer-list-canary'),venezuela:document.getElementById('drawer-list-venezuela'),nationwide:document.getElementById('drawer-list-nationwide')};
+
+  function updateExpandControl(expanded){
+    if(!expandButton)return;
+    const key=expanded?'collapseAtlas':'expandAtlas';
+    expandButton.dataset.i18nAria=key;
+    expandButton.setAttribute('aria-label',translations[currentLanguage]?.[key]||'');
+    expandButton.setAttribute('aria-expanded',String(expanded));
+    const icon=expandButton.querySelector('span');if(icon)icon.textContent=expanded?'×':'⤢';
   }
-  document.querySelectorAll('.project-row').forEach(r=>r.addEventListener('click',()=>openProject(r.dataset.project,true)));
-  document.querySelector('.drawer-close')?.addEventListener('click',()=>{drawer.classList.remove('active');activeProjectKey=null;document.querySelectorAll('.project-row,.drawer-list-row,.atlas-marker').forEach(e=>e.classList.remove('active'));});
-  document.querySelectorAll('.stage-button').forEach(b=>b.addEventListener('click',()=>{
-    const stage=b.dataset.stage;
-    if(stage==='all'){
-      const groups=[...document.querySelectorAll('.project-group')];
-      const allOpen=groups.every(g=>g.classList.contains('open'));
-      groups.forEach(g=>g.classList.toggle('open',!allOpen));
-      document.querySelectorAll('.stage-button[data-stage]:not([data-stage="all"])').forEach(x=>x.classList.toggle('active',!allOpen));
-      b.classList.toggle('active',!allOpen);
-    } else {
-      const group=document.querySelector(`.project-group[data-stage-group="${stage}"]`);
-      const nowOpen=group?.classList.toggle('open');
-      b.classList.toggle('active',!!nowOpen);
-      const allBtn=document.querySelector('.stage-button[data-stage="all"]');
-      const groups=[...document.querySelectorAll('.project-group')];
-      allBtn?.classList.toggle('active',groups.every(g=>g.classList.contains('open')));
-    }
-  }));
-  window.refreshAtlasLanguage=function(){
-    renderMarkers(activeStage);
-    if(activeProjectKey)openProject(activeProjectKey,false);
-    document.querySelectorAll('.project-row[data-project]').forEach(btn=>{
-      const p=getProject(btn.dataset.project); if(!p)return;
-      const spans=btn.querySelectorAll('span');
-      if(spans[1]) spans[1].textContent=p.type;
-      if(spans[2]) spans[2].textContent=p.period;
-    });
+  function setAtlasExpanded(expanded,announce=true){
+    if(!atlasLayout||!expandButton)return;
+    atlasLayout.classList.toggle('atlas-expanded',expanded);
+    body.classList.toggle('atlas-expanded',expanded);
+    updateExpandControl(expanded);
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{clampState(activeRegion);updateMapTransform(false);if(expanded)atlasElement.focus({preventScroll:true})}));if(!expanded)setTimeout(()=>expandButton.focus({preventScroll:true}),80);
+    if(announce&&mapStatus)mapStatus.textContent=translations[currentLanguage]?.[expanded?'atlasExpandedStatus':'atlasCollapsedStatus']||'';
+  }
+
+  const viewState={
+    peninsula:{scale:1,tx:0,ty:0},
+    canary:{scale:1,tx:0,ty:0},
+    venezuela:{scale:1,tx:0,ty:0}
   };
-  renderMarkers('all');
-  if(currentLanguage==='es') window.refreshAtlasLanguage();
+  const MAX_SCALE=7;
 
-  // Zoomable / pannable atlas view
-  function initZoomableMap(root){
-    const layer=root?.querySelector('.atlas-zoom-layer');
-    if(!root||!layer)return;
-    let scale=1,tx=0,ty=0;const minScale=1,maxScale=4.5;
-    let dragging=false,moved=false,startX=0,startY=0,startTx=0,startTy=0;
-    const pointers=new Map();
-    let pinchStartDist=0,pinchStartScale=1;
+  function matches(key,project){
+    if(activeStage!=='all'&&project.stage!==activeStage)return false;
+    return !activeQuery||projectSearchText(key,project).includes(normalize(activeQuery));
+  }
+  const filteredEntries=()=>Object.entries(projectData).filter(([key,project])=>matches(key,project));
+  const mapEntries=region=>filteredEntries().filter(([,project])=>project.map!==false&&projectRegion(project)===region);
+  const locationId=project=>project.locationKey||`${projectRegion(project)}:${normalize(project.title)}`;
 
-    function clamp(){
-      const rect=root.getBoundingClientRect();
-      if(scale<=1){tx=0;ty=0;return;}
-      const minX=rect.width*(1-scale),minY=rect.height*(1-scale);
-      tx=Math.min(0,Math.max(minX,tx));
-      ty=Math.min(0,Math.max(minY,ty));
-    }
-    function apply(animate){
-      layer.style.transition=animate?'transform .22s cubic-bezier(.2,.8,.2,1)':'none';
-      layer.style.transform=`translate(${tx}px,${ty}px) scale(${scale})`;
-      root.classList.toggle('is-zoomed',scale>1.001);
-    }
-    function zoomBy(factor,clientX,clientY){
-      const rect=root.getBoundingClientRect();
-      const px=clientX!=null?clientX-rect.left:rect.width/2;
-      const py=clientY!=null?clientY-rect.top:rect.height/2;
-      const prevScale=scale;
-      scale=Math.min(maxScale,Math.max(minScale,scale*factor));
-      const ratio=scale/prevScale;
-      tx=px-(px-tx)*ratio;ty=py-(py-ty)*ratio;
-      clamp();apply(true);
-    }
-    function zoomTo(newScale,clientX,clientY){
-      const rect=root.getBoundingClientRect();
-      const px=clientX!=null?clientX-rect.left:rect.width/2;
-      const py=clientY!=null?clientY-rect.top:rect.height/2;
-      const prevScale=scale;
-      scale=Math.min(maxScale,Math.max(minScale,newScale));
-      const ratio=scale/prevScale;
-      tx=px-(px-tx)*ratio;ty=py-(py-ty)*ratio;
-      clamp();apply(false);
-    }
-    root.addEventListener('wheel',e=>{
-      e.preventDefault();e.stopPropagation();
-      zoomBy(e.deltaY<0?1.18:1/1.18,e.clientX,e.clientY);
-    },{passive:false});
-    root.addEventListener('pointerdown',e=>{
-      pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
-      root.setPointerCapture(e.pointerId);
-      if(pointers.size===2){
-        dragging=false;
-        const pts=[...pointers.values()];
-        pinchStartDist=Math.hypot(pts[0].x-pts[1].x,pts[0].y-pts[1].y)||1;
-        pinchStartScale=scale;
-      } else if(pointers.size===1){
-        dragging=true;moved=false;
-        startX=e.clientX;startY=e.clientY;startTx=tx;startTy=ty;
-      }
+  function groupLocations(entries){
+    const groups=new Map();
+    entries.forEach(([key,project])=>{
+      const id=locationId(project);
+      if(!groups.has(id))groups.set(id,{id,region:projectRegion(project),coords:[0,0],keys:[]});
+      const group=groups.get(id);group.keys.push(key);group.coords[0]+=project.coords[0];group.coords[1]+=project.coords[1];
     });
-    root.addEventListener('pointermove',e=>{
-      if(!pointers.has(e.pointerId))return;
-      pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
-      if(pointers.size===2){
-        const pts=[...pointers.values()];
-        const dist=Math.hypot(pts[0].x-pts[1].x,pts[0].y-pts[1].y)||1;
-        const centerX=(pts[0].x+pts[1].x)/2,centerY=(pts[0].y+pts[1].y)/2;
-        moved=true;
-        zoomTo(pinchStartScale*(dist/pinchStartDist),centerX,centerY);
-        return;
-      }
-      if(!dragging||scale<=1)return;
-      const dx=e.clientX-startX,dy=e.clientY-startY;
-      if(Math.abs(dx)>3||Math.abs(dy)>3)moved=true;
-      tx=startTx+dx;ty=startTy+dy;
-      clamp();apply(false);
-    });
-    function endDrag(e){
-      if(e&&pointers.has(e.pointerId))pointers.delete(e.pointerId);
-      if(pointers.size<2)pinchStartDist=0;
-      if(pointers.size===0)dragging=false;
-    }
-    root.addEventListener('pointerup',endDrag);
-    root.addEventListener('pointercancel',endDrag);
-    root.addEventListener('pointerleave',endDrag);
-    root.addEventListener('dblclick',e=>{zoomBy(scale>1.5?1/scale:2.2,e.clientX,e.clientY);});
-    root.addEventListener('click',e=>{
-      if(moved){e.stopPropagation();e.preventDefault();moved=false;}
-    },true);
-    root.querySelectorAll('.atlas-zoom-btn').forEach(btn=>{
-      btn.addEventListener('click',ev=>{
-        ev.stopPropagation();
-        const action=btn.dataset.zoomAction;
-        if(action==='in')zoomBy(1.4);
-        else if(action==='out')zoomBy(1/1.4);
-        else{scale=1;tx=0;ty=0;apply(true);}
-      });
+    return [...groups.values()].map(group=>({...group,coords:[group.coords[0]/group.keys.length,group.coords[1]/group.keys.length]}));
+  }
+
+  function plural(count,singularKey,pluralKey){return translations[currentLanguage]?.[count===1?singularKey:pluralKey]||''}
+  function labelForLocation(group){
+    const first=getProject(group.keys[0]);
+    return group.keys.length===1?first.title:`${first.title} · ${group.keys.length} ${plural(group.keys.length,'atlasProject','atlasProjects')}`;
+  }
+
+  function setDrawerDetailVisible(visible){
+    drawer?.classList.toggle('active',visible);
+    if(!visible){activeProjectKey=null;activeLocationId=null;document.querySelectorAll('.drawer-location-row,.atlas-marker').forEach(el=>el.classList.remove('active'))}
+  }
+  function resetDrawerSections(){
+    if(drawerChoices)drawerChoices.innerHTML='';
+    drawerChoices?.classList.remove('visible');
+    drawerGallery?.classList.remove('hidden');
+    drawerMeta?.classList.remove('hidden');
+  }
+  function showDrawer(trigger){
+    lastDrawerTrigger=trigger||document.activeElement;
+    setDrawerDetailVisible(true);
+    drawerTitle?.focus({preventScroll:true});
+  }
+  function highlightLocation(id,key=null){
+    activeLocationId=id;
+    document.querySelectorAll('.drawer-location-row').forEach(row=>row.classList.toggle('active',row.dataset.location===id));
+    document.querySelectorAll('.atlas-marker').forEach(marker=>marker.classList.toggle('active',marker.dataset.locations?.split('|').includes(id)));
+    if(key)document.querySelectorAll('[data-project]').forEach(row=>row.classList.toggle('active',row.dataset.project===key));
+  }
+  function openProject(key,trigger=null,scroll=false){
+    const item=getProject(key),base=projectData[key];
+    if(!item||!drawer)return;
+    activeProjectKey=key;
+    resetDrawerSections();
+    drawerNumber.textContent=item.number;
+    drawerStage.textContent=translations[currentLanguage]?.[stageKeys[base.stage]]||base.stage;
+    drawerTitle.textContent=item.title;
+    drawerSummary.textContent=item.summary;
+    drawerPeriod.textContent=item.period;
+    drawerType.textContent=item.type;
+    drawerRole.textContent=item.role;
+    const images=projectImages[key]||[];
+    drawerGallery.innerHTML=images.map((src,index)=>`<button type="button" class="drawer-image protected-media" data-lightbox-src="${escapeHtml(src)}"><img src="${escapeHtml(src)}" alt="${escapeHtml(item.title)} · ${index+1}" loading="lazy" decoding="async" draggable="false"></button>`).join('');
+    drawerGallery.classList.toggle('hidden',images.length===0);
+    const href=projectLinks[key];
+    if(href){drawerLink.href=href;drawerLink.classList.add('visible')}else{drawerLink.classList.remove('visible');drawerLink.removeAttribute('href')}
+    showDrawer(trigger);
+    highlightLocation(locationId(base),key);
+    if(scroll)document.querySelector('.built-work-layout')?.scrollIntoView({behavior:reducedMotion?'auto':'smooth',block:'start'});
+  }
+  function openChoiceList(keys,title,summary,trigger=null,location=null){
+    if(!keys.length||!drawer)return;
+    if(keys.length===1)return openProject(keys[0],trigger,false);
+    activeProjectKey=null;
+    resetDrawerSections();
+    drawerNumber.textContent=String(keys.length);
+    drawerStage.textContent=translations[currentLanguage]?.sharedLocationTitle||'';
+    drawerTitle.textContent=title;
+    drawerSummary.textContent=summary;
+    drawerGallery.classList.add('hidden');
+    drawerMeta.classList.add('hidden');
+    drawerLink.classList.remove('visible');
+    drawerChoices.classList.add('visible');
+    drawerChoices.innerHTML=keys.map(key=>{const item=getProject(key),base=projectData[key];return`<button type="button" data-project="${escapeHtml(key)}"><small>${escapeHtml(base.brand||base.company||'')}</small><strong>${escapeHtml(item.title)} · ${escapeHtml(item.type)}</strong><span>${escapeHtml(item.summary)}</span></button>`}).join('');
+    showDrawer(trigger);
+    if(location)highlightLocation(location);
+  }
+  function openLocation(group,trigger=null,scroll=false){
+    const first=getProject(group.keys[0]);
+    openChoiceList(group.keys,first.title,translations[currentLanguage]?.sharedLocationText||'',trigger,group.id);
+    if(scroll)document.querySelector('.built-work-layout')?.scrollIntoView({behavior:reducedMotion?'auto':'smooth',block:'start'});
+  }
+  function openArea(keys,trigger=null){
+    openChoiceList(keys,translations[currentLanguage]?.atlasProjectsInArea||'',translations[currentLanguage]?.atlasAreaText||'',trigger,null);
+  }
+  drawerChoices?.addEventListener('click',event=>{const button=event.target.closest('button[data-project]');if(button)openProject(button.dataset.project,button,false)});
+  drawerClose?.addEventListener('click',()=>{setDrawerDetailVisible(false);lastDrawerTrigger?.focus?.({preventScroll:true})});
+
+  function projectPoint(source,region,width,height){
+    const coords=Array.isArray(source)?source:source.coords;
+    const bounds=regions[region].bounds;
+    return{x:(coords[1]-bounds.west)/(bounds.east-bounds.west)*width,y:(bounds.north-coords[0])/(bounds.north-bounds.south)*height};
+  }
+  function clampState(region){
+    const state=viewState[region],rect=atlasElement.getBoundingClientRect();
+    if(state.scale<=1){state.scale=1;state.tx=0;state.ty=0;return}
+    state.tx=Math.min(0,Math.max(rect.width*(1-state.scale),state.tx));
+    state.ty=Math.min(0,Math.max(rect.height*(1-state.scale),state.ty));
+  }
+  function updateMapTransform(animate=false){
+    const state=viewState[activeRegion];
+    clampState(activeRegion);
+    if(mapImage){mapImage.style.transition=animate?'transform .24s cubic-bezier(.2,.8,.2,1)':'none';mapImage.style.transform=`translate3d(${state.tx}px,${state.ty}px,0) scale(${state.scale})`}
+    atlasElement.classList.toggle('is-zoomed',state.scale>1.001);
+    atlasElement.classList.toggle('show-labels',state.scale>=1.85);
+    if(zoomReadout)zoomReadout.textContent=`${Math.round(state.scale*100)}%`;
+    scheduleMarkerRender();
+  }
+  function zoomAt(factor,clientX=null,clientY=null,animate=true){
+    const state=viewState[activeRegion],rect=atlasElement.getBoundingClientRect();
+    const px=clientX==null?rect.width/2:clientX-rect.left,py=clientY==null?rect.height/2:clientY-rect.top;
+    const previous=state.scale;
+    state.scale=Math.min(MAX_SCALE,Math.max(1,state.scale*factor));
+    const ratio=state.scale/previous;
+    state.tx=px-(px-state.tx)*ratio;
+    state.ty=py-(py-state.ty)*ratio;
+    updateMapTransform(animate);
+  }
+  function panBy(dx,dy){const state=viewState[activeRegion];if(state.scale<=1)return;state.tx+=dx;state.ty+=dy;updateMapTransform(false)}
+  function resetView(animate=true){viewState[activeRegion]={scale:1,tx:0,ty:0};updateMapTransform(animate)}
+  function fitVisibleLocations(){
+    const groups=groupLocations(mapEntries(activeRegion));
+    if(!groups.length)return;
+    focusGroups(groups,'fit');
+    if(mapStatus)mapStatus.textContent=translations[currentLanguage]?.atlasFitStatus||'';
+    setTimeout(()=>atlasElement.focus({preventScroll:true}),260);
+  }
+  function updateDirectoryVisibility(){
+    document.querySelectorAll('[data-index-region]').forEach(section=>{
+      const region=section.dataset.indexRegion;
+      const hasEntries=section.dataset.hasEntries==='true';
+      section.hidden=!hasEntries||(region!=='nationwide'&&region!==activeRegion);
     });
   }
-  initZoomableMap(document.querySelector('.atlas-main-map'));
+  function focusGroups(groups,mode='focus'){
+    const rect=atlasElement.getBoundingClientRect();if(!rect.width||!groups.length)return;
+    const points=groups.map(group=>projectPoint(group.coords,activeRegion,rect.width,rect.height));
+    const minX=Math.min(...points.map(p=>p.x)),maxX=Math.max(...points.map(p=>p.x));
+    const minY=Math.min(...points.map(p=>p.y)),maxY=Math.max(...points.map(p=>p.y));
+    const padding=120;
+    const calculated=Math.min(rect.width/Math.max(80,maxX-minX+padding),rect.height/Math.max(80,maxY-minY+padding));
+    const target=Math.min(MAX_SCALE,mode==='fit'?Math.max(1,calculated):Math.max(viewState[activeRegion].scale*1.65,calculated));
+    const cx=(minX+maxX)/2,cy=(minY+maxY)/2;
+    viewState[activeRegion].scale=target;
+    viewState[activeRegion].tx=rect.width/2-cx*target;
+    viewState[activeRegion].ty=rect.height/2-cy*target;
+    updateMapTransform(true);
+  }
+
+  function clusterGroups(groups){
+    const rect=atlasElement.getBoundingClientRect(),state=viewState[activeRegion];
+    if(!rect.width||!rect.height)return[];
+    const points=groups.map(group=>{const base=projectPoint(group.coords,activeRegion,rect.width,rect.height);return{group,x:base.x*state.scale+state.tx,y:base.y*state.scale+state.ty}});
+    const threshold=window.innerWidth<=760?54:46;
+    const parent=points.map((_,index)=>index);
+    const find=index=>parent[index]===index?index:(parent[index]=find(parent[index]));
+    const unite=(a,b)=>{a=find(a);b=find(b);if(a!==b)parent[b]=a};
+    for(let i=0;i<points.length;i++)for(let j=i+1;j<points.length;j++)if(Math.hypot(points[i].x-points[j].x,points[i].y-points[j].y)<threshold)unite(i,j);
+    const buckets=new Map();
+    points.forEach((point,index)=>{const root=find(index);if(!buckets.has(root))buckets.set(root,[]);buckets.get(root).push(point)});
+    return[...buckets.values()].map(bucket=>({points:bucket,x:bucket.reduce((sum,p)=>sum+p.x,0)/bucket.length,y:bucket.reduce((sum,p)=>sum+p.y,0)/bucket.length,keys:bucket.flatMap(p=>p.group.keys),groups:bucket.map(p=>p.group)}));
+  }
+  function scheduleMarkerRender(){cancelAnimationFrame(renderFrame);renderFrame=requestAnimationFrame(renderMarkers)}
+  function renderMarkers(){
+    if(!markerLayer)return;
+    markerLayer.innerHTML='';
+    const groups=groupLocations(mapEntries(activeRegion));
+    const clusters=clusterGroups(groups);
+    clusters.forEach(cluster=>{
+      const marker=document.createElement('button');
+      marker.type='button';
+      marker.className='atlas-marker';
+      const exactLocation=cluster.groups.length===1;
+      if(!exactLocation)marker.classList.add('is-cluster');
+      else if(cluster.keys.length>1)marker.classList.add('is-shared');
+      marker.style.left=`${cluster.x}px`;marker.style.top=`${cluster.y}px`;
+      marker.dataset.locations=cluster.groups.map(group=>group.id).join('|');
+      const first=getProject(cluster.keys[0]);
+      const label=!exactLocation?`${cluster.keys.length} ${plural(cluster.keys.length,'atlasProject','atlasProjects')} · ${cluster.groups.length} ${plural(cluster.groups.length,'atlasLocation','atlasLocations')}`:labelForLocation(cluster.groups[0]);
+      marker.dataset.label=label;
+      marker.setAttribute('aria-label',label);
+      const markerName=exactLocation?first.title:label;
+      marker.innerHTML=`<span aria-hidden="true" class="atlas-marker-core"></span>${cluster.keys.length>1?`<span aria-hidden="true" class="atlas-marker-count">${cluster.keys.length}</span>`:''}<span aria-hidden="true" class="atlas-marker-name">${escapeHtml(markerName)}</span>`;
+      if(activeLocationId&&cluster.groups.some(group=>group.id===activeLocationId))marker.classList.add('active');
+      marker.addEventListener('click',event=>{
+        if(!exactLocation&&viewState[activeRegion].scale<MAX_SCALE*.82){focusGroups(cluster.groups);if(mapStatus)mapStatus.textContent=translations[currentLanguage]?.atlasClusterStatus||'';setTimeout(()=>atlasElement.focus({preventScroll:true}),260)}
+        else if(!exactLocation)openArea(cluster.keys,marker);
+        else openLocation(cluster.groups[0],marker,true);
+      });
+      markerLayer.appendChild(marker);
+    });
+    const mapped=groups.length;
+    document.querySelectorAll('[data-zoom-action="fit"]').forEach(button=>{button.disabled=mapped===0;button.setAttribute('aria-disabled',String(mapped===0))});
+    const total=filteredEntries().length;
+    const nationwide=filteredEntries().filter(([,project])=>project.map===false).length;
+    if(mapEmpty){
+      const show=mapped===0;
+      mapEmpty.hidden=!show;
+      if(show&&mapEmptyText)mapEmptyText.textContent=nationwide===total&&total>0?(translations[currentLanguage]?.atlasNationwideOnly||''):(translations[currentLanguage]?.atlasMapNoLocations||'');
+    }
+  }
+
+  function setRegion(region,focus=false){
+    if(!regions[region])return;
+    activeRegion=region;
+    const config=regions[region];
+    mapImage.src=config.image;
+    mapImage.alt=translations[currentLanguage]?.[config.altKey]||'';
+    regionLabel.textContent=translations[currentLanguage]?.[config.labelKey]||region;
+    document.querySelectorAll('[data-atlas-region]').forEach(button=>{const selected=button.dataset.atlasRegion===region;button.classList.toggle('active',selected);button.setAttribute('aria-pressed',String(selected))});
+    updateDirectoryVisibility();
+    updateMapTransform(false);
+    renderMarkers();
+    if(mapStatus)mapStatus.textContent=`${translations[currentLanguage]?.atlasRegionStatus||''} ${translations[currentLanguage]?.[config.labelKey]||region}.`;
+    if(focus)atlasElement.focus({preventScroll:true});
+  }
+
+  function regionStats(entries){
+    const stats={peninsula:{projects:0,locations:0},canary:{projects:0,locations:0},venezuela:{projects:0,locations:0},nationwide:{projects:0,locations:0}};
+    entries.forEach(([,project])=>stats[projectRegion(project)].projects++);
+    groupLocations(entries.filter(([,project])=>project.map!==false)).forEach(group=>stats[group.region].locations++);
+    stats.nationwide.locations=stats.nationwide.projects;
+    return stats;
+  }
+  function updateRegionTabs(entries){
+    const stats=regionStats(entries);
+    document.querySelectorAll('[data-atlas-region]').forEach(button=>{const region=button.dataset.atlasRegion,info=stats[region]||{projects:0,locations:0};const count=button.querySelector('[data-region-count]');if(count)count.textContent=`${info.locations} ${plural(info.locations,'atlasPlace','atlasPlaces')}`;button.disabled=info.projects===0;button.setAttribute('aria-disabled',String(info.projects===0))});
+    const mappedRegions=['peninsula','canary','venezuela'];
+    if((stats[activeRegion]?.projects||0)===0){const next=mappedRegions.find(region=>stats[region].projects>0);if(next)setRegion(next,false)}
+  }
+
+  function renderDirectory(entries){
+    Object.values(indexContainers).forEach(container=>{if(container)container.innerHTML=''});
+    const grouped=groupLocations(entries.filter(([,project])=>project.map!==false));
+    grouped.sort((a,b)=>getProject(a.keys[0]).title.localeCompare(getProject(b.keys[0]).title,currentLanguage));
+    grouped.forEach(group=>{
+      const first=getProject(group.keys[0]);
+      const brands=[...new Set(group.keys.map(key=>projectData[key].brand))];
+      const button=document.createElement('button');
+      button.type='button';button.className='drawer-location-row';button.dataset.location=group.id;
+      button.innerHTML=`<span class="drawer-location-title">${escapeHtml(first.title)}</span><span class="drawer-location-meta">${group.keys.length} ${plural(group.keys.length,'atlasProject','atlasProjects')} · ${escapeHtml(brands.join(' · '))}</span>`;
+      if(activeLocationId===group.id)button.classList.add('active');
+      button.addEventListener('click',()=>{if(activeRegion!==group.region)setRegion(group.region,false);focusGroups([group]);openLocation(group,button,true)});
+      indexContainers[group.region]?.appendChild(button);
+    });
+    entries.filter(([,project])=>project.map===false).forEach(([key])=>{
+      const item=getProject(key),base=projectData[key],button=document.createElement('button');
+      button.type='button';button.className='drawer-location-row';button.dataset.project=key;
+      button.innerHTML=`<span class="drawer-location-title">${escapeHtml(item.title)}</span><span class="drawer-location-meta">${escapeHtml(base.brand)} · ${escapeHtml(item.type)}</span>`;
+      button.addEventListener('click',()=>openProject(key,button,true));
+      indexContainers.nationwide?.appendChild(button);
+    });
+    document.querySelectorAll('[data-index-region]').forEach(section=>{const container=indexContainers[section.dataset.indexRegion];const count=container?.children.length||0;section.dataset.hasEntries=String(count>0);section.querySelector('[data-index-count]').textContent=count});
+    updateDirectoryVisibility();
+    const nationwideCount=entries.filter(([,project])=>project.map===false).length;
+    if(directorySummary){const parts=[`${entries.length} ${plural(entries.length,'atlasProjectEntry','atlasProjectEntries')}`];if(grouped.length)parts.push(`${grouped.length} ${plural(grouped.length,'atlasMappedLocation','atlasMappedLocations')}`);if(nationwideCount)parts.push(translations[currentLanguage]?.atlasNationwideNetwork||'');directorySummary.textContent=`${parts.join(' · ')}.`}
+  }
+
+  function updateStageCounts(){
+    const queryOnly=Object.entries(projectData).filter(([key,project])=>!activeQuery||projectSearchText(key,project).includes(normalize(activeQuery)));
+    document.querySelectorAll('[data-stage-count]').forEach(el=>{const stage=el.dataset.stageCount;el.textContent=stage==='all'?queryOnly.length:queryOnly.filter(([,project])=>project.stage===stage).length});
+  }
+  function updateFilterUI(entries){
+    document.querySelectorAll('[data-atlas-stage],.stage-button[data-stage]').forEach(button=>{const stage=button.dataset.atlasStage||button.dataset.stage,selected=stage===activeStage;button.classList.toggle('active',selected);button.setAttribute('aria-pressed',String(selected))});
+    resultNumber.textContent=entries.length;
+    const resultLabel=document.getElementById('atlas-result-label');if(resultLabel)resultLabel.textContent=translations[currentLanguage]?.[entries.length===1?'atlasEntryVisible':'atlasEntriesVisible']||'';
+    emptyState.hidden=entries.length!==0;
+    clearSearch?.classList.toggle('visible',Boolean(activeQuery));
+    resetFilters?.classList.toggle('visible',activeStage!=='all'||Boolean(activeQuery));
+    if(activeSummary){
+      const parts=[];
+      if(activeStage!=='all')parts.push(`${translations[currentLanguage]?.atlasFilteredBy||''}: ${translations[currentLanguage]?.[stageKeys[activeStage]]||activeStage}`);
+      if(activeQuery)parts.push(`${translations[currentLanguage]?.atlasSearchFor||''}: “${activeQuery}”`);
+      activeSummary.textContent=parts.length?parts.join(' · '):(translations[currentLanguage]?.atlasActiveAll||'');
+    }
+    updateStageCounts();
+    updateRegionTabs(entries);
+  }
+  function applyAtlasFilters(){
+    const entries=filteredEntries();
+    updateFilterUI(entries);
+    renderDirectory(entries);
+    scheduleMarkerRender();
+    if(activeProjectKey&&!matches(activeProjectKey,projectData[activeProjectKey]))setDrawerDetailVisible(false);
+    if(activeLocationId&&!groupLocations(entries.filter(([,project])=>project.map!==false)).some(group=>group.id===activeLocationId))setDrawerDetailVisible(false);
+  }
+
+  document.querySelectorAll('[data-atlas-stage],.stage-button[data-stage]').forEach(button=>button.addEventListener('click',()=>{activeStage=button.dataset.atlasStage||button.dataset.stage;applyAtlasFilters()}));
+  search?.addEventListener('input',()=>{activeQuery=search.value.trim();applyAtlasFilters()});
+  search?.addEventListener('keydown',event=>{if(event.key==='Escape'){search.value='';activeQuery='';applyAtlasFilters()}});
+  clearSearch?.addEventListener('click',()=>{search.value='';activeQuery='';search.focus();applyAtlasFilters()});
+  resetFilters?.addEventListener('click',()=>{activeStage='all';activeQuery='';if(search)search.value='';applyAtlasFilters();search?.focus()});
+  document.querySelectorAll('[data-atlas-region]').forEach(button=>{
+    button.addEventListener('click',()=>setRegion(button.dataset.atlasRegion,true));
+    button.addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight'].includes(event.key))return;event.preventDefault();const enabled=[...document.querySelectorAll('[data-atlas-region]:not(:disabled)')],index=enabled.indexOf(button),direction=event.key==='ArrowRight'?1:-1,next=enabled[(index+direction+enabled.length)%enabled.length];if(next){next.focus();next.click()}})
+  });
+
+  expandButton?.addEventListener('click',()=>setAtlasExpanded(!atlasLayout.classList.contains('atlas-expanded')));
+  addEventListener('keydown',event=>{
+    if(event.key!=='Escape'||!atlasLayout?.classList.contains('atlas-expanded'))return;
+    if(document.querySelector('.image-lightbox.active')||document.querySelector('.project-drawer.active'))return;
+    setAtlasExpanded(false);
+  });
+
+  atlasElement.addEventListener('keydown',event=>{
+    const amount=48;
+    if(['+','='].includes(event.key)){event.preventDefault();zoomAt(1.35)}
+    else if(event.key==='-'){event.preventDefault();zoomAt(1/1.35)}
+    else if(event.key==='0'){event.preventDefault();resetView()}
+    else if(event.key==='ArrowLeft'){event.preventDefault();panBy(amount,0)}
+    else if(event.key==='ArrowRight'){event.preventDefault();panBy(-amount,0)}
+    else if(event.key==='ArrowUp'){event.preventDefault();panBy(0,amount)}
+    else if(event.key==='ArrowDown'){event.preventDefault();panBy(0,-amount)}
+  });
+  atlasElement.addEventListener('focus',()=>{if(mapStatus)mapStatus.textContent=translations[currentLanguage]?.atlasKeyboardHint||''});
+  atlasElement.addEventListener('wheel',event=>{if(!event.ctrlKey&&!event.metaKey)return;event.preventDefault();zoomAt(event.deltaY<0?1.14:1/1.14,event.clientX,event.clientY,false)},{passive:false});
+  atlasElement.addEventListener('dblclick',event=>{if(!event.target.closest('button'))zoomAt(viewState[activeRegion].scale>2?1/viewState[activeRegion].scale:2,event.clientX,event.clientY)});
+
+  const pointers=new Map();let dragging=false,moved=false,startX=0,startY=0,startTx=0,startTy=0,pinchDistance=0,pinchScale=1;
+  atlasElement.addEventListener('pointerdown',event=>{
+    if(event.target.closest('button'))return;
+    pointers.set(event.pointerId,{x:event.clientX,y:event.clientY});atlasElement.setPointerCapture(event.pointerId);
+    if(pointers.size===2){dragging=false;const points=[...pointers.values()];pinchDistance=Math.hypot(points[0].x-points[1].x,points[0].y-points[1].y)||1;pinchScale=viewState[activeRegion].scale}
+    else{dragging=true;moved=false;startX=event.clientX;startY=event.clientY;startTx=viewState[activeRegion].tx;startTy=viewState[activeRegion].ty}
+  });
+  atlasElement.addEventListener('pointermove',event=>{
+    if(!pointers.has(event.pointerId))return;
+    pointers.set(event.pointerId,{x:event.clientX,y:event.clientY});
+    if(pointers.size===2){
+      const points=[...pointers.values()],distance=Math.hypot(points[0].x-points[1].x,points[0].y-points[1].y)||1;
+      const state=viewState[activeRegion],previous=state.scale,rect=atlasElement.getBoundingClientRect();
+      state.scale=Math.min(MAX_SCALE,Math.max(1,pinchScale*distance/pinchDistance));
+      const ratio=state.scale/previous,px=(points[0].x+points[1].x)/2-rect.left,py=(points[0].y+points[1].y)/2-rect.top;
+      state.tx=px-(px-state.tx)*ratio;state.ty=py-(py-state.ty)*ratio;moved=true;updateMapTransform(false);return;
+    }
+    if(!dragging||viewState[activeRegion].scale<=1)return;
+    const dx=event.clientX-startX,dy=event.clientY-startY;if(Math.abs(dx)>3||Math.abs(dy)>3)moved=true;
+    viewState[activeRegion].tx=startTx+dx;viewState[activeRegion].ty=startTy+dy;updateMapTransform(false);
+  });
+  function endPointer(event){pointers.delete(event.pointerId);if(!pointers.size)dragging=false}
+  atlasElement.addEventListener('pointerup',endPointer);atlasElement.addEventListener('pointercancel',endPointer);
+  atlasElement.addEventListener('click',event=>{if(moved){event.preventDefault();event.stopPropagation();moved=false}},true);
+  document.querySelectorAll('[data-zoom-action]').forEach(button=>button.addEventListener('click',event=>{event.stopPropagation();const action=button.dataset.zoomAction;if(action==='in')zoomAt(1.4);else if(action==='out')zoomAt(1/1.4);else if(action==='fit')fitVisibleLocations();else resetView()}));
+  if('ResizeObserver'in window)new ResizeObserver(()=>{clampState(activeRegion);updateMapTransform(false)}).observe(atlasElement);else window.addEventListener('resize',()=>updateMapTransform(false));
+  mapImage?.addEventListener('load',()=>updateMapTransform(false));
+
+  window.refreshAtlasLanguage=()=>{
+    updateExpandControl(atlasLayout?.classList.contains('atlas-expanded'));
+    const config=regions[activeRegion];
+    if(mapImage)mapImage.alt=translations[currentLanguage]?.[config.altKey]||'';
+    if(regionLabel)regionLabel.textContent=translations[currentLanguage]?.[config.labelKey]||activeRegion;
+    applyAtlasFilters();
+    if(activeProjectKey)openProject(activeProjectKey,null,false);
+    const entryStat=document.getElementById('atlas-entry-stat');if(entryStat)entryStat.textContent=Object.keys(projectData).length;
+  };
+
+  setRegion(activeRegion,false);
+  applyAtlasFilters();
+  const entryStat=document.getElementById('atlas-entry-stat');if(entryStat)entryStat.textContent=Object.keys(projectData).length;
 }
+applyLanguage(currentLanguage);
+addEventListener('keydown',e=>{if(e.key==='Escape'){closeLightbox();setMenu(false);if(document.querySelector('.project-drawer.active'))document.querySelector('.drawer-close')?.click()}});
