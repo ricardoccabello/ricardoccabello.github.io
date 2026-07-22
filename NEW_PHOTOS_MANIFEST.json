@@ -1,0 +1,416 @@
+[
+  {
+    "original": "309 3D ECOALF WOMAN BURGOS (2).jpg",
+    "project": "burgos-woman",
+    "type": "render",
+    "new_path": "images/ecoalf/burgos-woman/ecoalf-woman-burgos-retail-render-01.webp",
+    "original_bytes": 4499922,
+    "webp_bytes": 112548,
+    "dimensions": "1800x1174"
+  },
+  {
+    "original": "309 3D ECOALF WOMAN BURGOS (3).jpg",
+    "project": "burgos-woman",
+    "type": "render",
+    "new_path": "images/ecoalf/burgos-woman/ecoalf-woman-burgos-retail-render-02.webp",
+    "original_bytes": 3602625,
+    "webp_bytes": 86700,
+    "dimensions": "1800x1129"
+  },
+  {
+    "original": "309 3D ECOALF WOMAN BURGOS (4).jpg",
+    "project": "burgos-woman",
+    "type": "render",
+    "new_path": "images/ecoalf/burgos-woman/ecoalf-woman-burgos-retail-render-03.webp",
+    "original_bytes": 2901496,
+    "webp_bytes": 98390,
+    "dimensions": "1800x787"
+  },
+  {
+    "original": "310 ECOALF MAN BURGOS 3D (1).jpg",
+    "project": "burgos-man",
+    "type": "render",
+    "new_path": "images/ecoalf/burgos-man/ecoalf-man-burgos-retail-render-01.webp",
+    "original_bytes": 2522753,
+    "webp_bytes": 86176,
+    "dimensions": "1800x1297"
+  },
+  {
+    "original": "310 ECOALF MAN BURGOS 3D (3).jpg",
+    "project": "burgos-man",
+    "type": "render",
+    "new_path": "images/ecoalf/burgos-man/ecoalf-man-burgos-retail-render-02.webp",
+    "original_bytes": 2464265,
+    "webp_bytes": 127528,
+    "dimensions": "1800x1189"
+  },
+  {
+    "original": "310 ECOALF MAN BURGOS 3D (5).jpg",
+    "project": "burgos-man",
+    "type": "render",
+    "new_path": "images/ecoalf/burgos-man/ecoalf-man-burgos-retail-render-03.webp",
+    "original_bytes": 964507,
+    "webp_bytes": 101092,
+    "dimensions": "1800x1357"
+  },
+  {
+    "original": "RENDER ECOALF WOMAN SALAMANCA_1 - Imagen.jpg",
+    "project": "salamanca-woman",
+    "type": "render",
+    "new_path": "images/ecoalf/salamanca-woman/ecoalf-woman-salamanca-retail-render-01.webp",
+    "original_bytes": 901062,
+    "webp_bytes": 94378,
+    "dimensions": "1800x1012"
+  },
+  {
+    "original": "RENDER ECOALF WOMAN SALAMANCA_2 - Imagen.jpg",
+    "project": "salamanca-woman",
+    "type": "render",
+    "new_path": "images/ecoalf/salamanca-woman/ecoalf-woman-salamanca-retail-render-02.webp",
+    "original_bytes": 865985,
+    "webp_bytes": 96160,
+    "dimensions": "1800x1012"
+  },
+  {
+    "original": "RENDER ECOALF WOMAN SALAMANCA_5 - Imagen.jpg",
+    "project": "salamanca-woman",
+    "type": "render",
+    "new_path": "images/ecoalf/salamanca-woman/ecoalf-woman-salamanca-retail-render-03.webp",
+    "original_bytes": 1057274,
+    "webp_bytes": 116520,
+    "dimensions": "1800x1012"
+  },
+  {
+    "original": "Render_2 - Ecoalf Woman Murcia 2025.jpg",
+    "project": "murcia-woman",
+    "type": "render",
+    "new_path": "images/ecoalf/murcia-woman/ecoalf-woman-murcia-retail-render-01.webp",
+    "original_bytes": 482317,
+    "webp_bytes": 109338,
+    "dimensions": "1800x998"
+  },
+  {
+    "original": "Render_3 - Ecoalf Woman Murcia 2025.jpg",
+    "project": "murcia-woman",
+    "type": "render",
+    "new_path": "images/ecoalf/murcia-woman/ecoalf-woman-murcia-retail-render-02.webp",
+    "original_bytes": 520728,
+    "webp_bytes": 108594,
+    "dimensions": "1800x1006"
+  },
+  {
+    "original": "Render_4 - Ecoalf Woman Murcia 2025.jpg",
+    "project": "murcia-woman",
+    "type": "render",
+    "new_path": "images/ecoalf/murcia-woman/ecoalf-woman-murcia-retail-render-03.webp",
+    "original_bytes": 565492,
+    "webp_bytes": 127790,
+    "dimensions": "1800x1031"
+  },
+  {
+    "original": "Render_5 - Ecoalf Woman Murcia 2025.jpg",
+    "project": "murcia-woman",
+    "type": "render",
+    "new_path": "images/ecoalf/murcia-woman/ecoalf-woman-murcia-retail-render-04.webp",
+    "original_bytes": 623616,
+    "webp_bytes": 158150,
+    "dimensions": "1800x1114"
+  },
+  {
+    "original": "ecoalf man pozuelo contruido.JPG",
+    "project": "pozuelo-man",
+    "type": "built",
+    "new_path": "images/ecoalf/pozuelo-man/ecoalf-man-pozuelo-madrid-built-corner-01.webp",
+    "original_bytes": 401166,
+    "webp_bytes": 173788,
+    "dimensions": "1800x1350"
+  },
+  {
+    "original": "ecoalf man pozuelo real 2.JPG",
+    "project": "pozuelo-man",
+    "type": "built",
+    "new_path": "images/ecoalf/pozuelo-man/ecoalf-man-pozuelo-madrid-built-corner-02.webp",
+    "original_bytes": 307482,
+    "webp_bytes": 130294,
+    "dimensions": "1800x1350"
+  },
+  {
+    "original": "ecoalf man pozuelo madrid (1).jpg",
+    "project": "pozuelo-man",
+    "type": "render",
+    "new_path": "images/ecoalf/pozuelo-man/ecoalf-man-pozuelo-madrid-retail-render-01.webp",
+    "original_bytes": 853689,
+    "webp_bytes": 82600,
+    "dimensions": "1800x1012"
+  },
+  {
+    "original": "ecoalf man pozuelo madrid (2).jpg",
+    "project": "pozuelo-man",
+    "type": "render",
+    "new_path": "images/ecoalf/pozuelo-man/ecoalf-man-pozuelo-madrid-retail-render-02.webp",
+    "original_bytes": 806356,
+    "webp_bytes": 73488,
+    "dimensions": "1800x1012"
+  },
+  {
+    "original": "ecoalf man pozuelo madrid (3).jpg",
+    "project": "pozuelo-man",
+    "type": "render",
+    "new_path": "images/ecoalf/pozuelo-man/ecoalf-man-pozuelo-madrid-retail-render-03.webp",
+    "original_bytes": 723124,
+    "webp_bytes": 62340,
+    "dimensions": "1800x1012"
+  },
+  {
+    "original": "ecoalf man pozuelo madrid (4).jpg",
+    "project": "pozuelo-man",
+    "type": "render",
+    "new_path": "images/ecoalf/pozuelo-man/ecoalf-man-pozuelo-madrid-retail-render-04.webp",
+    "original_bytes": 921744,
+    "webp_bytes": 86894,
+    "dimensions": "1800x1012"
+  },
+  {
+    "original": "ecoalf man sanchinarro (1).jpg",
+    "project": "sanchinarro-man",
+    "type": "render",
+    "new_path": "images/ecoalf/sanchinarro-man/ecoalf-man-sanchinarro-retail-render-01.webp",
+    "original_bytes": 939759,
+    "webp_bytes": 84206,
+    "dimensions": "1800x1012"
+  },
+  {
+    "original": "ecoalf man sanchinarro (2).jpg",
+    "project": "sanchinarro-man",
+    "type": "render",
+    "new_path": "images/ecoalf/sanchinarro-man/ecoalf-man-sanchinarro-retail-render-02.webp",
+    "original_bytes": 1033048,
+    "webp_bytes": 102878,
+    "dimensions": "1800x1012"
+  },
+  {
+    "original": "ecoalf man sanchinarro (3).jpg",
+    "project": "sanchinarro-man",
+    "type": "render",
+    "new_path": "images/ecoalf/sanchinarro-man/ecoalf-man-sanchinarro-retail-render-03.webp",
+    "original_bytes": 816254,
+    "webp_bytes": 53038,
+    "dimensions": "1800x1012"
+  },
+  {
+    "original": "ecoalf man sanchinarro (4).jpg",
+    "project": "sanchinarro-man",
+    "type": "render",
+    "new_path": "images/ecoalf/sanchinarro-man/ecoalf-man-sanchinarro-retail-render-04.webp",
+    "original_bytes": 905717,
+    "webp_bytes": 65078,
+    "dimensions": "1800x1012"
+  },
+  {
+    "original": "ecoalf man sanchinarro (5).jpg",
+    "project": "sanchinarro-man",
+    "type": "render",
+    "new_path": "images/ecoalf/sanchinarro-man/ecoalf-man-sanchinarro-retail-render-05.webp",
+    "original_bytes": 880847,
+    "webp_bytes": 68160,
+    "dimensions": "1800x1012"
+  },
+  {
+    "original": "ecoalf man vigo real.JPG",
+    "project": "vigo-man",
+    "type": "built-interior",
+    "new_path": "images/ecoalf/vigo-man/ecoalf-man-vigo-built-interior-01.webp",
+    "original_bytes": 585467,
+    "webp_bytes": 245268,
+    "dimensions": "1800x1350"
+  },
+  {
+    "original": "ecoalf man vigo real (1).JPG",
+    "project": "vigo-man",
+    "type": "built-interior",
+    "new_path": "images/ecoalf/vigo-man/ecoalf-man-vigo-built-interior-02.webp",
+    "original_bytes": 157024,
+    "webp_bytes": 75980,
+    "dimensions": "899x1599"
+  },
+  {
+    "original": "ecoalf man vigo real (2).JPG",
+    "project": "vigo-man",
+    "type": "built-interior",
+    "new_path": "images/ecoalf/vigo-man/ecoalf-man-vigo-built-interior-03.webp",
+    "original_bytes": 341471,
+    "webp_bytes": 196766,
+    "dimensions": "1600x1200"
+  },
+  {
+    "original": "ecoalf man vigo real (3).JPG",
+    "project": "vigo-man",
+    "type": "built-interior",
+    "new_path": "images/ecoalf/vigo-man/ecoalf-man-vigo-built-interior-04.webp",
+    "original_bytes": 306870,
+    "webp_bytes": 168230,
+    "dimensions": "1200x1600"
+  },
+  {
+    "original": "ecoalf man vigo real (4).JPG",
+    "project": "vigo-man",
+    "type": "built-interior",
+    "new_path": "images/ecoalf/vigo-man/ecoalf-man-vigo-built-interior-05.webp",
+    "original_bytes": 292632,
+    "webp_bytes": 139918,
+    "dimensions": "1200x1600"
+  },
+  {
+    "original": "ecoalf man vigo real (5).JPG",
+    "project": "vigo-man",
+    "type": "built-interior",
+    "new_path": "images/ecoalf/vigo-man/ecoalf-man-vigo-built-interior-06.webp",
+    "original_bytes": 344515,
+    "webp_bytes": 197084,
+    "dimensions": "1600x1200"
+  },
+  {
+    "original": "ecoalf man vigo real (6).JPG",
+    "project": "vigo-man",
+    "type": "built-interior",
+    "new_path": "images/ecoalf/vigo-man/ecoalf-man-vigo-built-interior-07.webp",
+    "original_bytes": 593390,
+    "webp_bytes": 251740,
+    "dimensions": "1800x1350"
+  },
+  {
+    "original": "ecoalf man zaragoza (1).jpg",
+    "project": "zaragoza-man",
+    "type": "render",
+    "new_path": "images/ecoalf/zaragoza-man/ecoalf-man-zaragoza-retail-render-01.webp",
+    "original_bytes": 1649834,
+    "webp_bytes": 75918,
+    "dimensions": "1800x944"
+  },
+  {
+    "original": "ecoalf man zaragoza (2).jpg",
+    "project": "zaragoza-man",
+    "type": "render",
+    "new_path": "images/ecoalf/zaragoza-man/ecoalf-man-zaragoza-retail-render-02.webp",
+    "original_bytes": 1459811,
+    "webp_bytes": 62452,
+    "dimensions": "1800x882"
+  },
+  {
+    "original": "ecoalf pop up alicante (1).jpg",
+    "project": "alicante-woman-popup",
+    "type": "render",
+    "new_path": "images/ecoalf/alicante-woman-popup/ecoalf-woman-popup-alicante-retail-render-01.webp",
+    "original_bytes": 414364,
+    "webp_bytes": 42572,
+    "dimensions": "1280x720"
+  },
+  {
+    "original": "ecoalf pop up alicante (2).jpg",
+    "project": "alicante-woman-popup",
+    "type": "render",
+    "new_path": "images/ecoalf/alicante-woman-popup/ecoalf-woman-popup-alicante-retail-render-02.webp",
+    "original_bytes": 456928,
+    "webp_bytes": 50006,
+    "dimensions": "1280x720"
+  },
+  {
+    "original": "ecoalf vigo man - foto de antes.jpeg",
+    "project": "vigo-man",
+    "type": "before",
+    "new_path": "images/ecoalf/vigo-man/ecoalf-man-vigo-corner-before.webp",
+    "original_bytes": 229175,
+    "webp_bytes": 135906,
+    "dimensions": "1800x1350"
+  },
+  {
+    "original": "ecoalf woman murcia durante el montaje.JPG",
+    "project": "murcia-woman",
+    "type": "installation",
+    "new_path": "images/ecoalf/murcia-woman/ecoalf-woman-murcia-furniture-installation-01.webp",
+    "original_bytes": 202154,
+    "webp_bytes": 101880,
+    "dimensions": "1200x1600"
+  },
+  {
+    "original": "ecoalf woman murcia durante el montaje (2).JPG",
+    "project": "murcia-woman",
+    "type": "installation",
+    "new_path": "images/ecoalf/murcia-woman/ecoalf-woman-murcia-furniture-installation-02.webp",
+    "original_bytes": 214876,
+    "webp_bytes": 106732,
+    "dimensions": "1200x1600"
+  },
+  {
+    "original": "ecoalf woman vigo construido.JPG",
+    "project": "vigo-woman",
+    "type": "built",
+    "new_path": "images/ecoalf/vigo-woman/ecoalf-woman-vigo-built-corner-01.webp",
+    "original_bytes": 206116,
+    "webp_bytes": 112658,
+    "dimensions": "1600x900"
+  },
+  {
+    "original": "ecoalf woman vigo real.JPG",
+    "project": "vigo-woman",
+    "type": "built",
+    "new_path": "images/ecoalf/vigo-woman/ecoalf-woman-vigo-built-corner-02.webp",
+    "original_bytes": 170174,
+    "webp_bytes": 82526,
+    "dimensions": "1600x900"
+  },
+  {
+    "original": "ecoalf woman zaragoza (1).jpg",
+    "project": "zaragoza-woman",
+    "type": "render",
+    "new_path": "images/ecoalf/zaragoza-woman/ecoalf-woman-zaragoza-retail-render-01.webp",
+    "original_bytes": 947075,
+    "webp_bytes": 92080,
+    "dimensions": "1800x1012"
+  },
+  {
+    "original": "ecoalf woman zaragoza (2).jpg",
+    "project": "zaragoza-woman",
+    "type": "render",
+    "new_path": "images/ecoalf/zaragoza-woman/ecoalf-woman-zaragoza-retail-render-02.webp",
+    "original_bytes": 963092,
+    "webp_bytes": 94214,
+    "dimensions": "1800x1012"
+  },
+  {
+    "original": "recoalf man vigo real - poner en portada exterior.JPG",
+    "project": "vigo-man",
+    "type": "built-exterior-cover",
+    "new_path": "images/ecoalf/vigo-man/ecoalf-man-vigo-built-exterior-cover.webp",
+    "original_bytes": 526656,
+    "webp_bytes": 208038,
+    "dimensions": "1800x1023"
+  },
+  {
+    "original": "render ecoalf man tarragona (1).jpg",
+    "project": "tarragona-man",
+    "type": "render",
+    "new_path": "images/ecoalf/tarragona-man/ecoalf-man-tarragona-retail-render-01.webp",
+    "original_bytes": 926012,
+    "webp_bytes": 91988,
+    "dimensions": "1800x1012"
+  },
+  {
+    "original": "render ecoalf man tarragona (2).jpg",
+    "project": "tarragona-man",
+    "type": "render",
+    "new_path": "images/ecoalf/tarragona-man/ecoalf-man-tarragona-retail-render-02.webp",
+    "original_bytes": 887020,
+    "webp_bytes": 81720,
+    "dimensions": "1800x1012"
+  },
+  {
+    "original": "render ecoalf man tarragona (3).jpg",
+    "project": "tarragona-man",
+    "type": "render",
+    "new_path": "images/ecoalf/tarragona-man/ecoalf-man-tarragona-retail-render-03.webp",
+    "original_bytes": 938916,
+    "webp_bytes": 90484,
+    "dimensions": "1800x1012"
+  }
+]

@@ -1847,3 +1847,14 @@ section[id]{scroll-margin-top:92px}
   .career-snapshot strong{font-size:clamp(2.8rem,17vw,4rem)!important}
   .career-snapshot span{font-size:.62rem!important;letter-spacing:.1em!important}
 }
+
+/* 2026 Ecoalf photographic expansion */
+.expanded-location{padding-top:clamp(56px,7vw,104px)}
+.before-after-grid figure{margin:0;display:grid;gap:10px}
+.before-after-grid figure img{width:100%;height:auto;display:block}
+.before-after-grid figcaption{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.expanded-location .photo-grid img{background:transparent}
+@media(max-width:760px){
+  .expanded-location{padding-top:52px}
+  .before-after-grid{grid-template-columns:1fr}
+}
