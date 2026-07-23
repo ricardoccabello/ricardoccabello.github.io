@@ -266,6 +266,8 @@ button{font:inherit;appearance:none;-webkit-appearance:none;border-radius:0}
 .drawer-project-choices.visible{display:flex}
 .drawer-project-choices button{display:flex;flex-direction:column;gap:4px;text-align:left;padding:14px 0;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
 .hidden{display:none!important}
+.photo-grid img{cursor:zoom-in}
+.project-image:not(a) .project-media-photo,.hero-render img{cursor:zoom-in}
 .drawer-image{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;aspect-ratio:4/3;display:grid;place-items:center;overflow:hidden;background:#171717;color:rgba(240,236,227,.38);font-size:8px;text-transform:uppercase;letter-spacing:.13em;cursor:zoom-in;transition:transform .25s ease;border:0;padding:0}
 @media (prefers-reduced-motion:reduce){
   .ambient-gradient,.construction-lines{transition:none}
@@ -545,20 +547,9 @@ body.project-japon-market .location-nav a:hover{color:var(--fg);border-color:cur
   .atlas-main-map{min-height:390px!important}
   .atlas-inset-map{height:130px!important}
   body.project-ecoalf .project-hero p{font-size:17px}
-  body.project-ecoalf .project-image{min-height:0;padding-top:66%;background-size:contain;background-repeat:no-repeat;background-color:#000}
-  body.project-ecoalf .photo-grid,body.project-ecoalf .photo-grid.two-col{grid-template-columns:1fr}
-  body.project-ecoalf .photo-grid img{aspect-ratio:auto;object-fit:contain;background:#000;max-height:80vh}
-  body.project-ecoalf .photo-grid.plans img{background:#fff}
   body.project-ecoalf .location-intro{margin-bottom:20px}
   body.project-ikks .project-hero p{font-size:17px}
-  body.project-ikks .project-image{min-height:0;padding-top:66%;background-size:contain;background-repeat:no-repeat;background-color:#000}
-  body.project-ikks .photo-grid,body.project-ikks .photo-grid.two-col{grid-template-columns:1fr}
-  body.project-ikks .photo-grid img{aspect-ratio:auto;object-fit:contain;background:#000;max-height:80vh}
-  body.project-ikks .photo-grid.plans img{background:#fff}
   body.project-japon-market .project-hero p{font-size:17px}
-  body.project-japon-market .project-image{min-height:0;padding-top:66%;background-size:contain;background-repeat:no-repeat;background-color:#000}
-  body.project-japon-market .photo-grid,body.project-japon-market .photo-grid.two-col{grid-template-columns:1fr}
-  body.project-japon-market .photo-grid img{aspect-ratio:auto;object-fit:contain;background:#000;max-height:80vh}
   body.project-japon-market .location-nav{gap:8px 18px;padding:28px var(--pad)}
   body.project-japon-market .location-nav a{white-space:normal}
 }
