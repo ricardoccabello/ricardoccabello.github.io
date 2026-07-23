@@ -688,17 +688,21 @@ addEventListener('keydown',e=>{if(e.key==='Escape'){closeLightbox();setMenu(fals
   syncViewport();
 })();
 
+
 (function(){
   document.querySelectorAll('.photo-grid').forEach(grid=>{
     if(grid.classList.contains('plans')||grid.dataset.carouselReady==='true')return;
+    if(grid.closest('.product-gallery,.project-photo-strip,.photo-carousel'))return;
     const originalItems=[...grid.children].filter(item=>item.matches('img,figure,a'));
-    if(originalItems.length<3)return;
+    if(originalItems.length<2)return;
+
     grid.dataset.carouselReady='true';
     const wrap=document.createElement('div');
     wrap.className='photo-carousel-wrap';
     grid.replaceWith(wrap);
     grid.classList.remove('photo-grid');
     grid.classList.add('photo-carousel');
+
     originalItems.forEach(item=>{
       if(item.matches('img')){
         const slide=document.createElement('figure');
@@ -710,47 +714,70 @@ addEventListener('keydown',e=>{if(e.key==='Escape'){closeLightbox();setMenu(fals
       }
     });
     wrap.appendChild(grid);
+
     const prev=document.createElement('button');
     prev.type='button';
     prev.className='carousel-nav prev';
     prev.setAttribute('aria-label','Previous photo');
     prev.textContent='‹';
+
     const next=document.createElement('button');
     next.type='button';
     next.className='carousel-nav next';
     next.setAttribute('aria-label','Next photo');
     next.textContent='›';
-    wrap.append(prev,next);
+
+    const status=document.createElement('span');
+    status.className='carousel-status';
+    status.setAttribute('aria-live','polite');
+    wrap.append(prev,next,status);
+
     const slides=()=>[...grid.querySelectorAll('.carousel-slide')];
     const nearestIndex=()=>{
-      const left=grid.scrollLeft;
-      let best=0;
-      let distance=Infinity;
-      slides().forEach((slide,index)=>{
-        const d=Math.abs(slide.offsetLeft-left);
-        if(d<distance){distance=d;best=index;}
+      const width=grid.clientWidth||1;
+      return Math.max(0,Math.min(slides().length-1,Math.round(grid.scrollLeft/width)));
+    };
+    const syncHeight=index=>{
+      const target=slides()[index];
+      if(!target)return;
+      requestAnimationFrame(()=>{
+        const height=Math.ceil(target.getBoundingClientRect().height);
+        if(height>0)grid.style.height=`${height}px`;
       });
-      return best;
     };
-    const goTo=index=>{
-      const list=slides();
-      const target=list[Math.max(0,Math.min(index,list.length-1))];
-      if(target)grid.scrollTo({left:target.offsetLeft,behavior:'smooth'});
-    };
-    prev.addEventListener('click',()=>goTo(nearestIndex()-1));
-    next.addEventListener('click',()=>goTo(nearestIndex()+1));
-    const updateNav=()=>{
+    const update=()=>{
       const index=nearestIndex();
       const count=slides().length;
-      prev.disabled=index<=0;
-      next.disabled=index>=count-1||grid.scrollWidth<=grid.clientWidth+2;
+      prev.disabled=index===0;
+      next.disabled=index===count-1;
+      status.textContent=`${String(index+1).padStart(2,'0')} / ${String(count).padStart(2,'0')}`;
+      syncHeight(index);
     };
+    const goTo=index=>{
+      const count=slides().length;
+      const safe=Math.max(0,Math.min(count-1,index));
+      grid.scrollTo({left:safe*grid.clientWidth,behavior:'smooth'});
+      syncHeight(safe);
+    };
+
+    prev.addEventListener('click',()=>goTo(nearestIndex()-1));
+    next.addEventListener('click',()=>goTo(nearestIndex()+1));
+    grid.addEventListener('keydown',event=>{
+      if(event.key==='ArrowLeft'){event.preventDefault();goTo(nearestIndex()-1)}
+      if(event.key==='ArrowRight'){event.preventDefault();goTo(nearestIndex()+1)}
+    });
+    grid.tabIndex=0;
+
     let raf=0;
     grid.addEventListener('scroll',()=>{
       cancelAnimationFrame(raf);
-      raf=requestAnimationFrame(updateNav);
+      raf=requestAnimationFrame(update);
     },{passive:true});
-    window.addEventListener('resize',updateNav,{passive:true});
-    updateNav();
+    window.addEventListener('resize',update,{passive:true});
+    grid.querySelectorAll('img').forEach(img=>{
+      if(img.complete)requestAnimationFrame(update);
+      else img.addEventListener('load',update,{once:true});
+    });
+    update();
   });
 })();
