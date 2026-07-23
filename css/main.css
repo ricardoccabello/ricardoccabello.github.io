@@ -1257,3 +1257,34 @@ html body main .hero.editorial-hero .hero-portrait{
     margin-top:10px!important;
   }
 }
+
+/* Final home hero text balance · 2026-07-23 */
+body[data-page="home"] .hero.editorial-hero h1{
+  font-size:clamp(3rem,4.75vw,5.2rem)!important;
+  line-height:.95!important;
+  letter-spacing:-.04em!important;
+  max-width:12.8ch!important;
+  text-wrap:balance;
+}
+body[data-page="home"] .hero.editorial-hero .hero-copy{
+  max-width:720px;
+}
+@media(max-width:1100px) and (min-width:901px){
+  body[data-page="home"] .hero.editorial-hero h1{
+    font-size:clamp(2.8rem,4.7vw,4.2rem)!important;
+    max-width:13.5ch!important;
+  }
+}
+@media(max-width:900px){
+  body[data-page="home"] .hero.editorial-hero h1{
+    font-size:clamp(2.7rem,8vw,4.35rem)!important;
+    max-width:15ch!important;
+  }
+}
+@media(max-width:520px){
+  body[data-page="home"] .hero.editorial-hero h1{
+    font-size:clamp(2.35rem,10.7vw,3.25rem)!important;
+    line-height:.98!important;
+    max-width:100%!important;
+  }
+}
