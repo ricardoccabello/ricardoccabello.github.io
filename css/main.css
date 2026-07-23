@@ -1104,7 +1104,6 @@ body.theme-light .built-work-layout.atlas-expanded{background:#fff}
 .project-photo-strip a:focus-visible{outline:2px solid var(--ink);outline-offset:5px}
 
 
-
 /* Ambient sketch-line overlays · 2026-07-23 */
 .ambient-background::before,.ambient-background::after{content:"";position:absolute;inset:0;pointer-events:none;background-repeat:no-repeat;background-position:center;background-size:cover;transition:opacity .8s ease,filter .8s ease,transform 1.4s ease;will-change:opacity,transform;transform:scale(1.015)}
 .ambient-gradient{z-index:0}
@@ -1120,4 +1119,32 @@ body.theme-light .ambient-background::after,body.theme-light .ambient-background
   body:not(.theme-light) .ambient-background::after{opacity:.085}
   body.theme-light .ambient-background::before{opacity:.1}
   body.theme-light .ambient-background::after{opacity:.06}
+}
+
+/* Centred, more prominent carousel captions · 2026-07-23 */
+.carousel-description{
+  width:min(100%,76ch);
+  min-height:3.8em;
+  margin:18px auto 0;
+  padding:14px clamp(18px,3vw,34px) 4px;
+  border-top:1px solid var(--line);
+  color:var(--ink);
+  font-family:"Cormorant Garamond",Georgia,serif;
+  font-size:clamp(17px,1.45vw,21px);
+  font-weight:400;
+  line-height:1.42;
+  letter-spacing:-.005em;
+  text-align:center;
+  text-wrap:balance;
+  opacity:.94;
+}
+.theme-light .carousel-description{color:var(--paper-ink);opacity:.88}
+@media (max-width:760px){
+  .carousel-description{
+    min-height:5.2em;
+    margin-top:14px;
+    padding:12px 10px 2px;
+    font-size:16px;
+    line-height:1.42;
+  }
 }
