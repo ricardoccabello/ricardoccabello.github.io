@@ -931,21 +931,21 @@ body.theme-light .built-work-layout.atlas-expanded{background:#fff}
   .atlas-expand-toggle.is-mobile-reset .atlas-expand-icon::after{display:none}
 }
 
-/* Editorial media system. One image at a time, no cropping and no preview sliver. */
+/* Unified editorial carousel system. Every gallery shows one complete image at a time. */
 .photo-grid{
   display:grid;
   grid-template-columns:1fr;
-  gap:0;
   width:100%;
   min-width:0;
   margin:0;
   background:transparent;
 }
 .photo-grid>*{min-width:0;margin:0}
-.photo-grid:not(.plans)>img,
-.photo-grid:not(.plans)>figure>img{
+.photo-grid>img,
+.photo-grid>figure>img{
   display:block;
-  width:100%;
+  width:auto;
+  max-width:100%;
   height:auto;
   max-height:min(78vh,860px);
   margin-inline:auto;
@@ -954,26 +954,6 @@ body.theme-light .built-work-layout.atlas-expanded{background:#fff}
   background:transparent;
   cursor:zoom-in;
 }
-.photo-grid+.photo-grid{margin-top:clamp(16px,2vw,28px)}
-
-.photo-grid.plans{
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:clamp(14px,1.6vw,24px);
-  align-items:start;
-}
-.photo-grid.plans>img,
-.photo-grid.plans>figure>img{
-  display:block;
-  width:100%;
-  height:auto;
-  max-height:min(76vh,820px);
-  padding:clamp(10px,1.3vw,18px);
-  object-fit:contain;
-  object-position:center;
-  background:#f2efe8;
-  cursor:zoom-in;
-}
-
 .photo-carousel-wrap{
   position:relative;
   width:100%;
@@ -983,7 +963,6 @@ body.theme-light .built-work-layout.atlas-expanded{background:#fff}
 .photo-carousel{
   display:flex;
   align-items:flex-start;
-  gap:0;
   width:100%;
   min-width:0;
   overflow-x:auto;
@@ -993,11 +972,13 @@ body.theme-light .built-work-layout.atlas-expanded{background:#fff}
   overscroll-behavior-inline:contain;
   -webkit-overflow-scrolling:touch;
   scrollbar-width:none;
-  transition:height .35s cubic-bezier(.2,.7,.2,1);
+  transition:height .32s cubic-bezier(.2,.7,.2,1);
 }
 .photo-carousel::-webkit-scrollbar{display:none}
 .photo-carousel .carousel-slide{
   position:relative;
+  display:grid;
+  place-items:center;
   flex:0 0 100%;
   width:100%;
   min-width:100%;
@@ -1008,7 +989,8 @@ body.theme-light .built-work-layout.atlas-expanded{background:#fff}
 }
 .photo-carousel .carousel-slide>img{
   display:block;
-  width:100%;
+  width:auto;
+  max-width:100%;
   height:auto;
   max-height:min(78vh,860px);
   margin-inline:auto;
@@ -1017,7 +999,12 @@ body.theme-light .built-work-layout.atlas-expanded{background:#fff}
   background:transparent;
   cursor:zoom-in;
 }
+.photo-carousel .carousel-slide.is-plan{
+  padding:clamp(10px,1.3vw,18px);
+  background:#f2efe8;
+}
 .photo-carousel .carousel-slide>figcaption{
+  width:100%;
   padding:12px 0 0;
   font-size:9px;
   letter-spacing:.16em;
@@ -1066,6 +1053,18 @@ body.theme-light .built-work-layout.atlas-expanded{background:#fff}
   background:rgba(255,255,255,.86);
   color:#171717;
 }
+.theme-light .photo-carousel .carousel-slide.is-plan{background:#f2efe8}
+.unified-project-gallery{padding-top:clamp(48px,6vw,92px)}
+@media (max-width:760px){
+  .photo-grid>img,
+  .photo-grid>figure>img,
+  .photo-carousel .carousel-slide>img{max-height:68svh}
+  .carousel-nav{width:40px;height:40px;font-size:22px}
+  .carousel-nav.prev{left:8px}
+  .carousel-nav.next{right:8px}
+  .carousel-status{right:10px;bottom:10px;padding:6px 8px}
+  .project-photo-strip{grid-template-columns:1fr;gap:12px}
+}
 
 /* Home previews remain concise. Maison Caligari uses only its cover image. */
 .project-photo-strip{
@@ -1096,49 +1095,9 @@ body.theme-light .built-work-layout.atlas-expanded{background:#fff}
 }
 .project-photo-strip>a:hover .project-media-photo{transform:scale(1.018);filter:brightness(.95)}
 
-/* Maison product photography is intentionally vertical and never cropped. */
-.product-gallery{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:clamp(18px,2vw,30px);
-  align-items:start;
-}
-.product-gallery figure{margin:0;min-width:0}
-.product-gallery figure>img{
-  display:block;
-  width:100%;
-  height:clamp(460px,58vw,760px);
-  object-fit:contain;
-  object-position:center;
-  background:#0b0b0b;
-  cursor:zoom-in;
-}
-.product-gallery figcaption{
-  padding:12px 0 0;
-  font-size:9px;
-  letter-spacing:.16em;
-  text-transform:uppercase;
-  color:var(--muted);
-}
-.theme-light .product-gallery figure>img{background:#eceae5}
-
 .project-image:focus-visible,
 .photo-grid img:focus-visible,
 .photo-carousel img:focus-visible,
-.product-gallery img:focus-visible,
 .project-photo-strip a:focus-visible{outline:2px solid var(--ink);outline-offset:5px}
 
-@media (max-width:760px){
-  .photo-grid.plans{grid-template-columns:1fr;gap:12px}
-  .photo-grid:not(.plans)>img,
-  .photo-grid:not(.plans)>figure>img,
-  .photo-carousel .carousel-slide>img{max-height:68svh}
-  .carousel-nav{width:40px;height:40px;font-size:22px}
-  .carousel-nav.prev{left:8px}
-  .carousel-nav.next{right:8px}
-  .carousel-status{right:10px;bottom:10px;padding:6px 8px}
-  .project-photo-strip{grid-template-columns:1fr;gap:12px}
-  .product-gallery{grid-template-columns:1fr;gap:22px}
-  .product-gallery figure>img{height:min(68svh,620px)}
-}
 

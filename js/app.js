@@ -691,8 +691,8 @@ addEventListener('keydown',e=>{if(e.key==='Escape'){closeLightbox();setMenu(fals
 
 (function(){
   document.querySelectorAll('.photo-grid').forEach(grid=>{
-    if(grid.classList.contains('plans')||grid.dataset.carouselReady==='true')return;
-    if(grid.closest('.product-gallery,.project-photo-strip,.photo-carousel'))return;
+    if(grid.dataset.carouselReady==='true')return;
+    if(grid.closest('.project-photo-strip,.photo-carousel'))return;
     const originalItems=[...grid.children].filter(item=>item.matches('img,figure,a'));
     if(originalItems.length<2)return;
 
@@ -707,10 +707,12 @@ addEventListener('keydown',e=>{if(e.key==='Escape'){closeLightbox();setMenu(fals
       if(item.matches('img')){
         const slide=document.createElement('figure');
         slide.className='carousel-slide';
+        if(item.classList.contains('plan-media'))slide.classList.add('is-plan');
         item.replaceWith(slide);
         slide.appendChild(item);
       }else{
         item.classList.add('carousel-slide');
+        if(item.classList.contains('is-plan')||item.querySelector('img.plan-media'))item.classList.add('is-plan');
       }
     });
     wrap.appendChild(grid);
