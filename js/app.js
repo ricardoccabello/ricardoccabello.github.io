@@ -690,30 +690,66 @@ addEventListener('keydown',e=>{if(e.key==='Escape'){closeLightbox();setMenu(fals
 
 (function(){
   document.querySelectorAll('.photo-grid').forEach(grid=>{
-    if(grid.classList.contains('plans'))return;
-    if(grid.closest('.project-photo-strip,.photo-carousel'))return;
-    const items=[...grid.children];
-    if(items.length<3)return;
+    if(grid.classList.contains('plans')||grid.dataset.carouselReady==='true')return;
+    const originalItems=[...grid.children].filter(item=>item.matches('img,figure,a'));
+    if(originalItems.length<3)return;
+    grid.dataset.carouselReady='true';
     const wrap=document.createElement('div');
     wrap.className='photo-carousel-wrap';
     grid.replaceWith(wrap);
     grid.classList.remove('photo-grid');
     grid.classList.add('photo-carousel');
+    originalItems.forEach(item=>{
+      if(item.matches('img')){
+        const slide=document.createElement('figure');
+        slide.className='carousel-slide';
+        item.replaceWith(slide);
+        slide.appendChild(item);
+      }else{
+        item.classList.add('carousel-slide');
+      }
+    });
     wrap.appendChild(grid);
     const prev=document.createElement('button');
-    prev.type='button';prev.className='carousel-nav prev';prev.setAttribute('aria-label','Previous photo');prev.textContent='\u2039';
+    prev.type='button';
+    prev.className='carousel-nav prev';
+    prev.setAttribute('aria-label','Previous photo');
+    prev.textContent='‹';
     const next=document.createElement('button');
-    next.type='button';next.className='carousel-nav next';next.setAttribute('aria-label','Next photo');next.textContent='\u203a';
+    next.type='button';
+    next.className='carousel-nav next';
+    next.setAttribute('aria-label','Next photo');
+    next.textContent='›';
     wrap.append(prev,next);
-    const step=()=>(items[0]?.getBoundingClientRect().width||300)+14;
-    prev.addEventListener('click',()=>grid.scrollBy({left:-step(),behavior:'smooth'}));
-    next.addEventListener('click',()=>grid.scrollBy({left:step(),behavior:'smooth'}));
-    const updateNav=()=>{
-      const max=grid.scrollWidth-grid.clientWidth-2;
-      prev.disabled=grid.scrollLeft<=2;
-      next.disabled=grid.scrollLeft>=max;
+    const slides=()=>[...grid.querySelectorAll('.carousel-slide')];
+    const nearestIndex=()=>{
+      const left=grid.scrollLeft;
+      let best=0;
+      let distance=Infinity;
+      slides().forEach((slide,index)=>{
+        const d=Math.abs(slide.offsetLeft-left);
+        if(d<distance){distance=d;best=index;}
+      });
+      return best;
     };
-    grid.addEventListener('scroll',updateNav,{passive:true});
+    const goTo=index=>{
+      const list=slides();
+      const target=list[Math.max(0,Math.min(index,list.length-1))];
+      if(target)grid.scrollTo({left:target.offsetLeft,behavior:'smooth'});
+    };
+    prev.addEventListener('click',()=>goTo(nearestIndex()-1));
+    next.addEventListener('click',()=>goTo(nearestIndex()+1));
+    const updateNav=()=>{
+      const index=nearestIndex();
+      const count=slides().length;
+      prev.disabled=index<=0;
+      next.disabled=index>=count-1||grid.scrollWidth<=grid.clientWidth+2;
+    };
+    let raf=0;
+    grid.addEventListener('scroll',()=>{
+      cancelAnimationFrame(raf);
+      raf=requestAnimationFrame(updateNav);
+    },{passive:true});
     window.addEventListener('resize',updateNav,{passive:true});
     updateNav();
   });
