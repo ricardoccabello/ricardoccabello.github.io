@@ -11,10 +11,11 @@ themeToggle?.addEventListener('click',()=>{body.classList.toggle('theme-light');
 
 const menuToggle=document.querySelector('.menu-toggle');
 const primaryNav=document.getElementById('primary-navigation');
-function setMenu(open){body.classList.toggle('nav-open',open);menuToggle?.setAttribute('aria-expanded',String(open));if(menuToggle){const label=translations[currentLanguage]?.[open?'closeMenu':'openMenu']||'Menu';menuToggle.setAttribute('aria-label',label);menuToggle.title=label}}
+function setMenu(open){const mobile=innerWidth<=760;open=Boolean(open&&mobile);body.classList.toggle('nav-open',open);menuToggle?.setAttribute('aria-expanded',String(open));if(primaryNav)primaryNav.inert=mobile&&!open;if(menuToggle){const label=translations[currentLanguage]?.[open?'closeMenu':'openMenu']||'Menu';menuToggle.setAttribute('aria-label',label);menuToggle.title=label}}
 menuToggle?.addEventListener('click',()=>setMenu(!body.classList.contains('nav-open')));
 primaryNav?.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>setMenu(false)));
-window.addEventListener('resize',()=>{if(innerWidth>760)setMenu(false)});
+window.addEventListener('resize',()=>setMenu(body.classList.contains('nav-open')));
+requestAnimationFrame(()=>setMenu(false));
 
 const dot=document.querySelector('.cursor-dot'),ring=document.querySelector('.cursor-ring');let mx=-100,my=-100,rx=-100,ry=-100;
 if(dot&&ring&&!reducedMotion&&!matchMedia('(pointer:coarse)').matches){addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.transform=`translate(${mx}px,${my}px) translate(-50%,-50%)`});(function loop(){rx+=(mx-rx)*.16;ry+=(my-ry)*.16;ring.style.transform=`translate(${rx}px,${ry}px) translate(-50%,-50%)`;requestAnimationFrame(loop)})()}
@@ -33,8 +34,8 @@ document.querySelectorAll('.project-link').forEach(link=>link.addEventListener('
 const year=document.getElementById('year');if(year)year.textContent=new Date().getFullYear();
 
 document.addEventListener('contextmenu',e=>{if(e.target.closest('.project-image,.full-image,.drawer-image,.protected-media'))e.preventDefault()});document.addEventListener('dragstart',e=>{if(e.target.closest('.project-image,.full-image,.drawer-image,.protected-media'))e.preventDefault()});
-const lightbox=document.createElement('div');lightbox.className='image-lightbox';lightbox.setAttribute('role','dialog');lightbox.setAttribute('aria-modal','true');lightbox.innerHTML='<button class="image-lightbox-close" type="button" aria-label="Close">×</button><img class="protected-media" draggable="false" alt="">';document.body.append(lightbox);const lightboxImg=lightbox.querySelector('img');
-function openLightbox(src,alt=''){lightboxImg.src=src;lightboxImg.alt=alt;lightbox.classList.add('active');lightbox.querySelector('button').focus()}function closeLightbox(){lightbox.classList.remove('active');lightboxImg.removeAttribute('src')}
+const lightbox=document.createElement('div');lightbox.className='image-lightbox';lightbox.setAttribute('role','dialog');lightbox.setAttribute('aria-modal','true');lightbox.setAttribute('aria-hidden','true');lightbox.innerHTML='<button class="image-lightbox-close" type="button" aria-label="Close">×</button><img class="protected-media" draggable="false" alt="">';document.body.append(lightbox);const lightboxImg=lightbox.querySelector('img');let lightboxTrigger=null;
+function openLightbox(src,alt=''){lightboxTrigger=document.activeElement;lightboxImg.src=src;lightboxImg.alt=alt;lightbox.classList.add('active');lightbox.setAttribute('aria-hidden','false');body.classList.add('lightbox-open');lightbox.querySelector('button').focus()}function closeLightbox(){if(!lightbox.classList.contains('active'))return;lightbox.classList.remove('active');lightbox.setAttribute('aria-hidden','true');body.classList.remove('lightbox-open');lightboxImg.removeAttribute('src');lightboxTrigger?.focus?.({preventScroll:true})}
 document.addEventListener('click',e=>{
   const thumb=e.target.closest('.drawer-image[data-lightbox-src]');
   if(thumb){openLightbox(thumb.dataset.lightboxSrc,thumb.querySelector('img')?.alt||'');return}
