@@ -1148,3 +1148,70 @@ body.theme-light .ambient-background::after,body.theme-light .ambient-background
     line-height:1.42;
   }
 }
+
+
+/* Maison Caligari captions and stronger home project titles · 2026-07-23 */
+.carousel-description{display:grid;justify-items:center;gap:6px}
+.carousel-description-title{
+  display:block;
+  font-family:"Cormorant Garamond",Georgia,serif;
+  font-size:clamp(21px,1.8vw,27px);
+  font-weight:400;
+  line-height:1.12;
+  letter-spacing:-.015em;
+  color:var(--ink);
+  text-align:center;
+}
+.carousel-description-copy{display:block;max-width:72ch;text-align:center}
+.project-maison-caligari .photo-grid>figure>.maison-piece-caption{
+  display:grid;
+  justify-items:center;
+  gap:7px;
+  width:min(100%,76ch);
+  margin:18px auto 34px;
+  padding:14px clamp(18px,3vw,34px) 4px;
+  border-top:1px solid var(--line);
+  color:var(--ink);
+  text-align:center;
+}
+.project-maison-caligari .maison-piece-caption strong{
+  font-family:"Cormorant Garamond",Georgia,serif;
+  font-size:clamp(21px,1.8vw,27px);
+  font-weight:400;
+  line-height:1.12;
+  letter-spacing:-.015em;
+}
+.project-maison-caligari .maison-piece-caption span{
+  max-width:72ch;
+  font-family:"Cormorant Garamond",Georgia,serif;
+  font-size:clamp(17px,1.45vw,21px);
+  line-height:1.42;
+  color:var(--ink);
+  opacity:.94;
+}
+body[data-page="home"] .editorial-project .project-caption h3{
+  font-size:clamp(2.55rem,4.35vw,5.3rem)!important;
+  line-height:.91!important;
+  letter-spacing:-.043em!important;
+  max-width:19ch;
+  text-wrap:balance;
+}
+body[data-page="home"] .featured-maison .project-caption h3{
+  font-size:clamp(2.9rem,5vw,6rem)!important;
+  max-width:17ch;
+}
+body:not(.theme-light)[data-page="home"] .editorial-project .project-caption h3{
+  text-shadow:0 .18em .75em rgba(0,0,0,.2);
+}
+@media(max-width:760px){
+  .carousel-description-title{font-size:21px}
+  .project-maison-caligari .maison-piece-caption{margin-top:14px;padding:12px 10px 2px}
+  .project-maison-caligari .maison-piece-caption strong{font-size:21px}
+  .project-maison-caligari .maison-piece-caption span{font-size:16px}
+  body[data-page="home"] .editorial-project .project-caption h3,
+  body[data-page="home"] .featured-maison .project-caption h3{
+    font-size:clamp(2.15rem,10.4vw,3.45rem)!important;
+    line-height:.96!important;
+    max-width:100%;
+  }
+}

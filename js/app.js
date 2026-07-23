@@ -742,11 +742,12 @@ addEventListener('keydown',e=>{if(e.key==='Escape'){closeLightbox();setMenu(fals
     const slides=()=>[...grid.querySelectorAll('.carousel-slide')];
     const captionFor=slide=>{
       const image=slide?.querySelector('img');
-      if(!image)return '';
+      if(!image)return {title:'',text:''};
       const language=document.documentElement.lang==='es'?'es':'en';
+      const title=language==='es'?image.dataset.captionTitleEs:image.dataset.captionTitleEn;
       const custom=language==='es'?image.dataset.captionEs:image.dataset.captionEn;
       const original=slide.querySelector('figcaption')?.textContent?.trim();
-      return custom||original||image.alt||'';
+      return {title:title||'',text:custom||original||image.alt||''};
     };
     const nearestIndex=()=>{
       const width=grid.clientWidth||1;
@@ -766,7 +767,18 @@ addEventListener('keydown',e=>{if(e.key==='Escape'){closeLightbox();setMenu(fals
       prev.disabled=index===0;
       next.disabled=index===count-1;
       status.textContent=`${String(index+1).padStart(2,'0')} / ${String(count).padStart(2,'0')}`;
-      description.textContent=captionFor(slides()[index]);
+      const caption=captionFor(slides()[index]);
+      description.replaceChildren();
+      if(caption.title){
+        const captionTitle=document.createElement('strong');
+        captionTitle.className='carousel-description-title';
+        captionTitle.textContent=caption.title;
+        description.appendChild(captionTitle);
+      }
+      const captionCopy=document.createElement('span');
+      captionCopy.className='carousel-description-copy';
+      captionCopy.textContent=caption.text;
+      description.appendChild(captionCopy);
       syncHeight(index);
     };
     const goTo=index=>{
