@@ -1215,3 +1215,45 @@ body:not(.theme-light)[data-page="home"] .editorial-project .project-caption h3{
     max-width:100%;
   }
 }
+
+/* Final home portrait framing · 2026-07-23 */
+html body main .hero.editorial-hero{
+  grid-template-columns:minmax(0,1.08fr) minmax(360px,.92fr);
+  gap:clamp(42px,5vw,88px);
+  align-items:start;
+}
+html body main .hero.editorial-hero .hero-portrait{
+  width:min(100%,480px);
+  max-width:480px;
+  height:auto;
+  max-height:none;
+  aspect-ratio:auto;
+  object-fit:contain;
+  object-position:center top;
+  justify-self:end;
+  align-self:start;
+}
+@media(max-width:900px){
+  html body main .hero.editorial-hero{
+    grid-template-columns:1fr!important;
+    gap:34px;
+  }
+  html body main .hero.editorial-hero .hero-portrait{
+    width:min(100%,430px)!important;
+    max-width:430px!important;
+    height:auto!important;
+    max-height:none!important;
+    aspect-ratio:auto!important;
+    object-fit:contain!important;
+    object-position:center top!important;
+    justify-self:center!important;
+    margin:18px auto 0!important;
+  }
+}
+@media(max-width:520px){
+  html body main .hero.editorial-hero .hero-portrait{
+    width:100%!important;
+    max-width:100%!important;
+    margin-top:10px!important;
+  }
+}
